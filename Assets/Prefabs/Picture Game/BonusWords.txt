@@ -1,0 +1,10 @@
+tablet
+phone
+pen
+pencil
+mousepad
+chair
+printer
+scanner
+monitor
+backpack
