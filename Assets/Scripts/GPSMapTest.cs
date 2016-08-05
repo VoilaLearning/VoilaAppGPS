@@ -4,7 +4,7 @@ using System.Collections;
 public class GPSMapTest : MonoBehaviour {
 
     Vector3 initialCameraPosition;
-    Vector3 mapCameraPosition = new Vector3(0, 20, 0);
+    Vector3 mapCameraPosition = new Vector3(0, 40, 0);
     Vector3 mapCameraRotation = new Vector3(90, 0, -180);
     float cameraMoveSpeed = 1f;
     float cameraRotationSpeed = 3f;
