@@ -21,14 +21,34 @@ public class GoogleMap : MonoBehaviour
 	public GoogleMapMarker[] markers;
 	public GoogleMapPath[] paths;
 	
-    public bool autoRefresh = false;
     public Text coordinatesText;
     public GameObject loadingScreen;
 
 	void Start() {
-        
-		if(loadOnStart) Refresh();	
+
+        StopCoroutine(InitializeLocationServices());
+        StartCoroutine(InitializeLocationServices());
 	}
+
+    IEnumerator InitializeLocationServices () {
+
+        #if UNITY_IOS
+        if(Input.location.isEnabledByUser) {
+
+            Input.location.Start();
+        }
+        #endif
+
+        while(Input.location.status == LocationServiceStatus.Initializing) {
+
+            yield return null;
+        }
+
+        if (loadOnStart) {
+
+            Refresh();  
+        }
+    }
 
 	public void Refresh() {
 
@@ -39,8 +59,6 @@ public class GoogleMap : MonoBehaviour
 	{
 		var url = "http://maps.googleapis.com/maps/api/staticmap";
 		var qs = "";
-		    
-        loadingScreen.SetActive(true);
 
         if (centerLocation.address != "") {
 			
@@ -48,12 +66,13 @@ public class GoogleMap : MonoBehaviour
         }
 		else {
             
-            #if UNITY_IOS
-            centerLocation.latitude = Input.location.lastData.latitude;
-            centerLocation.longitude = Input.location.lastData.longitude;
-            #endif
+            if (SystemInfo.deviceType == DeviceType.Handheld) {
+                
+                centerLocation.latitude = Input.location.lastData.latitude;
+                centerLocation.longitude = Input.location.lastData.longitude;
+            }
+            else {
 
-            if (centerLocation.latitude == 0 && centerLocation.longitude == 0) {
                 centerLocation.latitude = 43.65184f;
                 centerLocation.longitude = -79.36607f;
             }
@@ -94,8 +113,7 @@ public class GoogleMap : MonoBehaviour
 					qs += "|" + WWW.UnEscapeURL (string.Format ("{0},{1}", loc.latitude, loc.longitude));
 			}
 		}
-		
-		
+				
         var req = new WWW(url + "?" + qs);
         yield return req;
 
@@ -112,17 +130,20 @@ public class GoogleMap : MonoBehaviour
         }
         else {
             
-            StopCoroutine(AutoRefresh());
+            StopAllCoroutines();
         }
     }
 
     IEnumerator AutoRefresh () {
-        
+
+        loadingScreen.SetActive(true);
+        Debug.Log("Refreshing");
+
         float currentLatitude = Input.location.lastData.latitude;
         float currentLongitude = Input.location.lastData.longitude;
 
         if (currentLatitude != centerLocation.latitude && currentLongitude != centerLocation.longitude) {
-
+            
             StopCoroutine(_Refresh());
             StartCoroutine(_Refresh());
         }
