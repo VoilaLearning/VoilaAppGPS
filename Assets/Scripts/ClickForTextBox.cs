@@ -33,22 +33,24 @@ public class ClickForTextBox : MonoBehaviour, IPointerClickHandler {
 
 	void CheckPosition(InputField newWord){
 
-
-		Debug.Log ("Position: " + newWord.GetComponent<RectTransform> ().localPosition.x);
-		Debug.Log ("Half Size: " + newWord.GetComponent<RectTransform> ().sizeDelta.x / 2f);
-		Debug.Log ("Position and half width: " + (newWord.GetComponent<RectTransform> ().localPosition.x + (newWord.GetComponent<RectTransform> ().sizeDelta.x / 2f)));
-		Debug.Log ("Screen width: " + Screen.width * 0.75f);
-		Debug.Log ("Canvas Resolution:" + this.GetComponentInParent<CanvasScaler> ().referenceResolution.x);
+		// Debug.Log ("Position: " + newWord.GetComponent<RectTransform> ().localPosition.x);
+		// Debug.Log ("Half Size: " + newWord.GetComponent<RectTransform> ().sizeDelta.x / 2f);
+		// Debug.Log("Screen Width: " + Screen.width);
+		// Debug.Log("Screen Width: " + (this.GetComponentInParent<CanvasScaler>().referenceResolution.x / 2));
 
 		// Check Right
-		if (newWord.GetComponent<RectTransform> ().localPosition.x + (newWord.GetComponent<RectTransform> ().sizeDelta.x) > Screen.width) {
-			float newX = newWord.GetComponent<RectTransform> ().localPosition.x + (newWord.GetComponent<RectTransform> ().sizeDelta.x / 2f) - Screen.width;
+		if (newWord.GetComponent<RectTransform> ().localPosition.x + (newWord.GetComponent<RectTransform> ().sizeDelta.x / 2f) > (this.GetComponentInParent<CanvasScaler>().referenceResolution.x / 2)) {
+			// float newX = newWord.GetComponent<RectTransform> ().localPosition.x + (newWord.GetComponent<RectTransform> ().sizeDelta.x / 2f) - (this.GetComponentInParent<CanvasScaler>().referenceResolution.x / 2);
+			float newX = (this.GetComponentInParent<CanvasScaler>().referenceResolution.x / 2) - (newWord.GetComponent<RectTransform> ().sizeDelta.x / 1.5f);
 			newWord.transform.localPosition = new Vector3 (newX, newWord.GetComponent<RectTransform> ().localPosition.y, newWord.GetComponent<RectTransform> ().localPosition.z);
+			// Debug.Log ("Right Move: " + newX);
 		} 
 		// Check Left
-		else if (newWord.GetComponent<RectTransform> ().localPosition.x - (newWord.GetComponent<RectTransform> ().sizeDelta.x / 2f) < 0) {
+		else if (newWord.GetComponent<RectTransform> ().localPosition.x - (newWord.GetComponent<RectTransform> ().sizeDelta.x / 2f) < (this.GetComponentInParent<CanvasScaler>().referenceResolution.x / -2)) {
+			
 			float newX = newWord.GetComponent<RectTransform> ().localPosition.x + (newWord.GetComponent<RectTransform> ().sizeDelta.x / 2f);
 			newWord.transform.localPosition = new Vector3 (newX, newWord.GetComponent<RectTransform> ().localPosition.y, newWord.GetComponent<RectTransform> ().localPosition.z);
+			// Debug.Log ("Left Move: " + newX);
 		} 
 
 		// Check Top

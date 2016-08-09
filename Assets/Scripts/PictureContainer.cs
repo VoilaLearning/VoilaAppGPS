@@ -5,12 +5,16 @@ using UnityEngine.UI;
 
 public class PictureContainer : MonoBehaviour {
 
-	public List<string> words = new List<string>();
-	public List<Vector3> wordCoordinates = new List<Vector3>();
-	public Sprite picture;
+	[SerializeField] Image iconImage;
+	List<string> words = new List<string>();
+	List<Vector3> wordCoordinates = new List<Vector3>();
+	Sprite picture;
+	string userName;
 
 	public void FillContainer(Sprite newImage, List<string> newWords, List<Vector3>newWordCoords){
 		picture = newImage;
+		iconImage.sprite = picture;
+		userName = "Luke Skywalker";
 		// Fill the words array
 		foreach (string word in newWords) {
 			words.Add (word);
@@ -19,6 +23,9 @@ public class PictureContainer : MonoBehaviour {
 		foreach(Vector3 pos in newWordCoords){
 			wordCoordinates.Add (pos);
 		}
+
+		string message = "Photo By " + userName.ToUpper() + "\n" + newWords.Count.ToString() + " tags";
+		this.GetComponentInChildren<Text> ().text = message;
 	}
 
 	public List<string> GetWords(){
