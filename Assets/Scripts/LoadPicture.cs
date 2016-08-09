@@ -10,7 +10,14 @@ public class LoadPicture : MonoBehaviour {
 
 	public void LoadSelectedPicture(GameObject newPictureContainer){
 
-		Debug.Log ("Loading Pic");
+		// Debug.Log ("Loading Pic");
+
+		// Empty the words array
+		for (int i = 0; i < words.Length; i++){
+			words [i].transform.parent.gameObject.SetActive (false);
+			words [i].text = "";
+			words [i].transform.parent.GetComponent<RectTransform> ().localPosition = Vector3.zero;
+		}
 
 		this.gameObject.SetActive (true);
 

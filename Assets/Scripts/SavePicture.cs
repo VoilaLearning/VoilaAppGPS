@@ -56,6 +56,7 @@ public class SavePicture : MonoBehaviour {
 
 	void ResetPicturePanel (InputField[] inputs){
 		foreach (InputField input in inputs) {
+			Debug.Log ("Destroying Inputs");
 			Destroy (input.gameObject);
 		}
 
