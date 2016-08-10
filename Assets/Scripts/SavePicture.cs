@@ -49,7 +49,7 @@ public class SavePicture : MonoBehaviour {
 	void ExpandPhotoAlbum(){
 		int numberOfChildren = photoAlbum.transform.childCount;
 		float panelWidth = photoAlbum.GetComponent<RectTransform>().sizeDelta.x;
-		float panelHeight = numberOfChildren * 170;
+		float panelHeight = numberOfChildren * 250;
 		photoAlbum.GetComponent<RectTransform>().sizeDelta = new Vector2(panelWidth, panelHeight);
 
 	}
