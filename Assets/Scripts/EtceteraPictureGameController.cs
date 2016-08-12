@@ -12,6 +12,7 @@ namespace Prime31
 		[SerializeField] SavePicture savePicture;
 		[SerializeField] Image imagePlane;
 		[SerializeField] GameObject clickField;
+		[SerializeField] GameObject[] mainMenuButtons;
 		string imagePath;
 
 		void Start(){
@@ -69,10 +70,11 @@ namespace Prime31
 			imagePlane.gameObject.SetActive (true);
 			imagePlane.sprite = newPic;
 			clickField.SetActive (true);
-			// pictureWordGame.SetPictureLoaded (true);
+
+			// Turn off the main menu buttons
+			foreach(GameObject button in mainMenuButtons){ button.SetActive(false); }
 		}
-
-
+			
 		public void textureLoadFailed( string error )
 		{
 			var buttons = new string[] { "OK" };

@@ -12,7 +12,7 @@ public class ClickForTextBox : MonoBehaviour, IPointerClickHandler {
 
 	public void OnPointerClick(PointerEventData eventData){
 
-		Debug.Log ("Click click!");
+		// Debug.Log ("Click click!");
 		// Find all other text box
 		InputField[] otherFields = GameObject.FindObjectsOfType<InputField> ();
 		// close them 
@@ -22,7 +22,7 @@ public class ClickForTextBox : MonoBehaviour, IPointerClickHandler {
 			}
 		}
 
-		if (otherFields.Length < 3) {
+		if (otherFields.Length < maxWords) {
 			InputField newInput = Instantiate (textInput, Vector3.zero, Quaternion.identity) as InputField;
 			newInput.transform.SetParent (this.transform.parent);
 			newInput.GetComponent<RectTransform> ().position = Input.mousePosition;

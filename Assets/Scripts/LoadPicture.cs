@@ -7,11 +7,12 @@ public class LoadPicture : MonoBehaviour {
 
 	[SerializeField] Text[] words;
 	[SerializeField] Image picture;
+	[SerializeField] Text tagCountAndID;
 
 	public void LoadSelectedPicture(GameObject newPictureContainer){
 
 		// Debug.Log ("Loading Pic");
-
+	
 		// Empty the words array
 		for (int i = 0; i < words.Length; i++){
 			words [i].transform.parent.gameObject.SetActive (false);
@@ -34,6 +35,12 @@ public class LoadPicture : MonoBehaviour {
 			words [i].transform.parent.gameObject.SetActive (true);
 			words [i].text = newWords [i];
 			words [i].transform.parent.GetComponent<RectTransform> ().localPosition = newPos [i] * 0.75f;
+		}
+
+		if (pictureContainer.GetTagID() == null || pictureContainer.GetTagID() == "") {
+			tagCountAndID.text = newWords.Length.ToString () + " Tags";
+		} else {
+			tagCountAndID.text = newWords.Length.ToString () + " Tags " + "- " + pictureContainer.GetTagID();
 		}
 	}
 }

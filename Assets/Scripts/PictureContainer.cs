@@ -10,11 +10,14 @@ public class PictureContainer : MonoBehaviour {
 	List<Vector3> wordCoordinates = new List<Vector3>();
 	Sprite picture;
 	string userName;
+	string tagID;
 
-	public void FillContainer(Sprite newImage, List<string> newWords, List<Vector3>newWordCoords){
+	public void FillContainer(Sprite newImage, List<string> newWords, List<Vector3>newWordCoords, string newTagID){
 		picture = newImage;
 		iconImage.sprite = picture;
-		userName = "Luke Skywalker";
+		tagID = newTagID;
+		userName = "Luke Skywalker";	// Temp
+
 		// Fill the words array
 		foreach (string word in newWords) {
 			words.Add (word);
@@ -44,5 +47,9 @@ public class PictureContainer : MonoBehaviour {
 		GameObject picturePanel = GameObject.FindGameObjectWithTag("Picture Panel");
 		picturePanel.transform.GetChild(0).gameObject.SetActive (true);
 		picturePanel.transform.GetChild(0).GetComponent<LoadPicture> ().LoadSelectedPicture (this.gameObject);
+	}
+
+	public string GetTagID(){
+		return tagID;
 	}
 }

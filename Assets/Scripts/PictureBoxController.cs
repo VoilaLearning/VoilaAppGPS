@@ -17,7 +17,7 @@ public class PictureBoxController : MonoBehaviour {
 	}
 
 	public void OnMouseDown(){
-		Debug.Log ("Click click!");
+		// Debug.Log ("Click click!");
 		photoAlbum.SetActive (true);
 		// Load in all the pictures from a certain location - OR - pass the location to the photo album
 	}
