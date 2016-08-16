@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
+[DisallowMultipleComponent]
 public class GoogleMapTextureLoader : MonoBehaviour {
 
     [Header("Parameters")]
@@ -9,23 +10,25 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 	public int size = 512;
     public float refreshRate = 3;
 	public bool doubleResolution = true;
-	
-    [Header("References")]
-    public Text coordinatesText;
     public GameObject loadingScreen;
+    public Text locationText;
 
     private float currentLatitude;
     private float currentLongitude;
+    Location[] locations;
+    GPSReverseGeocoding geocoding;
 
 
 	void Start() {
-
+        
+        locations = new Location[0];
+        geocoding = this.GetComponent<GPSReverseGeocoding>();
         StopCoroutine(InitializeLocationServices());
         StartCoroutine(InitializeLocationServices());
 	}
 
     IEnumerator InitializeLocationServices () {
-
+        
         #if UNITY_IOS
         if(Input.location.isEnabledByUser) {
 
@@ -38,13 +41,45 @@ public class GoogleMapTextureLoader : MonoBehaviour {
             yield return null;
         }
 
-        Refresh();
+        if(SystemInfo.deviceType == DeviceType.Desktop) {
+
+            //currentLatitude = 43.6517f; // Work
+            //currentLongitude = -79.36607f;
+            //currentLatitude = 43.6205f; // Centreville Theme Park
+            //currentLongitude = -79.3744f;
+            currentLatitude = 43.6289f;   // Toronto Islands
+            currentLongitude = -79.3944f;
+        }
+
+        StartCoroutine(AutoRefresh());
     }
 
-	void Refresh() {
+    IEnumerator AutoRefresh () {
 
-		StartCoroutine(_Refresh());
-	}
+        if (SystemInfo.deviceType == DeviceType.Handheld) {
+
+            float newLatitude = Input.location.lastData.latitude;
+            float newLongitude = Input.location.lastData.longitude;
+            locationText.text = newLatitude + ", " + newLongitude;
+
+            if (newLatitude != currentLatitude && newLongitude != currentLongitude) {
+            
+                geocoding.RequestInfo();
+                StopCoroutine(_Refresh());
+                StartCoroutine(_Refresh());
+            }
+        }
+        else if(SystemInfo.deviceType == DeviceType.Desktop) {
+
+            geocoding.RequestInfo();
+            StopCoroutine(_Refresh());
+            StartCoroutine(_Refresh());
+        }
+
+        yield return new WaitForSeconds(refreshRate);
+
+        StartCoroutine(AutoRefresh());
+    }
 	
 	IEnumerator _Refresh () {
         
@@ -52,11 +87,6 @@ public class GoogleMapTextureLoader : MonoBehaviour {
             
             currentLatitude = Input.location.lastData.latitude;
             currentLongitude = Input.location.lastData.longitude;
-        }
-        else {
-
-            currentLatitude = 43.65184f;
-            currentLongitude = -79.36607f;
         }
 
         var url = "http://maps.googleapis.com/maps/api/staticmap";
@@ -66,51 +96,60 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 		qs += "&zoom=" + zoom.ToString ();
 		qs += "&size=" + WWW.UnEscapeURL (string.Format ("{0}x{0}", size));
 		qs += "&scale=" + (doubleResolution ? "2" : "1");
-		qs += "&maptype=roadmap";
-
-		var usingSensor = false;
-
-        #if UNITY_IPHONE
-		usingSensor = Input.location.isEnabledByUser && Input.location.status == LocationServiceStatus.Running;
-        #endif
+        qs += "&maptype=roadmap";
+        qs += "&key=AIzaSyDO-k0OB4_xCCMlaWpGls9xnZ1cFwerHd8";
 		
-        qs += "&sensor=" + (usingSensor ? "true" : "false");
-				
+        // Place markers
+//        if(locations.Length > 0) {
+//
+//            qs += "&markers=" + string.Format ("color:blue");
+//
+//            foreach (var i in locations) {
+//                
+//                qs += "|" + WWW.UnEscapeURL (string.Format ("{0},{1}", i.lat, i.lng));
+//            }
+//        }
+
+        // Send request to Google
         var req = new WWW(url + "?" + qs);
         yield return req;
 
-        this.GetComponent<Renderer>().material.mainTexture = req.texture;
-        if(coordinatesText){ coordinatesText.text = currentLatitude + ", " + currentLongitude; }
-	}
-
-    public void ToggleAutoRefresh(bool startRefreshing) {
-
-        if(startRefreshing) {
-            
-            StopCoroutine(AutoRefresh());
-            StartCoroutine(AutoRefresh());
+        // Handle response from Google
+        if (req.error != null) {
+        
+            Debug.Log("error: " + req.error);
+            locationText.text = req.error;
         }
         else {
-            
-            StopAllCoroutines();
+
+            Destroy(this.GetComponent<Renderer>().material.mainTexture);
+            this.GetComponent<Renderer>().material.mainTexture = req.texture;
         }
+
+        loadingScreen.SetActive(true);
+	}
+
+    // Called from GPSReverseGeocoding.cs
+    public void SetMarkers (Location[] newLocations) {
+
+        locations = newLocations;
+
+        //StopCoroutine(_Refresh());
+        //StartCoroutine(_Refresh());
     }
 
-    IEnumerator AutoRefresh () {
+    public Vector2 GetPosition () {
 
-        if(loadingScreen) { loadingScreen.SetActive(true); }
+        return new Vector2(currentLatitude, currentLongitude);
+    }
 
-        float newLatitude = Input.location.lastData.latitude;
-        float newLongitude = Input.location.lastData.longitude;
+    public void MovePosition (float deltaLat, float deltaLon) {
 
-        if (newLatitude != currentLatitude && newLongitude != currentLongitude) {
-            
-            StopCoroutine(_Refresh());
-            StartCoroutine(_Refresh());
-        }
+        currentLatitude += deltaLat;
+        currentLongitude += deltaLon;
 
-        yield return new WaitForSeconds(refreshRate);
-
-        StartCoroutine(AutoRefresh());
+        geocoding.RequestInfo();
+        //StopCoroutine(_Refresh());
+        //StartCoroutine(_Refresh());
     }
 }
