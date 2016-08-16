@@ -227,10 +227,10 @@ public class GPSReverseGeocoding : MonoBehaviour {
             float distance = HaversineDistance(lat1 * Mathf.Rad2Deg, lon1 * Mathf.Rad2Deg, lat2 * Mathf.Rad2Deg, lon2 * Mathf.Rad2Deg);
 
             float objX = distance * Mathf.Sin(angle * Mathf.Deg2Rad) * METERS_TO_UNITY_UNITS;
-            float objY = 1;
-            float objZ = distance * Mathf.Cos(angle * Mathf.Deg2Rad) * METERS_TO_UNITY_UNITS + this.transform.position.y;
+            float objY = distance * Mathf.Cos(angle * Mathf.Deg2Rad) * METERS_TO_UNITY_UNITS + this.transform.position.y;
+            float objZ = -1;
 
-            GameObject newPictureBox = Instantiate(pictureBoxPrefab, new Vector3(objX, objY, objZ), Quaternion.Euler(90, 0, 0)) as GameObject;
+            GameObject newPictureBox = Instantiate(pictureBoxPrefab, new Vector3(objX, objY, objZ), Quaternion.identity) as GameObject;
             //Debug.Log(addresses[i].address_components[0].short_name + ", angle: " + angle + ", distance: " + distance);
 
             PictureBoxController pictureBoxController = newPictureBox.GetComponent<PictureBoxController>();

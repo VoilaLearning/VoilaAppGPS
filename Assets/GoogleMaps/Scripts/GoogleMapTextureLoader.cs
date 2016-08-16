@@ -45,10 +45,10 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 
             //currentLatitude = 43.6517f; // Work
             //currentLongitude = -79.36607f;
-            //currentLatitude = 43.6205f; // Centreville Theme Park
-            //currentLongitude = -79.3744f;
-            currentLatitude = 43.6289f;   // Toronto Islands
-            currentLongitude = -79.3944f;
+            currentLatitude = 43.6205f; // Centreville Theme Park
+            currentLongitude = -79.3744f;
+            //currentLatitude = 43.6289f;   // Toronto Islands
+            //currentLongitude = -79.3944f;
         }
 
         StartCoroutine(AutoRefresh());
