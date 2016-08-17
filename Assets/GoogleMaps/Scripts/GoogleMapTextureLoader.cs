@@ -60,7 +60,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 
             float newLatitude = Input.location.lastData.latitude;
             float newLongitude = Input.location.lastData.longitude;
-            locationText.text = newLatitude + ", " + newLongitude;
+            if(locationText) { locationText.text = newLatitude + ", " + newLongitude; }
 
             if (newLatitude != currentLatitude && newLongitude != currentLongitude) {
             
@@ -71,6 +71,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         }
         else if(SystemInfo.deviceType == DeviceType.Desktop) {
 
+            locationText.text = currentLatitude + ", " + currentLongitude;
             googlePlaces.RequestInfo();
             StopCoroutine(_Refresh());
             StartCoroutine(_Refresh());
@@ -118,7 +119,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         if (req.error != null) {
         
             Debug.Log("error: " + req.error);
-            locationText.text = req.error;
+            if(locationText) { locationText.text = req.error; }
         }
         else {
 
