@@ -4,19 +4,28 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 /*
-
-	this is all temp - these will need to be saved to a server/database, not locally
-
+ * This script will save and delete the photos and tags the player has inputted
+ * It also uses the data to communicate milestrone progress back to the selected goal milestone
 */
 
 public class SavePicture : MonoBehaviour {
 
+	// Tutorial Stuff
+	TutorialController tutorialController;
+	[SerializeField] GameObject tutorialPhotoBox;
+
+	// General 
 	[SerializeField] GameObject photoAlbum;
 	[SerializeField] GameObject pictureContainerPrefab;
 	[SerializeField] GameObject clickField;
 	[SerializeField] GameObject milestoneGoalUI;
+	[SerializeField] GameObject photoBox;
 
 	PictureContainer pictureContainer; 
+
+	void Start(){
+		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponent<TutorialController>();
+	}
 
 	public void SaveImage(){
 		// Get All of the input fields - and insert their text components and positions into a list 
@@ -26,33 +35,53 @@ public class SavePicture : MonoBehaviour {
 		for (int i = 0; i < tempArray.Length; i++) {
 			if (tempArray [i].text != "") {
 				words.Add (tempArray [i].text);
-				Vector3 screenPos = /*Camera.main.WorldToScreenPoint*/(tempArray [i].GetComponent<RectTransform> ().localPosition);
+				Vector3 screenPos = (tempArray [i].GetComponent<RectTransform> ().localPosition);
 				wordPos.Add (screenPos);
 			}
 		}
-			
+
+		// Ensure the player has atgged a word
 		if (words.Count == 0) {
 			Debug.Log ("Must enter a tag to progress");
 		} else {
-			CreateSave (tempArray, words, wordPos);
+			if (!tutorialController.InTutorial()) {
+				CreateSave (tempArray, words, wordPos);
+			} else {
+				CreateTutorialSave (tempArray, words, wordPos);
+			}
 		}
 	}
 
-	void CreateSave(InputField[] inputs, List<string> words, List<Vector3> wordPos){
-		// Expand Photo Album, then add child
+	void CreateTutorialSave(InputField[] inputs, List<string> words, List<Vector3> wordPos){
+		// Create the pic as per ususal
 		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
+		newPicture.GetComponent<PictureContainer> ().FillContainer (this.GetComponent<Image> ().sprite, words, wordPos, "");
+		newPicture.transform.SetParent (photoAlbum.transform, false);
+		// Turn on the temp photo box
+		tutorialController.TempPhotoBox ();
+		// tutorialPhotoBox.GetComponent<PictureBoxController>().ExpandPhotoAlbum ();
+		tutorialPhotoBox.GetComponent<PictureBoxController> ().SetNumberText ();
 
+		ResetPicturePanel (inputs);
+	}
+
+	void CreateSave(InputField[] inputs, List<string> words, List<Vector3> wordPos){
+
+		// Increase the Milestone that the player was working on at the time
 		string milestoneTitle = "";
 		if (milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone () != null) {
 			milestoneTitle = milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone ().GetTitle ();
 		}
-
-		// Debug.Log ("milestone: " + milestoneTitle);
-
-		newPicture.GetComponent<PictureContainer> ().FillContainer (this.GetComponent<Image> ().sprite, words, wordPos, milestoneTitle);
-		newPicture.transform.SetParent (photoAlbum.transform, false);
 		IncreaseMilestoneGoal (words);
-		ExpandPhotoAlbum();
+
+		// Create an instance of the saved picture/tags
+		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
+		// Fill the data in the container
+		newPicture.GetComponent<PictureContainer> ().FillContainer (this.GetComponent<Image> ().sprite, words, wordPos, milestoneTitle);
+		// Send that picture to the closest photo box
+		GameObject pictureBox = GameObject.FindGameObjectWithTag("Picture Box");
+		pictureBox.GetComponent<PictureBoxController> ().AddPicture (newPicture.GetComponent<PictureContainer>());
+
 		ResetPicturePanel (inputs);
 	}
 
@@ -61,12 +90,12 @@ public class SavePicture : MonoBehaviour {
 		milestoneGoalUI.GetComponent<MilestoneController> ().IncreaseMilestonePercentage (percentageIncrease);
 	}
 
-	void ExpandPhotoAlbum(){
+	/*void ExpandPhotoAlbum(){
 		int numberOfChildren = photoAlbum.transform.childCount;
 		float panelWidth = photoAlbum.GetComponent<RectTransform>().sizeDelta.x;
 		float panelHeight = numberOfChildren * 250;
 		photoAlbum.GetComponent<RectTransform>().sizeDelta = new Vector2(panelWidth, panelHeight);
-	}
+	}*/
 
 	void ResetPicturePanel (InputField[] inputs){
 		foreach (InputField input in inputs) {
@@ -79,7 +108,7 @@ public class SavePicture : MonoBehaviour {
 		clickField.SetActive (false);
 	}
 
-	// Leave the photo edit without savine - delete data
+	// Leave the photo edit without saving - delete data
 	public void GoBack(){
 	
 		InputField[] tempArray = GameObject.FindObjectsOfType<InputField> ();
