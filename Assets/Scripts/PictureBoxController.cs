@@ -1,34 +1,23 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Collections;
+using UnityEngine.EventSystems;
 
-/*
-	Holds all of the pictures and their associated data for specific stops
-	Feeds data to the photo album when needed
-*/
-
+[DisallowMultipleComponent]
 public class PictureBoxController : MonoBehaviour {
 
-	TutorialController tutorialController;
-
-	public List<PictureContainer> photos = new List<PictureContainer>();
-
-	GameObject photoAlbum;
-	AlbumController albumContainer;
+	[SerializeField] GameObject albumContainer;
+    GameObject photoAlbum;
 	TextMesh number;
-	string locationName;
+    string locationName;
 
-	void Start(){
-		photoAlbum = GameObject.FindGameObjectWithTag ("Photo Album");
-		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponent<TutorialController> ();
-		number = GetComponentInChildren<TextMesh> ();
-		SetNumberText ();
-	}
+
+    void Awake () {
+
+        number = this.GetComponentInChildren<TextMesh>();
+    }
 
 	public void SetNumberText(){
-		number = transform.GetChild(0).GetComponent<TextMesh>();
 		number.text = albumContainer.transform.childCount.ToString();
 		if (albumContainer.transform.childCount > 0) {
 			this.gameObject.SetActive (true);
@@ -36,31 +25,19 @@ public class PictureBoxController : MonoBehaviour {
 	}
 
 	public void OnMouseDown(){
-		// Debug.Log ("Click click!");
-		photoAlbum.gameObject.SetActive (true);
-
-		if (tutorialController.InTutorial ()) {
-			tutorialController.OpenPhotoBox ();
-			photoAlbum.transform.GetChild(1).GetComponent<Text>().text = "Tutorial Album";
-		}
-
+		//Debug.Log ("Click click!");
+		photoAlbum.SetActive (true);
 		// Load in all the pictures from a certain location - OR - pass the location to the photo album
-		albumContainer = photoAlbum.transform.GetComponentInChildren<AlbumController>();
-		albumContainer.LoadAlbum(photos);
-
-		photoAlbum.transform.GetComponentInChildren<Text> ().text = locationName;
+        photoAlbum.transform.GetComponentInChildren<Text>().text = locationName;
 	}
 
-	public void SetPhotoAlbum(GameObject newPhotoAlbum){
-		photoAlbum = newPhotoAlbum;
-	}
+    public void SetPhotoAlbum (GameObject newPhotoAlbum) {
 
-	public void SetLocationName(string name){
-		locationName = name;
-	}
+        photoAlbum = newPhotoAlbum;
+    }
 
-	public void AddPicture(PictureContainer newPicture){
-		photos.Add (newPicture);
-		SetNumberText ();
-	}
+    public void SetLocationName (string name) {
+
+        locationName = name;
+    }
 }
