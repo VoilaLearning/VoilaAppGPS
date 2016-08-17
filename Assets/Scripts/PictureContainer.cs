@@ -3,7 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+/*
+	Holds the image and tags and positions associated with said image
+	These exist in the photobox, but are opened, viewed and interacted with in the album
+*/
+
 public class PictureContainer : MonoBehaviour {
+
+	TutorialController tutorialController;
 
 	[SerializeField] Image iconImage;
 	List<string> words = new List<string>();
@@ -11,6 +18,10 @@ public class PictureContainer : MonoBehaviour {
 	Sprite picture;
 	string userName;
 	string tagID;
+
+	void Start(){
+		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponent<TutorialController> ();
+	}
 
 	public void FillContainer(Sprite newImage, List<string> newWords, List<Vector3>newWordCoords, string newTagID){
 		picture = newImage;
@@ -44,6 +55,7 @@ public class PictureContainer : MonoBehaviour {
 	}
 
 	public void OpenSharedPic(){
+
 		GameObject picturePanel = GameObject.FindGameObjectWithTag("Picture Panel");
 		picturePanel.transform.GetChild(0).gameObject.SetActive (true);
 		picturePanel.transform.GetChild(0).GetComponent<LoadPicture> ().LoadSelectedPicture (this.gameObject);

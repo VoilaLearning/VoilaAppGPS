@@ -9,6 +9,8 @@ namespace Prime31
 
 		#if UNITY_IOS
 
+		TutorialController tutorialController;
+
 		[SerializeField] SavePicture savePicture;
 		[SerializeField] Image imagePlane;
 		[SerializeField] GameObject clickField;
@@ -16,6 +18,7 @@ namespace Prime31
 		string imagePath;
 
 		void Start(){
+			tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponent<TutorialController> ();
 			EtceteraManager.imagePickerChoseImageEvent += imagePickerChoseImage;
 		}
 
@@ -67,6 +70,7 @@ namespace Prime31
 			Vector2 pivot = new Vector2(0.5f,0.5f);
 			Sprite newPic = Sprite.Create (texture, rect, pivot);
 
+			tutorialController.CloseCamera ();
 			imagePlane.gameObject.SetActive (true);
 			imagePlane.sprite = newPic;
 			clickField.SetActive (true);
