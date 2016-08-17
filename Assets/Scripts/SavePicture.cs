@@ -19,7 +19,6 @@ public class SavePicture : MonoBehaviour {
 	[SerializeField] GameObject pictureContainerPrefab;
 	[SerializeField] GameObject clickField;
 	[SerializeField] GameObject milestoneGoalUI;
-	[SerializeField] GameObject photoBox;
 
 	PictureContainer pictureContainer; 
 
@@ -56,11 +55,9 @@ public class SavePicture : MonoBehaviour {
 		// Create the pic as per ususal
 		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
 		newPicture.GetComponent<PictureContainer> ().FillContainer (this.GetComponent<Image> ().sprite, words, wordPos, "");
-		newPicture.transform.SetParent (photoAlbum.transform, false);
 		// Turn on the temp photo box
 		tutorialController.TempPhotoBox ();
-		// tutorialPhotoBox.GetComponent<PictureBoxController>().ExpandPhotoAlbum ();
-		tutorialPhotoBox.GetComponent<PictureBoxController> ().SetNumberText ();
+		tutorialPhotoBox.GetComponent<PictureBoxController> ().AddPicture (newPicture.GetComponent<PictureContainer>());
 
 		ResetPicturePanel (inputs);
 	}
@@ -78,9 +75,20 @@ public class SavePicture : MonoBehaviour {
 		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
 		// Fill the data in the container
 		newPicture.GetComponent<PictureContainer> ().FillContainer (this.GetComponent<Image> ().sprite, words, wordPos, milestoneTitle);
+
 		// Send that picture to the closest photo box
-		GameObject pictureBox = GameObject.FindGameObjectWithTag("Picture Box");
-		pictureBox.GetComponent<PictureBoxController> ().AddPicture (newPicture.GetComponent<PictureContainer>());
+		GameObject[] pictureBoxArray = GameObject.FindGameObjectsWithTag("Picture Box");
+		float[] distancesArray = new float[pictureBoxArray.Length];
+		for (int i = 0; i < pictureBoxArray.Length; i++) {
+
+			distancesArray [i] = Vector3.Distance (new Vector3 (0, 1, 0), pictureBoxArray [i].transform.localPosition);
+			//Debug.Log ("distances: " + distancesArray [i]);
+		}
+
+		float minValue = Mathf.Min (distancesArray);
+		int minValueIndex = System.Array.IndexOf (distancesArray, minValue);
+		pictureBoxArray [minValueIndex].GetComponent<PictureBoxController> ().AddPicture (newPicture.GetComponent<PictureContainer> ());
+		// pictureBox.GetComponent<PictureBoxController> ().AddPicture (newPicture.GetComponent<PictureContainer>());
 
 		ResetPicturePanel (inputs);
 	}
@@ -89,13 +97,6 @@ public class SavePicture : MonoBehaviour {
 		float percentageIncrease = 0.01f * words.Count;
 		milestoneGoalUI.GetComponent<MilestoneController> ().IncreaseMilestonePercentage (percentageIncrease);
 	}
-
-	/*void ExpandPhotoAlbum(){
-		int numberOfChildren = photoAlbum.transform.childCount;
-		float panelWidth = photoAlbum.GetComponent<RectTransform>().sizeDelta.x;
-		float panelHeight = numberOfChildren * 250;
-		photoAlbum.GetComponent<RectTransform>().sizeDelta = new Vector2(panelWidth, panelHeight);
-	}*/
 
 	void ResetPicturePanel (InputField[] inputs){
 		foreach (InputField input in inputs) {

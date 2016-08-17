@@ -20,7 +20,7 @@ public class GooglePlaces : MonoBehaviour {
 
     [SerializeField] GameObject pictureBoxPrefab;
     [SerializeField] GameObject photoAlbum;
-
+	[SerializeField] Transform pictureBoxParent;
 
     void Awake () {
 
@@ -39,7 +39,7 @@ public class GooglePlaces : MonoBehaviour {
         // Check if position has changed
         Vector2 position = mapTexture.GetPosition();
 
-        if (position.x != lastLatitude && position.y != lastLongitude) {
+        //if (position.x != lastLatitude && position.y != lastLongitude) {
 
             string url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
 
@@ -69,9 +69,9 @@ public class GooglePlaces : MonoBehaviour {
             lastLatitude = position.x;
             lastLongitude = position.y;
 
-            RemoveOldPictureBoxes();
+            //RemoveOldPictureBoxes();
             SetPictureBoxes();
-        }
+        //}
     }
 
     void RemoveOldPictureBoxes () {
@@ -124,6 +124,8 @@ public class GooglePlaces : MonoBehaviour {
             PictureBoxController pictureBoxController = newPictureBox.GetComponent<PictureBoxController>();
             pictureBoxController.SetPhotoAlbum(photoAlbum);
             pictureBoxController.SetLocationName(places[i].name);
+
+			newPictureBox.transform.SetParent (pictureBoxParent, false);
 
             markerList.Add(newPictureBox);
         }

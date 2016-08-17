@@ -4,19 +4,29 @@ using System.Collections.Generic;
 
 public class AlbumController : MonoBehaviour {
 
-	public void LoadAlbum(List<PictureContainer> boxPictures){
+	[SerializeField] GameObject pictureContainerPrefab;
+
+	GameObject pictureBox;
+
+	public void LoadAlbum(List<PictureContainer> boxPictures, GameObject newPictureBox){
+
+		pictureBox = newPictureBox;
 
 		foreach (PictureContainer picture in boxPictures) {
-			picture.transform.SetParent (this.transform, false);
+			GameObject newContainer = Instantiate (pictureContainerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+			newContainer.GetComponent<PictureContainer> ().FillContainer (picture.GetImage (), picture.GetWords (), picture.GetCoords (), picture.GetTagID ());
+			newContainer.transform.SetParent (this.transform, false);
 			ExpandPhotoAlbum ();
 		}
 	}
 
 	public void EmptyAlbum(){
 		for (int i = 0; i < transform.childCount; i++) {
-			Destroy (transform.GetChild (i));
+			Destroy (transform.GetChild (i).gameObject);
 			ExpandPhotoAlbum ();
 		}
+
+		pictureBox.GetComponent<PictureBoxController> ().SetNumberText ();
 	}
 
 

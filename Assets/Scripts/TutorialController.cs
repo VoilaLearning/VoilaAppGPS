@@ -25,11 +25,11 @@ public class TutorialController : MonoBehaviour {
 	string selectAMilestoneMessage = "Choose any milestome in the list by clicking on the name. Then take pictures and create tags that pertain to that topic! Then you can show off you're hard work to the city, just like we did before!";
 	string endTutorialMessage = "Now you can see the Milestone above in you game so you can remember what you are working towards! That is all for the tutoria, go on and get playing!";
 
-	bool inTutorial;
+	public bool inTutorial;
 
 	// Use this for initialization
 	void Start () {
-		// StartTutorial ();
+		StartTutorial ();
 	}
 
 	void ResetButtonsAndArrows(){
@@ -136,6 +136,9 @@ public class TutorialController : MonoBehaviour {
 
 			// Turn on the arrow above the milestone container
 			tutorialTextBox.transform.GetChild ((int)TutorialPanel.DOWN_ARROWS).transform.GetChild ((int)Buttons.MENU).gameObject.SetActive (true);
+
+			ToggleButtonOff (menuButtons [(int)Buttons.AVATAR]);
+			ToggleButtonOff (menuButtons [(int)Buttons.CAMERA]);
 
 			// Ensure they can only Select the Dictionary Button
 			menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (0).GetComponent<Button> ().interactable = false;

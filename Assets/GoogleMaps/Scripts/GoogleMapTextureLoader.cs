@@ -58,20 +58,24 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 
         if (SystemInfo.deviceType == DeviceType.Handheld) {
 
-            float newLatitude = Input.location.lastData.latitude;
-            float newLongitude = Input.location.lastData.longitude;
-            if(locationText) { locationText.text = newLatitude + ", " + newLongitude; }
+			currentLatitude = 43.6205f; // Centreville Theme Park
+			currentLongitude = -79.3744f;
+            //float newLatitude = Input.location.lastData.latitude;
+            //float newLongitude = Input.location.lastData.longitude;
+            //if(locationText) { locationText.text = newLatitude + ", " + newLongitude; }
 
-            if (newLatitude != currentLatitude && newLongitude != currentLongitude) {
+            //if (newLatitude != currentLatitude && newLongitude != currentLongitude) {
             
                 googlePlaces.RequestInfo();
                 StopCoroutine(_Refresh());
                 StartCoroutine(_Refresh());
-            }
+            //}
         }
         else if(SystemInfo.deviceType == DeviceType.Desktop) {
 
-            locationText.text = currentLatitude + ", " + currentLongitude;
+			if (locationText) {
+				locationText.text = currentLatitude + ", " + currentLongitude;
+			}
             googlePlaces.RequestInfo();
             StopCoroutine(_Refresh());
             StartCoroutine(_Refresh());
@@ -79,16 +83,16 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 
         yield return new WaitForSeconds(refreshRate);
 
-        StartCoroutine(AutoRefresh());
+        //StartCoroutine(AutoRefresh());
     }
 	
 	IEnumerator _Refresh () {
         
-        if (SystemInfo.deviceType == DeviceType.Handheld) {
-            
-            currentLatitude = Input.location.lastData.latitude;
-            currentLongitude = Input.location.lastData.longitude;
-        }
+//        if (SystemInfo.deviceType == DeviceType.Handheld) {
+//            
+//            currentLatitude = Input.location.lastData.latitude;
+//            currentLongitude = Input.location.lastData.longitude;
+//        }
 
         var url = "http://maps.googleapis.com/maps/api/staticmap";
         var qs = "";
@@ -127,7 +131,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
             this.GetComponent<Renderer>().material.mainTexture = req.texture;
         }
 
-        loadingScreen.SetActive(true);
+		if(loadingScreen) { loadingScreen.SetActive(true); }
 	}
 
     // Called from GPSReversegooglePlaces.cs
