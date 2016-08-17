@@ -16,13 +16,13 @@ public class GoogleMapTextureLoader : MonoBehaviour {
     private float currentLatitude;
     private float currentLongitude;
     Location[] locations;
-    GPSReverseGeocoding geocoding;
+    GooglePlaces googlePlaces;
 
 
 	void Start() {
         
         locations = new Location[0];
-        geocoding = this.GetComponent<GPSReverseGeocoding>();
+        googlePlaces = this.GetComponent<GooglePlaces>();
         StopCoroutine(InitializeLocationServices());
         StartCoroutine(InitializeLocationServices());
 	}
@@ -64,14 +64,14 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 
             if (newLatitude != currentLatitude && newLongitude != currentLongitude) {
             
-                geocoding.RequestInfo();
+                googlePlaces.RequestInfo();
                 StopCoroutine(_Refresh());
                 StartCoroutine(_Refresh());
             }
         }
         else if(SystemInfo.deviceType == DeviceType.Desktop) {
 
-            geocoding.RequestInfo();
+            googlePlaces.RequestInfo();
             StopCoroutine(_Refresh());
             StartCoroutine(_Refresh());
         }
@@ -129,7 +129,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         loadingScreen.SetActive(true);
 	}
 
-    // Called from GPSReverseGeocoding.cs
+    // Called from GPSReversegooglePlaces.cs
     public void SetMarkers (Location[] newLocations) {
 
         locations = newLocations;
@@ -148,7 +148,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         currentLatitude += deltaLat;
         currentLongitude += deltaLon;
 
-        geocoding.RequestInfo();
+        googlePlaces.RequestInfo();
         //StopCoroutine(_Refresh());
         //StartCoroutine(_Refresh());
     }
