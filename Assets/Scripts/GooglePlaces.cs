@@ -11,6 +11,10 @@ public class GooglePlaces : MonoBehaviour {
     const float EARTH_RADIUS = 6371000; // meters
     const float METERS_TO_UNITY_UNITS = 0.0133979f;
 
+    [SerializeField] GameObject pictureBoxPrefab;
+    [SerializeField] GameObject photoAlbum;
+	[SerializeField] Transform pictureBoxParent;
+
     PlacesResult[] places;
     GameObject[] pictureBoxArray;
     GoogleMapTextureLoader mapTexture;
@@ -18,9 +22,6 @@ public class GooglePlaces : MonoBehaviour {
     float lastLatitude;
     float lastLongitude;
 
-    [SerializeField] GameObject pictureBoxPrefab;
-    [SerializeField] GameObject photoAlbum;
-	[SerializeField] Transform pictureBoxParent;
 
     void Awake () {
 
@@ -39,7 +40,7 @@ public class GooglePlaces : MonoBehaviour {
         // Check if position has changed
         Vector2 position = mapTexture.GetPosition();
 
-        //if (position.x != lastLatitude && position.y != lastLongitude) {
+        if (position.x != lastLatitude && position.y != lastLongitude) {
 
             string url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
 
@@ -69,21 +70,10 @@ public class GooglePlaces : MonoBehaviour {
             lastLatitude = position.x;
             lastLongitude = position.y;
 
-            //RemoveOldPictureBoxes();
+            // Check if there are any new picture boxes to create
+
+            //Remove far picture boxes;
             SetPictureBoxes();
-        //}
-    }
-
-    void RemoveOldPictureBoxes () {
-
-        if(pictureBoxArray.Length > 0) {
-
-            for(int i = 0; i < pictureBoxArray.Length; i++) {
-
-                Destroy(pictureBoxArray[i].gameObject);
-            }
-
-            pictureBoxArray = new GameObject[0];
         }
     }
 
