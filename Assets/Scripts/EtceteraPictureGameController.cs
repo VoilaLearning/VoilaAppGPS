@@ -13,12 +13,13 @@ namespace Prime31
 
 		[SerializeField] SavePicture savePicture;
 		[SerializeField] Image imagePlane;
+		[SerializeField] Image picture;
 		[SerializeField] GameObject clickField;
 		[SerializeField] GameObject[] mainMenuButtons;
 		string imagePath;
 
 		void Start(){
-			tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponent<TutorialController> ();
+			tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
 			EtceteraManager.imagePickerChoseImageEvent += imagePickerChoseImage;
 		}
 
@@ -72,7 +73,7 @@ namespace Prime31
 
 			tutorialController.CloseCamera ();
 			imagePlane.gameObject.SetActive (true);
-			imagePlane.sprite = newPic;
+			picture.sprite = newPic;
 			clickField.SetActive (true);
 
 			// Turn off the main menu buttons

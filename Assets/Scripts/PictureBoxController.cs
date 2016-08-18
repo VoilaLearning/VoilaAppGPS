@@ -18,7 +18,7 @@ public class PictureBoxController : MonoBehaviour {
 
 	void Start(){
 		// photoAlbum = GameObject.FindGameObjectWithTag ("Photo Album");
-		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponent<TutorialController> ();
+		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
 		number = GetComponentInChildren<TextMesh> ();
 		SetNumberText ();
 	}

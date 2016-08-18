@@ -20,14 +20,14 @@ public class PictureContainer : MonoBehaviour {
 	string tagID;
 
 	void Start(){
-		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponent<TutorialController> ();
+		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
 	}
 
 	public void FillContainer(Sprite newImage, List<string> newWords, List<Vector3>newWordCoords, string newTagID){
 		picture = newImage;
 		iconImage.sprite = picture;
 		tagID = newTagID;
-		userName = "Luke Skywalker";	// Temp
+		userName = "Student";	// Temp
 
 		// Fill the words array
 		foreach (string word in newWords) {

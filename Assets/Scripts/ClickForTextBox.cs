@@ -5,10 +5,17 @@ using UnityEngine.UI;
 
 public class ClickForTextBox : MonoBehaviour, IPointerClickHandler {
 
+	TutorialController tutorialController;
+
 	// [SerializeField] PictureWordGame pictureWordGame;
 	[SerializeField] InputField textInput;
 
 	int maxWords = 3;
+
+	void Start(){
+
+		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
+	}
 
 	public void OnPointerClick(PointerEventData eventData){
 
@@ -28,6 +35,10 @@ public class ClickForTextBox : MonoBehaviour, IPointerClickHandler {
 			newInput.GetComponent<RectTransform> ().position = Input.mousePosition;
 			newInput.transform.localScale = Vector3.one;
 			CheckPosition (newInput);
+		}
+
+		if (tutorialController.InTutorial()) {
+			tutorialController.ToggleOffTapImage ();
 		}
 	}
 

@@ -19,11 +19,12 @@ public class SavePicture : MonoBehaviour {
 	[SerializeField] GameObject pictureContainerPrefab;
 	[SerializeField] GameObject clickField;
 	[SerializeField] GameObject milestoneGoalUI;
+	[SerializeField] Image picture;
 
 	PictureContainer pictureContainer; 
 
 	void Start(){
-		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponent<TutorialController>();
+		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController>();
 	}
 
 	public void SaveImage(){
@@ -55,7 +56,7 @@ public class SavePicture : MonoBehaviour {
 		Debug.Log ("Creating Tutorial Save.");
 		// Create the pic as per ususal
 		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
-		newPicture.GetComponent<PictureContainer> ().FillContainer (this.GetComponent<Image> ().sprite, words, wordPos, "");
+		newPicture.GetComponent<PictureContainer> ().FillContainer (picture.sprite, words, wordPos, "");
 		// Turn on the temp photo box
 		tutorialController.TempPhotoBox ();
 		tutorialPhotoBox.GetComponent<PictureBoxController> ().AddPicture (newPicture.GetComponent<PictureContainer>());
@@ -76,7 +77,7 @@ public class SavePicture : MonoBehaviour {
 		// Create an instance of the saved picture/tags
 		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
 		// Fill the data in the container
-		newPicture.GetComponent<PictureContainer> ().FillContainer (this.GetComponent<Image> ().sprite, words, wordPos, milestoneTitle);
+		newPicture.GetComponent<PictureContainer> ().FillContainer (picture.sprite, words, wordPos, milestoneTitle);
 
 		// Send that picture to the closest photo box
 		GameObject[] pictureBoxArray = GameObject.FindGameObjectsWithTag("Picture Box");
@@ -106,7 +107,7 @@ public class SavePicture : MonoBehaviour {
 			Destroy (input.gameObject);
 		}
 
-		this.GetComponent<Image> ().sprite = null;
+		picture.sprite = null;
 		this.gameObject.SetActive (false);
 		clickField.SetActive (false);
 	}
@@ -119,7 +120,7 @@ public class SavePicture : MonoBehaviour {
 			Destroy (input);
 		}
 
-		this.GetComponent<Image> ().sprite = null;
+		picture.sprite = null;
 		clickField.SetActive (false);
 		this.gameObject.SetActive (false);
 	}
