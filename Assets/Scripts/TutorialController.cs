@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public enum Buttons {AVATAR = 0, CAMERA, MENU, COUNT};
-public enum TutorialPanel {HEADER = 0, BODY, DOWN_ARROWS, TAP_ICON, MILESTONE_ARROW, END_TUT_BUTTON, COUNT};
+public enum TutorialPanel {HEADER = 1, BODY, DOWN_ARROWS, TAP_ICON, MILESTONE_ARROW, END_TUT_BUTTON, COUNT};
 
 public class TutorialController : MonoBehaviour {
 
@@ -17,12 +17,12 @@ public class TutorialController : MonoBehaviour {
 	[SerializeField] Button milestoneBackButton;
 	[SerializeField] Button resetTutorialButton;
 
-	string introMessage = "With this app you will learn be able to explore your home, school and neighbourhood and learn to translate your world into french! To begin, click the button below! we will take a picture and then label it, en francias!";
+	string introMessage = "With this app you will learn be able to explore your home, school and neighbourhood translate your world into french! To begin, click the button below! we will take a picture and then label it, en francias!";
 	string labelPicMessage = "Now you have the chance to label up to 3 of the things you can recognize in your picture, En Francais! Go ahead, tap the screen and give it a try. When you are finished labeling your picture, hit the next button, then we can go see your shared picture.";
 	string openAlbumMessage = "Now you can view the image you took with the tags you included, click on the numbered circle to view your photos!";
 	string openSavedPictureMessage = "Now that we are in the photo album, you can click on your photo to see it and the tags you marked again, other student will be able to see your photo as well!";
 	string wordTowardsAMilestoneMessage = "When taking pictures, you can gain points by working towards milestones we have set out for you, click on the button below to see all the milestones available";
-	string selectAMilestoneMessage = "Choose any milestome in the list by clicking on the name. Then take pictures and create tags that pertain to that topic! Then you can show off you're hard work to the city, just like we did before!";
+	string selectAMilestoneMessage = "Choose any milestome in the list by clicking on the name. Then take pictures and create tags for that topic! Then you can show off you're hard work to the city, just like we did before!";
 	string endTutorialMessage = "Now you can see the Milestone above in you game so you can remember what you are working towards! That is all for the tutoria, go on and get playing!";
 
 	public bool inTutorial;

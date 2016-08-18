@@ -52,6 +52,7 @@ public class SavePicture : MonoBehaviour {
 	}
 
 	void CreateTutorialSave(InputField[] inputs, List<string> words, List<Vector3> wordPos){
+		Debug.Log ("Creating Tutorial Save.");
 		// Create the pic as per ususal
 		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
 		newPicture.GetComponent<PictureContainer> ().FillContainer (this.GetComponent<Image> ().sprite, words, wordPos, "");
@@ -63,6 +64,7 @@ public class SavePicture : MonoBehaviour {
 	}
 
 	void CreateSave(InputField[] inputs, List<string> words, List<Vector3> wordPos){
+		Debug.Log ("Create Regular Save");
 
 		// Increase the Milestone that the player was working on at the time
 		string milestoneTitle = "";
