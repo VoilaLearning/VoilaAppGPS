@@ -15,7 +15,8 @@ public class GooglePlaces : MonoBehaviour {
     [SerializeField] GameObject photoAlbum;
 	[SerializeField] Transform pictureBoxParent;
 
-    PlacesResult[] places;
+    PlacesResult[] placesArray;
+    PlacesResult[] existingPlacesArray;
     GameObject[] pictureBoxArray;
     GoogleMapTextureLoader mapTexture;
 
@@ -25,6 +26,7 @@ public class GooglePlaces : MonoBehaviour {
 
     void Awake () {
 
+        existingPlacesArray = new PlacesResult[0];
         pictureBoxArray = new GameObject[0];
         mapTexture = this.GetComponent<GoogleMapTextureLoader>();
     }
@@ -48,7 +50,7 @@ public class GooglePlaces : MonoBehaviour {
             url += "location=" + position.x.ToString() + "," + position.y.ToString();
 
             // Optional Parameters
-            url += "&radius=500";
+            url += "&radius=300";
             url += "&language=fr";
             url += "&type=airport|amusement_park|aquarium|art_gallery|bakery|book_store|bowling_alley";
             url += "|cafe|campground|casino|cemetery|church|city_hall|courthouse|department_store|embassy|fire_station";
@@ -64,36 +66,100 @@ public class GooglePlaces : MonoBehaviour {
 
             // Parsing
             //Debug.Log(www.text);
-            places = JsonHelper.FromJson<PlacesResult>(www.text);
-
-            // Check if there are any new picture boxes to create
-            // Check if there are any existing picture boxes to delete
-            // Reposition existing picture boxes
+            placesArray = JsonHelper.FromJson<PlacesResult>(www.text);
 
             // Update positions
             lastLatitude = position.x;
             lastLongitude = position.y;
+
+            // Update the picture boxes
+            CreatePictureBoxes();
+            DeleteFarPictureBoxes();
+            RepositionPictureBoxes();
         }
     }
 
     void CreatePictureBoxes () {
 
-        // Set markers on the Google map texture
-        Location[] locations = new Location[places.Length];
-        for(int i = 0; i < places.Length; i++) { locations[i] = places[i].geometry.location; }
-        mapTexture.SetMarkers(locations);
+        // Get any new places to add to the arrays
+        for (int i = 0; i < placesArray.Length; i++) {
 
-        List<GameObject> markerList = new List<GameObject>();
+            bool matchFound = false;
 
-        // Set gameobject markers
-        for(int i = 0; i < places.Length; i++) {
+            for (int j = 0; j < existingPlacesArray.Length; j++) {
+                
+                if(placesArray[i].id == existingPlacesArray[j].id) {
+
+                    matchFound = true;
+                    break;
+                }
+            }
+
+            if (!matchFound) {
+
+                // Add to existingPlacesArray
+                List<PlacesResult> tempExistingPlacesList = existingPlacesArray.ToList();
+                tempExistingPlacesList.Add(placesArray[i]);
+                existingPlacesArray = tempExistingPlacesList.ToArray();
+
+                // Create new picture box
+                GameObject newPictureBox = Instantiate(pictureBoxPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+                newPictureBox.transform.SetParent(pictureBoxParent, false);
+                //Debug.Log(addresses[i].address_components[0].short_name + ", angle: " + angle + ", distance: " + distance);
+                //Debug.Log("Creating " + placesArray[i].name);
+
+                PictureBoxController pictureBoxController = newPictureBox.GetComponent<PictureBoxController>();
+                pictureBoxController.SetPhotoAlbum(photoAlbum);
+                pictureBoxController.SetLocationName(placesArray[i].name);
+
+                // Add to pictureBoxArray
+                List<GameObject> tempPictureBoxList = pictureBoxArray.ToList();
+                tempPictureBoxList.Add(newPictureBox);
+                pictureBoxArray = tempPictureBoxList.ToArray();
+            }
+        }
+    }
+
+    void DeleteFarPictureBoxes () {
+
+        const float maxDistance = 750;
+
+        List<PlacesResult> newPlacesList = existingPlacesArray.ToList();
+        List<GameObject> newPictureBoxList = pictureBoxArray.ToList();
+
+        for(int i = 0; i < existingPlacesArray.Length; i++) {
+
+            float haversineDistance = HaversineDistance(lastLatitude, lastLongitude, existingPlacesArray[i].geometry.location.lat, existingPlacesArray[i].geometry.location.lng);
+
+            if(haversineDistance > maxDistance) {
+                
+                // Remove from existingPlacesArray
+                newPlacesList.RemoveAt(i);
+                existingPlacesArray = newPlacesList.ToArray();
+
+                // Delete pictureBox GO
+                Destroy(pictureBoxArray[i]);
+
+                // Remove from pictureBoxArray
+                newPictureBoxList.RemoveAt(i);
+                pictureBoxArray = newPictureBoxList.ToArray();
+
+                // Reset counter
+                i--;
+            }
+        }
+    }
+
+    void RepositionPictureBoxes () {
+
+        for (int i = 0; i < existingPlacesArray.Length; i++) {
 
             Vector2 position = mapTexture.GetPosition();
             float lat1 = Mathf.Deg2Rad * position.x;
             float lon1 = Mathf.Deg2Rad * position.y;
 
-            float lat2 = Mathf.Deg2Rad * places[i].geometry.location.lat;
-            float lon2 = Mathf.Deg2Rad * places[i].geometry.location.lng;
+            float lat2 = Mathf.Deg2Rad * existingPlacesArray[i].geometry.location.lat;
+            float lon2 = Mathf.Deg2Rad * existingPlacesArray[i].geometry.location.lng;
 
             float deltaLon = lon2 - lon1;
 
@@ -103,30 +169,12 @@ public class GooglePlaces : MonoBehaviour {
             float angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
             float distance = HaversineDistance(lat1 * Mathf.Rad2Deg, lon1 * Mathf.Rad2Deg, lat2 * Mathf.Rad2Deg, lon2 * Mathf.Rad2Deg);
 
-            float objX = distance * Mathf.Sin(angle * Mathf.Deg2Rad) * METERS_TO_UNITY_UNITS;
-            float objY = distance * Mathf.Cos(angle * Mathf.Deg2Rad) * METERS_TO_UNITY_UNITS + this.transform.position.y;
-            float objZ = -1;
+            float newX = distance * Mathf.Sin(angle * Mathf.Deg2Rad) * METERS_TO_UNITY_UNITS;
+            float newY = distance * Mathf.Cos(angle * Mathf.Deg2Rad) * METERS_TO_UNITY_UNITS + this.transform.position.y;
+            float newZ = -1;
 
-            GameObject newPictureBox = Instantiate(pictureBoxPrefab, new Vector3(objX, objY, objZ), Quaternion.identity) as GameObject;
-            //Debug.Log(addresses[i].address_components[0].short_name + ", angle: " + angle + ", distance: " + distance);
-
-            PictureBoxController pictureBoxController = newPictureBox.GetComponent<PictureBoxController>();
-            pictureBoxController.SetPhotoAlbum(photoAlbum);
-            pictureBoxController.SetLocationName(places[i].name);
-
-			newPictureBox.transform.SetParent (pictureBoxParent, false);
-
-            markerList.Add(newPictureBox);
+            pictureBoxArray[i].transform.position = new Vector3(newX, newY, newZ);
         }
-
-        pictureBoxArray = markerList.ToArray();
-    }
-
-    void DeleteFarPictureBoxes () {
-
-        List<PlacesResult> newListOfPlaces = new List<PlacesResult>();
-
-
     }
 
     float HaversineDistance (float latitude1, float longitude1, float latitude2, float longitude2) {

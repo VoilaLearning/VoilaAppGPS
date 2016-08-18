@@ -18,7 +18,6 @@ public class GoogleMapTextureLoader : MonoBehaviour {
     Location[] locations;
     GooglePlaces googlePlaces;
 
-
 	void Start() {
         
         locations = new Location[0];
@@ -41,16 +40,6 @@ public class GoogleMapTextureLoader : MonoBehaviour {
             yield return null;
         }
 
-        if(SystemInfo.deviceType == DeviceType.Desktop) {
-
-            //currentLatitude = 43.6517f; // Work
-            //currentLongitude = -79.36607f;
-            currentLatitude = 43.6205f; // Centreville Theme Park
-            currentLongitude = -79.3744f;
-            //currentLatitude = 43.6289f;   // Toronto Islands
-            //currentLongitude = -79.3944f;
-        }
-
         StartCoroutine(AutoRefresh());
     }
 
@@ -58,14 +47,15 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 
         if (SystemInfo.deviceType == DeviceType.Handheld) {
 
-			//currentLatitude = 43.6205f; // Centreville Theme Park
-			//currentLongitude = -79.3744f;
             float newLatitude = Input.location.lastData.latitude;
             float newLongitude = Input.location.lastData.longitude;
             if(locationText) { locationText.text = newLatitude + ", " + newLongitude; }
 
             if (newLatitude != currentLatitude && newLongitude != currentLongitude) {
             
+                currentLatitude = newLatitude;
+                currentLongitude = newLongitude;
+
                 googlePlaces.RequestInfo();
                 StopCoroutine(_Refresh());
                 StartCoroutine(_Refresh());
@@ -73,9 +63,14 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         }
         else if(SystemInfo.deviceType == DeviceType.Desktop) {
 
-			if (locationText) {
-				locationText.text = currentLatitude + ", " + currentLongitude;
-			}
+//            currentLatitude = 43.6517f; // Work
+//            currentLongitude = -79.36607f;
+//            currentLatitude = 43.6205f; // Centreville Theme Park
+//            currentLongitude = -79.3744f;
+            currentLatitude = 43.6289f;   // Toronto Islands
+            currentLongitude = -79.3944f;
+			if (locationText) { locationText.text = currentLatitude + ", " + currentLongitude; }
+
             googlePlaces.RequestInfo();
             StopCoroutine(_Refresh());
             StartCoroutine(_Refresh());
@@ -83,17 +78,11 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 
         yield return new WaitForSeconds(refreshRate);
 
-        //StartCoroutine(AutoRefresh());
+        StartCoroutine(AutoRefresh());
     }
 	
 	IEnumerator _Refresh () {
         
-//        if (SystemInfo.deviceType == DeviceType.Handheld) {
-//            
-//            currentLatitude = Input.location.lastData.latitude;
-//            currentLongitude = Input.location.lastData.longitude;
-//        }
-
         var url = "http://maps.googleapis.com/maps/api/staticmap";
         var qs = "";
 
@@ -134,7 +123,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 		if(loadingScreen) { loadingScreen.SetActive(true); }
 	}
 
-    // Called from GPSReversegooglePlaces.cs
+    // Called from GooglePlaces.cs
     public void SetMarkers (Location[] newLocations) {
 
         locations = newLocations;
@@ -143,18 +132,9 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         //StartCoroutine(_Refresh());
     }
 
+    // Called from GooglePlaces.cs
     public Vector2 GetPosition () {
 
         return new Vector2(currentLatitude, currentLongitude);
-    }
-
-    public void MovePosition (float deltaLat, float deltaLon) {
-
-        currentLatitude += deltaLat;
-        currentLongitude += deltaLon;
-
-        googlePlaces.RequestInfo();
-        //StopCoroutine(_Refresh());
-        //StartCoroutine(_Refresh());
     }
 }
