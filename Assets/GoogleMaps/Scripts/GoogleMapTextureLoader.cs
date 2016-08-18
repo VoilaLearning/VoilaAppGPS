@@ -58,18 +58,18 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 
         if (SystemInfo.deviceType == DeviceType.Handheld) {
 
-			currentLatitude = 43.6205f; // Centreville Theme Park
-			currentLongitude = -79.3744f;
-            //float newLatitude = Input.location.lastData.latitude;
-            //float newLongitude = Input.location.lastData.longitude;
-            //if(locationText) { locationText.text = newLatitude + ", " + newLongitude; }
+			//currentLatitude = 43.6205f; // Centreville Theme Park
+			//currentLongitude = -79.3744f;
+            float newLatitude = Input.location.lastData.latitude;
+            float newLongitude = Input.location.lastData.longitude;
+            if(locationText) { locationText.text = newLatitude + ", " + newLongitude; }
 
-            //if (newLatitude != currentLatitude && newLongitude != currentLongitude) {
+            if (newLatitude != currentLatitude && newLongitude != currentLongitude) {
             
                 googlePlaces.RequestInfo();
                 StopCoroutine(_Refresh());
                 StartCoroutine(_Refresh());
-            //}
+            }
         }
         else if(SystemInfo.deviceType == DeviceType.Desktop) {
 

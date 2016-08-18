@@ -66,18 +66,17 @@ public class GooglePlaces : MonoBehaviour {
             //Debug.Log(www.text);
             places = JsonHelper.FromJson<PlacesResult>(www.text);
 
+            // Check if there are any new picture boxes to create
+            // Check if there are any existing picture boxes to delete
+            // Reposition existing picture boxes
+
             // Update positions
             lastLatitude = position.x;
             lastLongitude = position.y;
-
-            // Check if there are any new picture boxes to create
-
-            //Remove far picture boxes;
-            SetPictureBoxes();
         }
     }
 
-    void SetPictureBoxes () {
+    void CreatePictureBoxes () {
 
         // Set markers on the Google map texture
         Location[] locations = new Location[places.Length];
@@ -121,6 +120,13 @@ public class GooglePlaces : MonoBehaviour {
         }
 
         pictureBoxArray = markerList.ToArray();
+    }
+
+    void DeleteFarPictureBoxes () {
+
+        List<PlacesResult> newListOfPlaces = new List<PlacesResult>();
+
+
     }
 
     float HaversineDistance (float latitude1, float longitude1, float latitude2, float longitude2) {
