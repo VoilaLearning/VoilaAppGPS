@@ -25,13 +25,14 @@ public class TutorialController : MonoBehaviour {
 	string openSavedPictureMessage = "We are in the photo album, you can click on your photo to see it and the tags you marked again, other students will be able to see your photo as well!";
 	string wordTowardsAMilestoneMessage = "You can gain points by working towards milestones we have set out for you, click on the button below to see all the milestones available";
 	string selectAMilestoneMessage = "Choose any milestome in the list by clicking on the name. Then take pictures and create tags for that topic! Then you can show off you're hard work to the city!";
-	string endTutorialMessage = "See the Milestone above in you game? That's so you can remember what you are working towards! That is all for the tutorial, go on and get playing!";
+	string endTutorialMessage = "Now we can take apicture and work towards this milestone!";
 
 	public bool inTutorial;
 
 	// Use this for initialization
 	void Start () {
-		StartTutorial ();
+		Debug.Log ("Starting Tut");
+		StartMilestoneTutorial ();
 		pictureBoxParent.GetComponent<PictureBoxParent> ().DeactivateChildren();
 	}
 
@@ -89,6 +90,7 @@ public class TutorialController : MonoBehaviour {
 			// Turn on the "Tap" UI
 			this.transform.GetChild ((int)TutorialPanel.TAP_ICON).gameObject.SetActive (true);
 
+
 			// Set the Text Boxes
 			UpdateText ("Label Your Picture!", labelPicMessage);
 
@@ -114,6 +116,8 @@ public class TutorialController : MonoBehaviour {
 
 			// Turn off the Middle Arrow
 			this.transform.GetChild((int)TutorialPanel.DOWN_ARROWS).transform.GetChild((int)Buttons.CAMERA).gameObject.SetActive(false);
+			// Turn off milestone UI??
+			this.transform.GetChild ((int)TutorialPanel.MILESTONE_ARROW).gameObject.SetActive (false);
 
 			// When the player has saved their image - turn off all other buttons and create a temp photo box - we will delete this after the tutorial
 			tutPictureBox.SetActive(true);
@@ -145,31 +149,37 @@ public class TutorialController : MonoBehaviour {
 
 	// Called from the Back Button in the Photo Album Scroll View
 	public void StartMilestoneTutorial(){
-		if (inTutorial) {
-			StopAllCoroutines ();
-			tutorialTextBox.SetActive (true);
 
-			// Remove the Image from the photo album
-			photoAlbum.GetComponent<AlbumController>().EmptyAlbum();
-			// Delete the Temp Photo Box
-			tutPictureBox.SetActive(false);
-			ResetButtonsAndArrows ();
+		inTutorial = true;
+		this.gameObject.SetActive (true);
+		tutorialTextBox.gameObject.SetActive (true);
+		StopAllCoroutines ();
 
-			// Turn on the arrow above the milestone container
-			this.transform.GetChild ((int)TutorialPanel.DOWN_ARROWS).transform.GetChild ((int)Buttons.MENU).gameObject.SetActive (true);
+		StopAllCoroutines ();
+		tutorialTextBox.SetActive (true);
 
-			ToggleButtonOff (menuButtons [(int)Buttons.AVATAR]);
-			ToggleButtonOff (menuButtons [(int)Buttons.CAMERA]);
+		// Remove the Image from the photo album
+		// photoAlbum.GetComponent<AlbumController>().EmptyAlbum();
 
-			// Ensure they can only Select the Milestone Button
-			menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (0).GetComponent<Button> ().interactable = false;
-			menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (0).GetComponent<Image> ().color = Color.grey;
-			menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (1).GetComponent<Button> ().interactable = false;
-			menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (1).GetComponent<Image> ().color = Color.grey;
+		// Delete the Temp Photo Box
+		// tutPictureBox.SetActive(false);
 
-			// Set the header and the message
-			UpdateText("Work Towards a Milestone!", wordTowardsAMilestoneMessage);
-		}
+		ResetButtonsAndArrows ();
+
+		// Turn on the arrow above the milestone container
+		this.transform.GetChild ((int)TutorialPanel.DOWN_ARROWS).transform.GetChild ((int)Buttons.MENU).gameObject.SetActive (true);
+
+		ToggleButtonOff (menuButtons [(int)Buttons.AVATAR]);
+		ToggleButtonOff (menuButtons [(int)Buttons.CAMERA]);
+
+		// Ensure they can only Select the Milestone Button
+		menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (0).GetComponent<Button> ().interactable = false;
+		menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (0).GetComponent<Image> ().color = Color.grey;
+		menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (1).GetComponent<Button> ().interactable = false;
+		menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (1).GetComponent<Image> ().color = Color.grey;
+
+		// Set the header and the message
+		UpdateText("Work Towards a Milestone!", wordTowardsAMilestoneMessage);
 	}
 
 	// Called from the Menu Options Button
@@ -209,15 +219,18 @@ public class TutorialController : MonoBehaviour {
 
 			// Turn off the main menu Buttons
 			ToggleButtonOff (menuButtons [(int)Buttons.AVATAR]);
-			ToggleButtonOff (menuButtons [(int)Buttons.CAMERA]);
 			ToggleButtonOff (menuButtons [(int)Buttons.MENU]);
+
+			// Turn on the camera
+			ToggleButtonOn (menuButtons [(int)Buttons.CAMERA]);
 
 			// Reset the Milestone Menu Buttons
 			dictionaryButton.interactable = true;
 			dictionaryButton.GetComponent<Image> ().color = Color.white;
 			milestoneBackButton.GetComponent<RectTransform> ().localScale = new Vector3 (1f, 1f, 1f);
 
-			// Toggle on the first arrow
+			// Toggle on the cam arrow
+			this.transform.GetChild((int)TutorialPanel.DOWN_ARROWS).transform.GetChild((int)Buttons.CAMERA).gameObject.SetActive(true);
 			this.transform.GetChild((int)TutorialPanel.DOWN_ARROWS).transform.GetChild((int)Buttons.AVATAR).gameObject.SetActive(false);
 
 			// Turn on the arrow pointing at the Milestone
@@ -230,7 +243,7 @@ public class TutorialController : MonoBehaviour {
 			menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (1).GetComponent<Image> ().color = Color.white;
 
 			// Turn on the Button that will end the tutorial
-			this.transform.GetChild ((int)TutorialPanel.END_TUT_BUTTON).gameObject.SetActive (true);
+			// this.transform.GetChild ((int)TutorialPanel.END_TUT_BUTTON).gameObject.SetActive (true);
 
 			//Ensure that the milestone UI gets turned on
 			milestoneUI.SetActive(true);
@@ -250,6 +263,9 @@ public class TutorialController : MonoBehaviour {
 			this.transform.GetChild ((int)TutorialPanel.END_TUT_BUTTON).gameObject.SetActive (false);
 			// Turn on the restart tutorial Button
 			resetTutorialButton.gameObject.SetActive (true);
+
+			// Turn off the picture Box
+			tutPictureBox.SetActive(false);
 
 			this.gameObject.SetActive (false);
 			ResetButtonsAndArrows ();
