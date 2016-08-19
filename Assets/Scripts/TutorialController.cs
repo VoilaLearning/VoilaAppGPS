@@ -19,13 +19,17 @@ public class TutorialController : MonoBehaviour {
 	[SerializeField] GameObject pictureBoxParent;
 	[SerializeField] GameObject milestoneUI;
 
-	string introMessage = "Learn be able to explore your home, school and neighbourhood translate your world into french! To begin, click the button below to take a picture!";
-	string labelPicMessage = "Label up to 3 of the things you can recognize in your picture, En Francais! Go ahead, tap the screen and give it a try. When you are finished hit the save button to see your picture.";
-	string openAlbumMessage = "Now you can view the image you took with the tags you included, click on the numbered circle to view your photos!";
-	string openSavedPictureMessage = "We are in the photo album, you can click on your photo to see it and the tags you marked again, other students will be able to see your photo as well!";
+	// Being Used
+	string introMessage = "Start translating your environment using one of our milestones!";
+	string takeAPicMessage = "Take a picture related to your milestone and tag the things you see with their french translation!";
+	string selectAMilestoneMessage = "Choose any Milestone in the list to translate things on that topic!";
+	string labelPicMessage = "Tag 3 things you see in the picture, En Français! Hit the submit button below she you’re finished!";
+	string openAlbumMessage = "Check your picture and other pictures people took near you inside the album. Tap the marking in the map to open the album!";
+	string openSavedPictureMessage = "In this album you can see other pictures people took near this place! Explore their tags to improve your French!";
+
+	// Not being Used
 	string wordTowardsAMilestoneMessage = "You can gain points by working towards milestones we have set out for you, click on the button below to see all the milestones available";
-	string selectAMilestoneMessage = "Choose any milestome in the list by clicking on the name. Then take pictures and create tags for that topic! Then you can show off you're hard work to the city!";
-	string endTutorialMessage = "Now we can take apicture and work towards this milestone!";
+	string endTutorialMessage = "Now we can take a picture and work towards this milestone!";
 
 	public bool inTutorial;
 
@@ -92,7 +96,7 @@ public class TutorialController : MonoBehaviour {
 
 
 			// Set the Text Boxes
-			UpdateText ("Label Your Picture!", labelPicMessage);
+			UpdateText ("Tag your Photo!", labelPicMessage);
 
 			// Turn on the Middle Arrow
 			this.transform.GetChild((int)TutorialPanel.DOWN_ARROWS).transform.GetChild((int)Buttons.CAMERA).gameObject.SetActive(true);
@@ -131,7 +135,7 @@ public class TutorialController : MonoBehaviour {
 			// Toggle on the text box and tell player to open the album
 			tutorialTextBox.SetActive (true);
 
-			UpdateText ("Open Your Album!", openAlbumMessage);
+			UpdateText ("Open the Album!", openAlbumMessage);
 		}
 	}
 
@@ -143,7 +147,7 @@ public class TutorialController : MonoBehaviour {
 			StopAllCoroutines ();
 			StartCoroutine(CloseInstructions());
 			// Set the header and body text of the message
-			UpdateText("Look at your Photos!", openSavedPictureMessage);
+			UpdateText("Explore Other Photos", openSavedPictureMessage);
 		}
 	}
 
@@ -179,7 +183,7 @@ public class TutorialController : MonoBehaviour {
 		menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (1).GetComponent<Image> ().color = Color.grey;
 
 		// Set the header and the message
-		UpdateText("Work Towards a Milestone!", wordTowardsAMilestoneMessage);
+		UpdateText("Let's Get Started", introMessage);
 	}
 
 	// Called from the Menu Options Button
@@ -249,7 +253,7 @@ public class TutorialController : MonoBehaviour {
 			milestoneUI.SetActive(true);
 
 			// Update the header and body text
-			UpdateText ("We're Done!", endTutorialMessage);
+			UpdateText ("Take a Picture!", takeAPicMessage);
 		}
 
 	}

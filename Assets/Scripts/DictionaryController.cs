@@ -10,7 +10,7 @@ public class DictionaryController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		letterContainers = new GameObject[6];
+		letterContainers = new GameObject[17];
 		for (int i = 0; i < this.transform.childCount; i++) {
 			letterContainers [i] = this.transform.GetChild (i).gameObject;
 		}

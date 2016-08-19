@@ -54,6 +54,14 @@ public class SavePicture : MonoBehaviour {
 
 	void CreateTutorialSave(InputField[] inputs, List<string> words, List<Vector3> wordPos){
 		Debug.Log ("Creating Tutorial Save.");
+
+		// Increase the Milestone that the player was working on at the time
+		string milestoneTitle = "";
+		if (milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone () != null) {
+			milestoneTitle = milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone ().GetTitle ();
+		}
+		IncreaseMilestoneGoal (words);
+
 		// Create the pic as per ususal
 		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
 		newPicture.GetComponent<PictureContainer> ().FillContainer (picture.sprite, words, wordPos, "");
