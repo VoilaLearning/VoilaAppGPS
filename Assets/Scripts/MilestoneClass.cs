@@ -3,9 +3,10 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class MilestoneClass : MonoBehaviour {
-
-	[SerializeField]string title;
-	[SerializeField] Image fillBar;
+    	
+    [SerializeField] Image fillBar;
+    string title;
+    string challenge;
 
 	public void Start(){
 		fillBar.fillAmount = 0;
@@ -24,4 +25,14 @@ public class MilestoneClass : MonoBehaviour {
 	public float GetFillPercentage(){
 		return fillBar.fillAmount;
 	}
+
+    public void SetTitle (string newTitle) {
+
+        title = newTitle;
+    }
+
+    public void SetChallenge(string newChallenge) {
+
+        challenge = newChallenge;
+    }
 }
