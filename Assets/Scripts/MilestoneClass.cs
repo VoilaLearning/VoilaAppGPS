@@ -26,6 +26,11 @@ public class MilestoneClass : MonoBehaviour {
 		return fillBar.fillAmount;
 	}
 
+    public string GetChallenge () {
+
+        return challenge;
+    }
+
     public void SetTitle (string newTitle) {
 
         title = newTitle;

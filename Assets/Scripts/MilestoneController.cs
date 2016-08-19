@@ -7,6 +7,7 @@ public class MilestoneController : MonoBehaviour {
 	[SerializeField] GameObject milestoneContainer; // Content GameObject in the milestone menu
 	[SerializeField] Text titleUI;
 	[SerializeField] Image fillBarUI;
+    [SerializeField] Text challengeUI;
 
 	MilestoneClass currentMilestone;
 	GameObject[] milestones;
@@ -29,6 +30,7 @@ public class MilestoneController : MonoBehaviour {
 		currentMilestone = selectedMilestone;
 		titleUI.text = currentMilestone.GetTitle ();
 		fillBarUI.fillAmount = currentMilestone.GetFillPercentage ();
+        challengeUI.text = currentMilestone.GetChallenge();
 	}
 
 	public void SelectMilestone(MilestoneClass selectedMilestone) {

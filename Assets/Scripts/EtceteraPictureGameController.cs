@@ -16,6 +16,7 @@ namespace Prime31
 		[SerializeField] Image picture;
 		[SerializeField] GameObject clickField;
 		[SerializeField] GameObject[] mainMenuButtons;
+        [SerializeField] PictureBoxParent pictureBoxParent;
 		string imagePath;
 
 		void Start(){
@@ -75,6 +76,7 @@ namespace Prime31
 			imagePlane.gameObject.SetActive (true);
 			picture.sprite = newPic;
 			clickField.SetActive (true);
+            pictureBoxParent.DeactivateChildren();
 
 			// Turn off the main menu buttons
 			foreach(GameObject button in mainMenuButtons){ button.SetActive(false); }

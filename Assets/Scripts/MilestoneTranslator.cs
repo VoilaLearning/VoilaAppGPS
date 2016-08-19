@@ -11,7 +11,7 @@ public class MilestoneTranslator : MonoBehaviour {
     [Header("References")]
     [SerializeField] Transform milestoneContainer;
 
-    bool english = false;
+    bool english = true;
 
 
 	void Start () {
