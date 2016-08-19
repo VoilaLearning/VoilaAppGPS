@@ -10,8 +10,12 @@ public class MilestoneClass : MonoBehaviour {
 
 	public void Start(){
 		fillBar.fillAmount = 0;
-		this.GetComponentInChildren<Text> ().text = title;
 	}
+
+    void OnEnable () {
+
+        this.GetComponentInChildren<Text>().text = title;
+    }
 
 	public void SetFillPercentage(float percentValue){
 		// Debug.Log ("Setting Fill Perc: " + percentValue);

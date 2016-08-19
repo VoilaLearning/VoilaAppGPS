@@ -14,7 +14,7 @@ public class MilestoneTranslator : MonoBehaviour {
     bool english = true;
 
 
-	void Start () {
+	void Awake () {
 	
         LoadLanguage();
 	}
