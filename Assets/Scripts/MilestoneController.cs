@@ -16,7 +16,7 @@ public class MilestoneController : MonoBehaviour {
 	void Start () {
 		// Declare and fill the milestone array
 		this.gameObject.SetActive(false);
-		milestones = new GameObject[14];
+        milestones = new GameObject[milestoneContainer.transform.childCount];
 		for (int i = 0; i < milestoneContainer.transform.childCount; i++) {
 			milestones [i] = milestoneContainer.transform.GetChild (i).gameObject;
 		}
@@ -32,6 +32,15 @@ public class MilestoneController : MonoBehaviour {
 		fillBarUI.fillAmount = currentMilestone.GetFillPercentage ();
         challengeUI.text = currentMilestone.GetChallenge();
 	}
+
+    public void UpdateMilestone() {
+
+        if (currentMilestone) {
+            titleUI.text = currentMilestone.GetTitle();
+            fillBarUI.fillAmount = currentMilestone.GetFillPercentage();
+            challengeUI.text = currentMilestone.GetChallenge();
+        }
+    }
 
 	public void SelectMilestone(MilestoneClass selectedMilestone) {
 		if (currentMilestone == null || selectedMilestone.GetTitle () != currentMilestone.GetTitle ()) {

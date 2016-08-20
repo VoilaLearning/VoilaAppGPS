@@ -38,6 +38,7 @@ public class MilestoneClass : MonoBehaviour {
     public void SetTitle (string newTitle) {
 
         title = newTitle;
+        this.GetComponentInChildren<Text>().text = title;
     }
 
     public void SetChallenge(string newChallenge) {

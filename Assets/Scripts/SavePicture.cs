@@ -20,6 +20,7 @@ public class SavePicture : MonoBehaviour {
 	[SerializeField] GameObject clickField;
 	[SerializeField] GameObject milestoneGoalUI;
 	[SerializeField] Image picture;
+    [SerializeField] PictureBoxParent pictureBoxParent;
 
 	PictureContainer pictureContainer; 
 
@@ -59,9 +60,9 @@ public class SavePicture : MonoBehaviour {
 		string milestoneTitle = "";
 		if (milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone () != null) {
 			milestoneTitle = milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone ().GetTitle ();
+            IncreaseMilestoneGoal (words);
 		}
-		IncreaseMilestoneGoal (words);
-
+		
 		// Create the pic as per ususal
 		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
 		newPicture.GetComponent<PictureContainer> ().FillContainer (picture.sprite, words, wordPos, "");
@@ -79,15 +80,16 @@ public class SavePicture : MonoBehaviour {
 		string milestoneTitle = "";
 		if (milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone () != null) {
 			milestoneTitle = milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone ().GetTitle ();
+            IncreaseMilestoneGoal (words);
 		}
-		IncreaseMilestoneGoal (words);
-
+		
 		// Create an instance of the saved picture/tags
 		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
 		// Fill the data in the container
 		newPicture.GetComponent<PictureContainer> ().FillContainer (picture.sprite, words, wordPos, milestoneTitle);
 
 		// Send that picture to the closest photo box
+        pictureBoxParent.GetComponent<PictureBoxParent> ().ActivateChildren();
 		GameObject[] pictureBoxArray = GameObject.FindGameObjectsWithTag("Picture Box");
 		float[] distancesArray = new float[pictureBoxArray.Length];
 		for (int i = 0; i < pictureBoxArray.Length; i++) {

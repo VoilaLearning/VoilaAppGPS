@@ -10,6 +10,7 @@ public class MilestoneTranslator : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] Transform milestoneContainer;
+    [SerializeField] MilestoneController milestoneController;
 
     bool english = true;
 
@@ -22,6 +23,8 @@ public class MilestoneTranslator : MonoBehaviour {
     public void ToggleLanguage () {
 
         english = !english;
+        LoadLanguage();
+        milestoneController.UpdateMilestone();
     }
 
     void LoadLanguage () {
