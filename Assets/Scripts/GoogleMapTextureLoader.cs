@@ -63,12 +63,12 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         }
         else if(SystemInfo.deviceType == DeviceType.Desktop) {
 
-//            currentLatitude = 43.6517f; // Work
-//            currentLongitude = -79.36607f;
+            currentLatitude = 43.6517f; // Work
+            currentLongitude = -79.36607f;
 //            currentLatitude = 43.6205f; // Centreville Theme Park
 //            currentLongitude = -79.3744f;
-            currentLatitude = 43.6289f;   // Toronto Islands
-            currentLongitude = -79.3944f;
+//            currentLatitude = 43.6289f;   // Toronto Islands
+//            currentLongitude = -79.3944f;
 			if (locationText) { locationText.text = currentLatitude + ", " + currentLongitude; }
 
             googlePlaces.RequestInfo();
@@ -91,8 +91,22 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 		qs += "&size=" + WWW.UnEscapeURL (string.Format ("{0}x{0}", size));
 		qs += "&scale=" + (doubleResolution ? "2" : "1");
         qs += "&maptype=roadmap";
+        		
+        // Stylize map: https://developers.google.com/maps/documentation/static-maps/styling#examples
+        qs += "&style=feature:landscape|color:0xff0000|saturation:-50";         // Landscape color
+        qs += "&style=feature:road|element:geometry.fill|color:0xffffff";       // Road's fill color
+        qs += "&style=feature:road|element:geometry.stroke|color:0xff0000";     // Road's outline color
+        qs += "&style=feature:road|element:labels.text.fill|color:0xffffff";    // Road's text fill color
+        qs += "&style=feature:road|element:labels.text.stroke|color:0x000000";  // Road's text outline color
+        qs += "&style=feature:poi|color:0x00ff00";                              // Point of interest color
+        qs += "&style=feature:poi|element:labels.text.fill|color:0xffffff";     // Point of interest text fill color
+        qs += "&style=feature:poi|element:labels.text.stroke|color:0x000000";   // Point of interest text outline color
+        qs += "&style=feature:water|color:0x0000ff";                            // Water color
+        qs += "&style=feature:transit|visibility:off";                          // Hiding all transit related stuff
+
+        // API Key
         qs += "&key=AIzaSyDO-k0OB4_xCCMlaWpGls9xnZ1cFwerHd8";
-		
+
         // Place markers
 //        if(locations.Length > 0) {
 //
@@ -127,9 +141,6 @@ public class GoogleMapTextureLoader : MonoBehaviour {
     public void SetMarkers (Location[] newLocations) {
 
         locations = newLocations;
-
-        //StopCoroutine(_Refresh());
-        //StartCoroutine(_Refresh());
     }
 
     // Called from GooglePlaces.cs
