@@ -71,8 +71,8 @@ namespace Prime31
 			Rect rect = new Rect (0,0,texture.width,texture.height);
 			Vector2 pivot = new Vector2(0.5f,0.5f);
 			Sprite newPic = Sprite.Create (texture, rect, pivot);
+			if(tutorialController.GetCurrentState() == TutorialState.TAKE_PHOTO) tutorialController.AdvanceTutorial ();
 
-			tutorialController.CloseCamera ();
 			imagePlane.gameObject.SetActive (true);
 			picture.sprite = newPic;
 			clickField.SetActive (true);
@@ -88,6 +88,7 @@ namespace Prime31
 			EtceteraBinding.showAlertWithTitleMessageAndButtons( "Error Loading Texture.  Did you choose a photo first?", error, buttons );
 			Debug.Log( "textureLoadFailed: " + error );
 		}
+
 
 		#endif
 	}

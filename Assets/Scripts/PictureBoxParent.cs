@@ -11,8 +11,8 @@ public class PictureBoxParent : MonoBehaviour {
 
 	public void ActivateChildren () {
 
-		Debug.Log ("Activate Children");
-		if(!tutorialController.InTutorial()) this.gameObject.SetActive (true);
+		// Debug.Log ("Activate Children");
+		this.gameObject.SetActive (true);
 
 		/*for (int i = 0; i < this.transform.childCount; i++) {
 
@@ -22,7 +22,7 @@ public class PictureBoxParent : MonoBehaviour {
 
 	public void DeactivateChildren () {
 
-		Debug.Log ("Deactivate Children");
+		// Debug.Log ("Deactivate Children");
 		this.gameObject.SetActive (false);
 
 		/*for (int i = 0; i < this.transform.childCount; i++) {

@@ -2,287 +2,221 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public enum Buttons {AVATAR = 0, CAMERA, MENU, COUNT};
-public enum TutorialPanel {CONTENT = 0, DOWN_ARROWS, TAP_ICON, MILESTONE_ARROW, END_TUT_BUTTON, COUNT};
+public enum Buttons { BACK = 0, CAMERA, MILESTONES, COUNT };
+public enum TutorialPanel { CONTENT = 0, DOWN_ARROWS, TAP_ICON, MILESTONE_ARROW, END_TUT_BUTTON, PANEL_COUNT };
 
+public enum TutorialState { INTRO = 0, TAKE_PHOTO, TAG_PHOTO, SAVE_PHOTO, SHOW_RESULTS, JASONS_PIC, COMPLETE, COUNT };
+
+[DisallowMultipleComponent]
 public class TutorialController : MonoBehaviour {
 
 	[SerializeField] GameObject tutorialTextBox; 
 	[SerializeField] GameObject tutPictureBox;
 	[SerializeField] GameObject photoAlbum;
-	[SerializeField] Button[] menuButtons;
-	[SerializeField] Button savePhotoButton;
-	[SerializeField] Button leavePicturePanelButton;
-	[SerializeField] Button dictionaryButton;
-	[SerializeField] Button milestoneBackButton;
-	[SerializeField] Button resetTutorialButton;
+	[SerializeField] GameObject picturePanel;
 	[SerializeField] GameObject pictureBoxParent;
 	[SerializeField] GameObject milestoneUI;
+	[SerializeField] GameObject tapIcon;
+	[SerializeField] GameObject[] tutorialPanels;
 
-	// Being Used
-	string introMessage = "Start translating your environment using one of our milestones!";
-	string takeAPicMessage = "Take a picture related to your milestone and tag the things you see with their french translation!";
-	string selectAMilestoneMessage = "Choose any Milestone in the list to translate things on that topic!";
-	string labelPicMessage = "Tag 3 things you see in the picture, En Français! Hit the submit button below she you’re finished!";
-	string openAlbumMessage = "Check your picture and other pictures people took near you inside the album. Tap the marking in the map to open the album!";
-	string openSavedPictureMessage = "In this album you can see other pictures people took near this place! Explore their tags to improve your French!";
+	[SerializeField] Button[] menuButtons;
+	[SerializeField] Button resetTutorialButton;
+	[SerializeField] Button[] picturePanelButtons;
 
-	// Not being Used
-	string wordTowardsAMilestoneMessage = "You can gain points by working towards milestones we have set out for you, click on the button below to see all the milestones available";
-	string endTutorialMessage = "Now we can take a picture and work towards this milestone!";
-
-	public bool inTutorial;
+	bool inTutorial;
+	TutorialState currentState = TutorialState.INTRO;
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("Starting Tut");
-		StartMilestoneTutorial ();
+		//Debug.Log ("Starting Tut");
+		StartTutorial ();
+		// TagPhoto(TutorialState.TAKE_PHOTO);
+		// inTutorial = true;
 		pictureBoxParent.GetComponent<PictureBoxParent> ().DeactivateChildren();
 	}
 
-	void ResetButtonsAndArrows(){
-		for (int i = 0; i < (int)Buttons.COUNT; i++) {
-			menuButtons [i].interactable = true;
-			menuButtons[i].gameObject.GetComponent<Image> ().color = Color.white;
-			menuButtons[i].GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-			this.transform.GetChild((int)TutorialPanel.DOWN_ARROWS).transform.GetChild(i).gameObject.SetActive(false);
+	void Update(){
+		if (Input.anyKey && (currentState == TutorialState.INTRO || currentState == TutorialState.SHOW_RESULTS)) {
+			AdvanceTutorial ();
 		}
 	}
 
 	void ToggleButtonOff(Button button){
+		button.gameObject.SetActive (true);
 		button.interactable = false;
-		button.GetComponent<RectTransform> ().localScale = new Vector3 (1f, 1f, 1f);
 		button.GetComponent<Image> ().color = Color.grey;
 	}
 
 	void ToggleButtonOn(Button button){
+		button.gameObject.SetActive (true);
 		button.interactable = true;
-		button.GetComponent<RectTransform> ().localScale = new Vector3 (1.1f, 1.1f, 1.1f);
 		button.GetComponent<Image> ().color = Color.white;
+	}
+
+	void ToggleAllButtonsOn(Button[] buttons){
+		foreach (Button button in buttons) {
+			button.gameObject.SetActive (true);
+		}
+	}
+
+	void ToggleAllButtonsOff(Button[] buttons){
+		foreach (Button button in buttons) {
+			button.gameObject.SetActive (false);
+		}
+	}
+
+	public void AdvanceTutorial(){
+		Debug.Log ("Advancing");
+		switch (currentState){
+		case TutorialState.INTRO:
+			TakePhoto();
+			break;
+		case TutorialState.TAKE_PHOTO:
+			TagPhoto(currentState);
+			break;
+		case TutorialState.TAG_PHOTO:
+			SavePhoto();
+			break;
+		case TutorialState.SAVE_PHOTO:
+			ShowResults();
+			break;
+		case TutorialState.SHOW_RESULTS:
+			JasonsPhoto();
+			break;
+		case TutorialState.JASONS_PIC:
+			EndTutorial();
+			break;
+		}
+	}
+
+	public void RevertTutorial(){
+		switch (currentState){
+		case TutorialState.INTRO:
+			// End Tutorial???
+			break;
+		case TutorialState.TAKE_PHOTO:
+			StartTutorial ();
+			break;
+		case TutorialState.TAG_PHOTO:
+			TakePhoto();
+			break;
+		case TutorialState.SAVE_PHOTO:
+			TakePhoto ();
+			break;
+		case TutorialState.SHOW_RESULTS:
+			// TagPhoto();
+			break;
+		case TutorialState.JASONS_PIC:
+			TagPhoto(currentState);
+			break;
+		}
+	}
+
+	void TogglePanel(int index){
+		// Debug.Log ("toggling panel: " + index);
+		for (int i = 0; i < tutorialPanels.Length; i++) {
+			if (i == index) {
+				// Debug.Log ("Found Panel");
+				tutorialPanels [i].SetActive (true);
+			} else {
+				tutorialPanels [i].SetActive (false);
+			}
+		}
 	}
 
 	// called in Start()
 	public void StartTutorial(){
 		inTutorial = true;
 		this.gameObject.SetActive (true);
-		tutorialTextBox.gameObject.SetActive (true);
-		StopAllCoroutines ();
-
-		// Reset the buttons and arrows before beginning a new step in the Tutorial
-		ResetButtonsAndArrows();
-		// Update tutorial text
-		UpdateText ("Bienvenue!", introMessage);
-		// Ensure the other buttons cannot be pressed
-		ToggleButtonOff(menuButtons[(int)Buttons.AVATAR]);
-		ToggleButtonOff(menuButtons[(int)Buttons.MENU]);
-		// Make sure that the camera button is more "Obvious"
-		ToggleButtonOn(menuButtons[(int)Buttons.CAMERA]);
-		// Turn on the center arrow
-		this.transform.GetChild((int)TutorialPanel.DOWN_ARROWS).transform.GetChild((int)Buttons.CAMERA).gameObject.SetActive(true);
 		resetTutorialButton.gameObject.SetActive (false);
+		currentState = TutorialState.INTRO;
+		TogglePanel ((int)currentState);
+
+		// Turn off all buttons
+		ToggleAllButtonsOff(menuButtons);
 	}
 
-	// Called in EtecertraPictureGameController.cs
-	public void CloseCamera(){
-		if (inTutorial) {
-			tutorialTextBox.SetActive (true);
-			// Turn off the tutorial box so the player can see the full screen 
-			StopAllCoroutines ();
-			StartCoroutine(CloseInstructions());
+	void TakePhoto(){
+		currentState = TutorialState.TAKE_PHOTO;
+		TogglePanel ((int)currentState);
+		ToggleAllButtonsOn (menuButtons);
+		// Ensure that the player can only select the camera or the back button
+		ToggleButtonOff (menuButtons[(int)Buttons.MILESTONES]);
 
-			ResetButtonsAndArrows ();
-			// Turn on the "Tap" UI
-			this.transform.GetChild ((int)TutorialPanel.TAP_ICON).gameObject.SetActive (true);
+		// Toggle off the picture panel and tap icon in case the player is digressing in the tutorial
+		if(picturePanel.activeSelf) { picturePanel.SetActive(false); }
+		if (tapIcon.activeSelf) { tapIcon.SetActive (false); }
 
+		// Remove any Input boxes left behind
+		picturePanel.GetComponent<SavePicture>().GoBack();
+	}
 
-			// Set the Text Boxes
-			UpdateText ("Tag your Photo!", labelPicMessage);
+	void TagPhoto(TutorialState lastState){
+		currentState = TutorialState.TAG_PHOTO;
+		TogglePanel ((int)currentState);
+		tapIcon.SetActive (true);
+		milestoneUI.SetActive (false);
 
-			// Turn on the Middle Arrow
-			this.transform.GetChild((int)TutorialPanel.DOWN_ARROWS).transform.GetChild((int)Buttons.CAMERA).gameObject.SetActive(true);
+		// Turn off both buttons in picture panel
+		ToggleAllButtonsOff(picturePanelButtons);
 
-			// Disable the back Button and Enlarge the Save Button in the Picture Panel
-			savePhotoButton.GetComponent<RectTransform>().localScale = new Vector3(1.1f, 1.1f, 1.1f);
-			leavePicturePanelButton.interactable = false;
-			leavePicturePanelButton.GetComponent<Image> ().color = Color.grey;
+		// Turn on the picture panel and the input fields if you are digressing through the tutorial
+		if (!picturePanel.activeSelf) {
+			picturePanel.SetActive (true);
 		}
+		picturePanel.GetComponent<SavePicture> ().ToggleOnInputs ();
+
+		// Reset the tutorial milestone and delete the last photo taken
+		milestoneUI.GetComponent<MilestoneController> ().ResetTutorialFill();
+
+		if (lastState == TutorialState.JASONS_PIC) picturePanel.GetComponent<SavePicture> ().DeleteLastTutorialPhoto ();
 	}
 
-	// Called in SavePicture.cs in CreateTutorialSave()
-	public void TempPhotoBox(){
-		if (inTutorial) {
-			StopAllCoroutines ();
+	void SavePhoto(){
+		currentState = TutorialState.SAVE_PHOTO;
+		TogglePanel ((int)currentState);
+		tapIcon.SetActive (false);
 
-			// Reset the buttons in the Picture Panel
-			savePhotoButton.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-			leavePicturePanelButton.interactable = true;
-			leavePicturePanelButton.GetComponent<Image> ().color = Color.white;
-
-			// Turn off the Middle Arrow
-			this.transform.GetChild((int)TutorialPanel.DOWN_ARROWS).transform.GetChild((int)Buttons.CAMERA).gameObject.SetActive(false);
-			// Turn off milestone UI??
-			this.transform.GetChild ((int)TutorialPanel.MILESTONE_ARROW).gameObject.SetActive (false);
-
-			// When the player has saved their image - turn off all other buttons and create a temp photo box - we will delete this after the tutorial
-			tutPictureBox.SetActive(true);
-			ResetButtonsAndArrows ();
-			ToggleButtonOff (menuButtons[(int)Buttons.AVATAR]);
-			ToggleButtonOff (menuButtons[(int)Buttons.CAMERA]);
-			ToggleButtonOff (menuButtons[(int)Buttons.MENU]);
-			// Turn off the click icon on the Tutorial panel 
-			this.transform.GetChild((int)TutorialPanel.TAP_ICON).gameObject.SetActive(false);
-
-			// Toggle on the text box and tell player to open the album
-			tutorialTextBox.SetActive (true);
-
-			UpdateText ("Open the Album!", openAlbumMessage);
-		}
+		//Turn on the save pic button
+		ToggleButtonOn(picturePanelButtons[1]);
 	}
 
-	// Called in PictureBoxController.cs in OnMouseDown()
-	public void OpenPhotoBox(){
-		if (inTutorial) {
-			tutorialTextBox.SetActive (true);
-			// Turn off the tutorial box so the player can see the full screen 
-			StopAllCoroutines ();
-			StartCoroutine(CloseInstructions());
-			// Set the header and body text of the message
-			UpdateText("Explore Other Photos", openSavedPictureMessage);
-		}
+	public void ShowResults(){
+		Debug.Log ("Showing Results");
+		currentState = TutorialState.SHOW_RESULTS;
+		TogglePanel ((int)currentState);
+		milestoneUI.SetActive (true);
+		milestoneUI.GetComponent<MilestoneController> ().TutorialFill ();
+
+		// Turn back on the buttons in the picture panel
+		ToggleAllButtonsOn(picturePanelButtons);
+		ToggleAllButtonsOff (menuButtons);
 	}
 
-	// Called from the Back Button in the Photo Album Scroll View
-	public void StartMilestoneTutorial(){
+	public void JasonsPhoto(){
+		Debug.Log ("Jasons Pic");
+		currentState = TutorialState.JASONS_PIC;
+		TogglePanel ((int)currentState);
+		milestoneUI.GetComponent<MilestoneController> ().QuickFill ();
 
-		inTutorial = true;
-		this.gameObject.SetActive (true);
-		tutorialTextBox.gameObject.SetActive (true);
-		StopAllCoroutines ();
+		// When the player opens the picture album finish the tutorial?
 
-		StopAllCoroutines ();
-		tutorialTextBox.SetActive (true);
-
-		// Remove the Image from the photo album
-		// photoAlbum.GetComponent<AlbumController>().EmptyAlbum();
-
-		// Delete the Temp Photo Box
-		// tutPictureBox.SetActive(false);
-
-		ResetButtonsAndArrows ();
-
-		// Turn on the arrow above the milestone container
-		this.transform.GetChild ((int)TutorialPanel.DOWN_ARROWS).transform.GetChild ((int)Buttons.MENU).gameObject.SetActive (true);
-
-		ToggleButtonOff (menuButtons [(int)Buttons.AVATAR]);
-		ToggleButtonOff (menuButtons [(int)Buttons.CAMERA]);
-
-		// Ensure they can only Select the Milestone Button
-		menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (0).GetComponent<Button> ().interactable = false;
-		menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (0).GetComponent<Image> ().color = Color.grey;
-		menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (1).GetComponent<Button> ().interactable = false;
-		menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (1).GetComponent<Image> ().color = Color.grey;
-
-		// Set the header and the message
-		UpdateText("Let's Get Started", introMessage);
+		// Turn on the back button
+		ToggleButtonOn (menuButtons [0]);
 	}
-
-	// Called from the Menu Options Button
-	public void OpenMenuButtons(){
-		// Turn off the arrow in order to advance
-		if (inTutorial) {
-			this.transform.GetChild ((int)TutorialPanel.DOWN_ARROWS).transform.GetChild ((int)Buttons.MENU).gameObject.SetActive (false);
-		}
-	}
-
-	// Called from the milestone button
-	public void OpenMilestoneContainer(){
-		if (inTutorial) {
-			tutorialTextBox.SetActive (true);
-			// Turn off the tutorial box so the player can see the full screen 
-			StopAllCoroutines ();
-			StartCoroutine(CloseInstructions());
-
-			// Set the Header and the Body
-			UpdateText ("Select a Milestone!", selectAMilestoneMessage);
-
-			// Toggle on the first arrow
-			this.transform.GetChild((int)TutorialPanel.DOWN_ARROWS).transform.GetChild((int)Buttons.AVATAR).gameObject.SetActive(true);
-
-			// Toggle off the dictionary Button
-			dictionaryButton.interactable = false;
-			dictionaryButton.GetComponent<Image> ().color = Color.grey;
-			milestoneBackButton.GetComponent<RectTransform> ().localScale = new Vector3 (1.1f, 1.1f, 1.1f);
-		}
-	}
-
-	// Called from the back Button in the milestone menu
-	public void EndMilestoneTutorial(){
-		if (inTutorial) {
-			StopAllCoroutines ();
-			tutorialTextBox.SetActive (true);
-
-			// Turn off the main menu Buttons
-			ToggleButtonOff (menuButtons [(int)Buttons.AVATAR]);
-			ToggleButtonOff (menuButtons [(int)Buttons.MENU]);
-
-			// Turn on the camera
-			ToggleButtonOn (menuButtons [(int)Buttons.CAMERA]);
-
-			// Reset the Milestone Menu Buttons
-			dictionaryButton.interactable = true;
-			dictionaryButton.GetComponent<Image> ().color = Color.white;
-			milestoneBackButton.GetComponent<RectTransform> ().localScale = new Vector3 (1f, 1f, 1f);
-
-			// Toggle on the cam arrow
-			this.transform.GetChild((int)TutorialPanel.DOWN_ARROWS).transform.GetChild((int)Buttons.CAMERA).gameObject.SetActive(true);
-			this.transform.GetChild((int)TutorialPanel.DOWN_ARROWS).transform.GetChild((int)Buttons.AVATAR).gameObject.SetActive(false);
-
-			// Turn on the arrow pointing at the Milestone
-			this.transform.GetChild ((int)TutorialPanel.MILESTONE_ARROW).gameObject.SetActive (true);
-
-			// Reactivate the menu Buttons
-			menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (0).GetComponent<Button> ().interactable = true;
-			menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (0).GetComponent<Image> ().color = Color.white;
-			menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (1).GetComponent<Button> ().interactable = true;
-			menuButtons [(int)Buttons.MENU].transform.GetChild (0).transform.GetChild (1).GetComponent<Image> ().color = Color.white;
-
-			// Turn on the Button that will end the tutorial
-			// this.transform.GetChild ((int)TutorialPanel.END_TUT_BUTTON).gameObject.SetActive (true);
-
-			//Ensure that the milestone UI gets turned on
-			milestoneUI.SetActive(true);
-
-			// Update the header and body text
-			UpdateText ("Take a Picture!", takeAPicMessage);
-		}
-
-	}
-
-	// Called from the end tutorial button on the tutorial panel
+		
 	public void EndTutorial(){
-		if (inTutorial) {
-			// Turn on the arrow pointing at the Milestone
-			this.transform.GetChild ((int)TutorialPanel.MILESTONE_ARROW).gameObject.SetActive (false);
-			// Turn on the Button that will end the tutorial
-			this.transform.GetChild ((int)TutorialPanel.END_TUT_BUTTON).gameObject.SetActive (false);
-			// Turn on the restart tutorial Button
-			resetTutorialButton.gameObject.SetActive (true);
-
-			// Turn off the picture Box
-			tutPictureBox.SetActive(false);
-
-			this.gameObject.SetActive (false);
-			ResetButtonsAndArrows ();
-			inTutorial = false;
-			pictureBoxParent.GetComponent<PictureBoxParent> ().ActivateChildren();
-		}
+		Debug.Log ("End Tutorial");
+		currentState = TutorialState.COMPLETE;
+		ToggleAllButtonsOn (menuButtons);
+		ToggleButtonOn (menuButtons[(int)Buttons.MILESTONES]);
+		inTutorial = false;
+		this.gameObject.SetActive (false);
+		resetTutorialButton.gameObject.SetActive (true);
+		// remove left over data from the picture panel
+		picturePanel.GetComponent<SavePicture>().ResetPicturePanel();
 	}
-
-	void UpdateText(string headerMessage, string bodyMessage){
-		this.transform.GetChild ((int)TutorialPanel.CONTENT).GetChild (0).GetComponent<Text> ().text = headerMessage;
-		this.transform.GetChild((int)TutorialPanel.CONTENT).GetChild(1).GetComponent<Text>().text = bodyMessage;
-	}
-
+		
 	public bool InTutorial(){
 		return inTutorial;
 	}
@@ -291,6 +225,10 @@ public class TutorialController : MonoBehaviour {
 		this.transform.GetChild ((int)TutorialPanel.TAP_ICON).gameObject.SetActive (false);
 	}
 
+	public TutorialState GetCurrentState(){
+		return currentState;
+	}
+		
 	IEnumerator CloseInstructions(){
 
 		Debug.Log ("Closing Text Box.");

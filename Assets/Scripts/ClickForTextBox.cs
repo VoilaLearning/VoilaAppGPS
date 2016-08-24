@@ -11,6 +11,8 @@ public class ClickForTextBox : MonoBehaviour, IPointerClickHandler {
 	[SerializeField] InputField textInput;
 
 	int maxWords = 3;
+	int maxPoints = 1500;
+	int points = 0;
 
 	void Start(){
 
@@ -25,7 +27,11 @@ public class ClickForTextBox : MonoBehaviour, IPointerClickHandler {
 		// close them 
 		for (int i = 0; i < otherFields.Length; i++) {
 			if (otherFields [i].GetComponent<InputFieldController> ().IsPinned () == false) {
-				otherFields [i].GetComponent<InputFieldController> ().FinishInput ();	
+				if (otherFields [i].GetComponent<InputField> ().text == null || otherFields [i].GetComponent<InputField> ().text == "") {
+					Destroy (otherFields [i].gameObject);
+				} else {
+					otherFields [i].GetComponent<InputFieldController> ().FinishInput ();	
+				}
 			}
 		}
 
@@ -37,9 +43,10 @@ public class ClickForTextBox : MonoBehaviour, IPointerClickHandler {
 			CheckPosition (newInput);
 		}
 
-		if (tutorialController.InTutorial()) {
-			tutorialController.ToggleOffTapImage ();
-		}
+		/*if (tutorialController.InTutorial ()) {
+			Debug.Log ("Advancing Tut");
+			tutorialController.AdvanceTutorial ();
+		}*/
 	}
 
 	void CheckPosition(InputField newWord){

@@ -5,18 +5,20 @@ using UnityEngine.UI;
 public class InputFieldController : MonoBehaviour {
 
 	// PictureWordGame pictureWordGame;
+	TutorialController tutorialController;
 
 	[SerializeField] GameObject destroyButton;
 	[SerializeField] GameObject editButton;
 	[SerializeField] GameObject pointValueUI;
 
 	bool closed;
+	bool pointsShown = false;
 	bool pinned = false;
 	int index = 0;
-	int wordPointValue;
+	int points = 500;
 
 	void Start(){
-
+		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
 		// pictureWordGame = GameObject.FindGameObjectWithTag ("GameController").GetComponent<PictureWordGame>();
 	}
 
@@ -36,7 +38,11 @@ public class InputFieldController : MonoBehaviour {
 		closed = true;
 
 		// wordPointValue = pictureWordGame.CheckWord (this.GetComponent<InputField> ());
-		// StartCoroutine (ShowPoints ());
+		if (!pointsShown && (this.GetComponent<InputField>().text != null || this.GetComponent<InputField>().text != "")) StartCoroutine (ShowPoints ());
+
+		if (tutorialController.GetCurrentState() == TutorialState.TAG_PHOTO) {
+			tutorialController.AdvanceTutorial ();
+		}
 	}
 
 	public void OpenInputField(){
@@ -44,6 +50,7 @@ public class InputFieldController : MonoBehaviour {
 			for (int i = 0; i < tempArray.Length; i++) {
 			if (tempArray [i].GetComponent<InputFieldController> ().IsClosed () == false && tempArray [i].GetComponent<InputFieldController> ().IsPinned () == false) {
 					tempArray [i].GetComponent<InputFieldController> ().FinishInput ();
+					pinned = true;
 				}
 			}
 
@@ -78,13 +85,20 @@ public class InputFieldController : MonoBehaviour {
 		pinned = true;
 	}
 
-	/*IEnumerator ShowPoints(){
+	public string GetInput(){
+		return this.GetComponent<InputField> ().text;
+	}
 
-		pointValueUI.GetComponentInChildren<Text> ().text = wordPointValue.ToString () + " points!";
+	IEnumerator ShowPoints(){
+
+		// Debug.Log ("Showing Points");
+		pointsShown = true;
+
+		pointValueUI.GetComponentInChildren<Text> ().text = "500 points!";
 		pointValueUI.SetActive (true);
 
 		yield return new WaitForSeconds(1);
 
 		pointValueUI.SetActive (false);
-	}*/
+	}
 }

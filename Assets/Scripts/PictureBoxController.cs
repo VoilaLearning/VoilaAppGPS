@@ -19,7 +19,7 @@ public class PictureBoxController : MonoBehaviour {
 	void Start(){
 		GameObject tempContainer = GameObject.FindGameObjectWithTag ("Tutorial Controller").transform.GetChild (0).gameObject;
 		tempContainer.SetActive(true);
-		Debug.Log (tempContainer);
+		// Debug.Log (tempContainer);
 		tutorialController = tempContainer.GetComponentInChildren<TutorialController> ();
 		if(!tutorialController.InTutorial()) tempContainer.SetActive (false);
 	
@@ -37,21 +37,17 @@ public class PictureBoxController : MonoBehaviour {
 	}
 
 	public void OnMouseDown(){
-		//Debug.Log ("Click click!");
-		photoAlbum.SetActive (true);
-		if (!tutorialController.InTutorial()) this.GetComponentInParent<PictureBoxParent> ().DeactivateChildren ();
+		if ((tutorialController.InTutorial () && tutorialController.GetCurrentState() == TutorialState.JASONS_PIC) || !tutorialController.InTutorial ()) {
+			if(tutorialController.InTutorial()) tutorialController.AdvanceTutorial();
+			photoAlbum.SetActive (true);
+			this.GetComponentInParent<PictureBoxParent> ().DeactivateChildren ();
 
-		// Load in all the pictures from a certain location - OR - pass the location to the photo album
-		albumContainer = photoAlbum.transform.GetComponentInChildren<AlbumController> ();
-		albumContainer.LoadAlbum (photos, this.gameObject);
-
-		if (tutorialController.InTutorial ()) {
-			tutorialController.OpenPhotoBox ();
-			photoAlbum.transform.GetChild (1).GetComponent<Text> ().text = "Tutorial Album";
-		} else {
 			// Load in all the pictures from a certain location - OR - pass the location to the photo album
-			photoAlbum.transform.GetComponentInChildren<Text> ().text = locationName;
-		}
+			albumContainer = photoAlbum.transform.GetComponentInChildren<AlbumController> ();
+			albumContainer.LoadAlbum (photos, this.gameObject);
+		} 
+
+		photoAlbum.transform.GetComponentInChildren<Text> ().text = locationName;
 	}
 
     public void SetPhotoAlbum (GameObject newPhotoAlbum) {
@@ -70,4 +66,12 @@ public class PictureBoxController : MonoBehaviour {
 		SetNumberText ();
 	}
 
+	public void RemoveLastPicture(){
+		Debug.Log ("Removing Last Pic");
+		if (this.transform.childCount > 1) { 
+			Destroy (this.transform.GetChild (this.transform.childCount - 1).gameObject); 
+			photos.RemoveAt (photos.Count - 1);
+			SetNumberText ();
+		}
+	}
 }

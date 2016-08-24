@@ -8,7 +8,10 @@ public class MilestoneClass : MonoBehaviour {
     string title;
     string challenge;
 
+	bool filled;
+
 	public void Start(){
+		filled = false;
 		fillBar.fillAmount = 0;
 	}
 
@@ -20,6 +23,16 @@ public class MilestoneClass : MonoBehaviour {
 	public void SetFillPercentage(float percentValue){
 		// Debug.Log ("Setting Fill Perc: " + percentValue);
 		fillBar.fillAmount += percentValue;
+	}
+
+	public void Fill(){
+		fillBar.fillAmount = 1;
+		filled = true;
+	}
+
+	public void Empty(){
+		fillBar.fillAmount = 0;
+		filled = false;
 	}
 
 	public string GetTitle(){

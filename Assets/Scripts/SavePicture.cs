@@ -12,7 +12,6 @@ public class SavePicture : MonoBehaviour {
 
 	// Tutorial Stuff
 	TutorialController tutorialController;
-	[SerializeField] GameObject tutorialPhotoBox;
 
 	// General 
 	[SerializeField] GameObject photoAlbum;
@@ -22,7 +21,9 @@ public class SavePicture : MonoBehaviour {
 	[SerializeField] Image picture;
     [SerializeField] PictureBoxParent pictureBoxParent;
 
+	InputField[] inputs;
 	PictureContainer pictureContainer; 
+	GameObject tutorialPictureBox;
 
 	void Start(){
 		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController>();
@@ -30,13 +31,13 @@ public class SavePicture : MonoBehaviour {
 
 	public void SaveImage(){
 		// Get All of the input fields - and insert their text components and positions into a list 
-		InputField[] tempArray = GameObject.FindObjectsOfType<InputField> ();
+		inputs = GameObject.FindObjectsOfType<InputField> ();
 		List<string> words = new List<string> ();
 		List<Vector3> wordPos = new List<Vector3> ();
-		for (int i = 0; i < tempArray.Length; i++) {
-			if (tempArray [i].text != "") {
-				words.Add (tempArray [i].text);
-				Vector3 screenPos = (tempArray [i].GetComponent<RectTransform> ().localPosition);
+		for (int i = 0; i < inputs.Length; i++) {
+			if (inputs [i].text != "") {
+				words.Add (inputs [i].text);
+				Vector3 screenPos = (inputs [i].GetComponent<RectTransform> ().localPosition);
 				wordPos.Add (screenPos);
 			}
 		}
@@ -45,37 +46,17 @@ public class SavePicture : MonoBehaviour {
 		if (words.Count == 0) {
 			Debug.Log ("Must enter a tag to progress");
 		} else {
-			if (!tutorialController.InTutorial()) {
+			CreateSave (inputs, words, wordPos);
+			/*if (!tutorialController.InTutorial()) {
 				CreateSave (tempArray, words, wordPos);
 			} else {
 				CreateTutorialSave (tempArray, words, wordPos);
-			}
+			}*/
 		}
-	}
-
-	void CreateTutorialSave(InputField[] inputs, List<string> words, List<Vector3> wordPos){
-		Debug.Log ("Creating Tutorial Save.");
-
-		// Increase the Milestone that the player was working on at the time
-		string milestoneTitle = "";
-		if (milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone () != null) {
-			milestoneTitle = milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone ().GetTitle ();
-            IncreaseMilestoneGoal (words);
-		}
-		
-		// Create the pic as per ususal
-		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
-		newPicture.GetComponent<PictureContainer> ().FillContainer (picture.sprite, words, wordPos, "");
-		// Turn on the temp photo box
-		tutorialController.TempPhotoBox ();
-		tutorialPhotoBox.GetComponent<PictureBoxController> ().AddPicture (newPicture.GetComponent<PictureContainer>());
-
-		ResetPicturePanel (inputs);
 	}
 
 	void CreateSave(InputField[] inputs, List<string> words, List<Vector3> wordPos){
-		Debug.Log ("Create Regular Save");
-
+		
 		// Increase the Milestone that the player was working on at the time
 		string milestoneTitle = "";
 		if (milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone () != null) {
@@ -93,17 +74,22 @@ public class SavePicture : MonoBehaviour {
 		GameObject[] pictureBoxArray = GameObject.FindGameObjectsWithTag("Picture Box");
 		float[] distancesArray = new float[pictureBoxArray.Length];
 		for (int i = 0; i < pictureBoxArray.Length; i++) {
-
 			distancesArray [i] = Vector3.Distance (new Vector3 (0, 1, 0), pictureBoxArray [i].transform.localPosition);
 			//Debug.Log ("distances: " + distancesArray [i]);
 		}
 
 		float minValue = Mathf.Min (distancesArray);
 		int minValueIndex = System.Array.IndexOf (distancesArray, minValue);
+		Debug.Log (minValueIndex);
 		pictureBoxArray [minValueIndex].GetComponent<PictureBoxController> ().AddPicture (newPicture.GetComponent<PictureContainer> ());
-		// pictureBox.GetComponent<PictureBoxController> ().AddPicture (newPicture.GetComponent<PictureContainer>());
+		newPicture.transform.parent = pictureBoxArray [minValueIndex].transform;
+			
+		if (tutorialController.GetCurrentState() == TutorialState.SAVE_PHOTO) {
+			tutorialController.AdvanceTutorial ();
+			tutorialPictureBox = pictureBoxArray [minValueIndex].gameObject;
+		}
 
-		ResetPicturePanel (inputs);
+		ResetPicturePanel ();
 	}
 
 	void IncreaseMilestoneGoal(List<string> words){
@@ -111,23 +97,54 @@ public class SavePicture : MonoBehaviour {
 		milestoneGoalUI.GetComponent<MilestoneController> ().IncreaseMilestonePercentage (percentageIncrease);
 	}
 
-	void ResetPicturePanel (InputField[] inputs){
+	public void ResetPicturePanel (){
+		Debug.Log ("Resetting Picture Panel");
 		foreach (InputField input in inputs) {
-			// Debug.Log ("Destroying Inputs");
-			Destroy (input.gameObject);
+			if (input != null) {
+				// if you are out of the tutorial destroy the inputs
+				if (!tutorialController.InTutorial ()) {
+					Destroy (input.gameObject);
+				}
+				// Just toggle them off if you are in the tutorial
+				else {
+					input.gameObject.SetActive (false);
+				}
+			}
 		}
 
-		picture.sprite = null;
+		inputs = new InputField[0]; 
+
+		if (!tutorialController.InTutorial ()) picture.sprite = null;
 		this.gameObject.SetActive (false);
 		clickField.SetActive (false);
 	}
 
+	public void ToggleOnInputs (){
+		// Debug.Log ("toggling on inputs");
+		if (inputs != null) {
+			foreach (InputField input in inputs) {
+				input.gameObject.SetActive (true);
+			}
+		}
+
+		this.gameObject.SetActive (true);
+		clickField.SetActive (true);
+	}
+
+	public void DeleteLastTutorialPhoto(){
+		if (tutorialPictureBox) { 
+			// Debug.Log ("Removing last Image");
+			tutorialPictureBox.GetComponent<PictureBoxController> ().RemoveLastPicture (); 
+		}
+	}
+
 	// Leave the photo edit without saving - delete data
 	public void GoBack(){
-	
+		Debug.Log ("Going Back");
 		InputField[] tempArray = GameObject.FindObjectsOfType<InputField> ();
+		Debug.Log ("Array Length: " + tempArray.Length);
 		foreach (InputField input in tempArray) {
-			Destroy (input);
+			Destroy (input.gameObject);
 		}
 
 		picture.sprite = null;
