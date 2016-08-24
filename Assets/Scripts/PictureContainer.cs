@@ -13,21 +13,22 @@ public class PictureContainer : MonoBehaviour {
 	TutorialController tutorialController;
 
 	[SerializeField] Image iconImage;
-	List<string> words = new List<string>();
-	List<Vector3> wordCoordinates = new List<Vector3>();
-	Sprite picture;
-	string userName;
+	[SerializeField] List<string> words = new List<string>();
+	[SerializeField] List<Vector3> wordCoordinates = new List<Vector3>();
+	[SerializeField] Sprite picture;
+	[SerializeField] string userName;
 	string tagID;
 
 	void Start(){
 		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
-	}
+    }
 
-	public void FillContainer(Sprite newImage, List<string> newWords, List<Vector3>newWordCoords, string newTagID){
+    public void FillContainer(Sprite newImage, List<string> newWords, List<Vector3>newWordCoords, string newTagID, string newUsername){
 		picture = newImage;
 		iconImage.sprite = picture;
 		tagID = newTagID;
-		userName = "Student";	// Temp
+		//userName = "Student";	// Temp
+        userName = newUsername;
 
 		// Fill the words array
 		foreach (string word in newWords) {
@@ -64,4 +65,9 @@ public class PictureContainer : MonoBehaviour {
 	public string GetTagID(){
 		return tagID;
 	}
+
+    public string GetName () {
+
+        return userName;
+    }
 }
