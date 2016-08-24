@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public enum Buttons { BACK = 0, CAMERA, MILESTONES, COUNT };
 public enum TutorialPanel { CONTENT = 0, DOWN_ARROWS, TAP_ICON, MILESTONE_ARROW, END_TUT_BUTTON, PANEL_COUNT };
 
-public enum TutorialState { INTRO = 0, TAKE_PHOTO, TAG_PHOTO, SAVE_PHOTO, SHOW_RESULTS, JASONS_PIC, COMPLETE, COUNT };
+public enum TutorialState { INTRO = 0, TAKE_PHOTO, TAG_PHOTO, SAVE_PHOTO, SHOW_RESULTS, JASONS_PIC, MILESTONES, COMPLETE, COUNT };
 
 [DisallowMultipleComponent]
 public class TutorialController : MonoBehaviour {
@@ -29,9 +29,9 @@ public class TutorialController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//Debug.Log ("Starting Tut");
-		StartTutorial ();
-		// TagPhoto(TutorialState.TAKE_PHOTO);
-		// inTutorial = true;
+		// StartTutorial ();
+		TagPhoto(TutorialState.TAKE_PHOTO);
+		inTutorial = true;
 		pictureBoxParent.GetComponent<PictureBoxParent> ().DeactivateChildren();
 	}
 
@@ -67,48 +67,58 @@ public class TutorialController : MonoBehaviour {
 
 	public void AdvanceTutorial(){
 		Debug.Log ("Advancing");
-		switch (currentState){
-		case TutorialState.INTRO:
-			TakePhoto();
-			break;
-		case TutorialState.TAKE_PHOTO:
-			TagPhoto(currentState);
-			break;
-		case TutorialState.TAG_PHOTO:
-			SavePhoto();
-			break;
-		case TutorialState.SAVE_PHOTO:
-			ShowResults();
-			break;
-		case TutorialState.SHOW_RESULTS:
-			JasonsPhoto();
-			break;
-		case TutorialState.JASONS_PIC:
-			EndTutorial();
-			break;
+		if (inTutorial) {
+			switch (currentState) {
+			case TutorialState.INTRO:
+				TakePhoto ();
+				break;
+			case TutorialState.TAKE_PHOTO:
+				TagPhoto (currentState);
+				break;
+			case TutorialState.TAG_PHOTO:
+				SavePhoto ();
+				break;
+			case TutorialState.SAVE_PHOTO:
+				ShowResults ();
+				break;
+			case TutorialState.SHOW_RESULTS:
+				JasonsPhoto ();
+				break;
+			case TutorialState.JASONS_PIC:
+				Milestones ();
+				break;
+			case TutorialState.MILESTONES:
+				EndTutorial ();
+				break;
+			}
 		}
 	}
 
 	public void RevertTutorial(){
-		switch (currentState){
-		case TutorialState.INTRO:
+		if (inTutorial) {
+			switch (currentState) {
+			case TutorialState.INTRO:
 			// End Tutorial???
-			break;
-		case TutorialState.TAKE_PHOTO:
-			StartTutorial ();
-			break;
-		case TutorialState.TAG_PHOTO:
-			TakePhoto();
-			break;
-		case TutorialState.SAVE_PHOTO:
-			TakePhoto ();
-			break;
-		case TutorialState.SHOW_RESULTS:
+				break;
+			case TutorialState.TAKE_PHOTO:
+				StartTutorial ();
+				break;
+			case TutorialState.TAG_PHOTO:
+				TakePhoto ();
+				break;
+			case TutorialState.SAVE_PHOTO:
+				TakePhoto ();
+				break;
+			case TutorialState.SHOW_RESULTS:
 			// TagPhoto();
-			break;
-		case TutorialState.JASONS_PIC:
-			TagPhoto(currentState);
-			break;
+				break;
+			case TutorialState.JASONS_PIC:
+				TagPhoto (currentState);
+				break;
+			case TutorialState.MILESTONES:
+				JasonsPhoto ();
+				break;
+			}
 		}
 	}
 
@@ -198,18 +208,35 @@ public class TutorialController : MonoBehaviour {
 		currentState = TutorialState.JASONS_PIC;
 		TogglePanel ((int)currentState);
 		milestoneUI.GetComponent<MilestoneController> ().QuickFill ();
+		milestoneUI.SetActive (false);
 
-		// When the player opens the picture album finish the tutorial?
-
-		// Turn on the back button
-		ToggleButtonOn (menuButtons [0]);
+		// Dont allow the player to use them though
+		ToggleButtonOff (menuButtons[(int)Buttons.MILESTONES]);
+		ToggleButtonOff (menuButtons [(int)Buttons.CAMERA]);
 	}
-		
+
+	public void Milestones(){
+		currentState = TutorialState.MILESTONES;
+		// Turn off all panels
+		foreach(GameObject panel in tutorialPanels){
+			panel.SetActive (false);
+		}
+		ToggleButtonOn (menuButtons[(int)Buttons.MILESTONES]);
+		ToggleButtonOff (menuButtons [(int)Buttons.CAMERA]);
+	}
+
+	public void ShowMilestoneMessage(){
+		if (inTutorial) {
+			TogglePanel ((int)currentState);
+		}
+	}
+
 	public void EndTutorial(){
 		Debug.Log ("End Tutorial");
 		currentState = TutorialState.COMPLETE;
 		ToggleAllButtonsOn (menuButtons);
-		ToggleButtonOn (menuButtons[(int)Buttons.MILESTONES]);
+
+		ToggleButtonOn (menuButtons [(int)Buttons.CAMERA]);
 		inTutorial = false;
 		this.gameObject.SetActive (false);
 		resetTutorialButton.gameObject.SetActive (true);

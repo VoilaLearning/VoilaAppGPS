@@ -97,7 +97,7 @@ public class MilestoneController : MonoBehaviour {
 		float newX = (1080 * fillBarUI.fillAmount) - 540;
 		particles.transform.localPosition = new Vector3 (newX, 0, 0);
 
-		yield return new WaitForSeconds (0.03f);
+		yield return new WaitForSeconds (0.02f);
 
 		if (fillBarUI.fillAmount < 1) {
 			StartCoroutine (TutorialFillUI ());
