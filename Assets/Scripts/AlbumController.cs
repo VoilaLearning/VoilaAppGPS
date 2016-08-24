@@ -14,7 +14,7 @@ public class AlbumController : MonoBehaviour {
 
 		foreach (PictureContainer picture in boxPictures) {
 			GameObject newContainer = Instantiate (pictureContainerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-			newContainer.GetComponent<PictureContainer> ().FillContainer (picture.GetImage (), picture.GetWords (), picture.GetCoords (), picture.GetTagID ());
+            newContainer.GetComponent<PictureContainer> ().FillContainer (picture.GetImage (), picture.GetWords (), picture.GetCoords (), picture.GetTagID (), picture.GetName());
 			newContainer.transform.SetParent (this.transform, false);
 			ExpandPhotoAlbum ();
 		}
