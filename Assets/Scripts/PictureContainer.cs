@@ -9,9 +9,7 @@ using UnityEngine.UI;
 */
 
 public class PictureContainer : MonoBehaviour {
-
-	TutorialController tutorialController;
-
+	
 	[SerializeField] Image iconImage;
 	[SerializeField] List<string> words = new List<string>();
 	[SerializeField] List<Vector3> wordCoordinates = new List<Vector3>();
@@ -19,16 +17,12 @@ public class PictureContainer : MonoBehaviour {
 	[SerializeField] string userName;
 	string tagID;
 
-	void Start(){
-		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
-    }
-
     public void FillContainer(Sprite newImage, List<string> newWords, List<Vector3>newWordCoords, string newTagID, string newUsername){
 		picture = newImage;
 		iconImage.sprite = picture;
 		tagID = newTagID;
-		//userName = "Student";	// Temp
-        userName = newUsername;
+		// userName = "Student";
+		userName = newUsername;
 
 		// Fill the words array
 		foreach (string word in newWords) {

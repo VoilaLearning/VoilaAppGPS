@@ -2,7 +2,7 @@
 
 public static class PlayerData {
 
-    static string playerName;
+    static string playerName = "Student";
     static int points;
     // currency?
     // milestones

@@ -35,7 +35,7 @@ namespace Prime31
 		}
 
 		IEnumerator LoadPic(){
-			Debug.Log ("Loading Texture");
+			// Debug.Log ("Loading Texture");
 
 			while (imagePath == null) {
 				yield return null; 
@@ -67,7 +67,7 @@ namespace Prime31
 
 		// Texture loading delegates
 		public void textureLoaded( Texture2D texture ) {
-			Debug.Log ("Texture Loaded");
+			// Debug.Log ("Texture Loaded");
 			Rect rect = new Rect (0,0,texture.width,texture.height);
 			Vector2 pivot = new Vector2(0.5f,0.5f);
 			Sprite newPic = Sprite.Create (texture, rect, pivot);

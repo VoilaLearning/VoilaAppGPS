@@ -16,7 +16,6 @@ public class TutorialController : MonoBehaviour {
 	[SerializeField] GameObject picturePanel;
 	[SerializeField] GameObject pictureBoxParent;
 	[SerializeField] GameObject milestoneUI;
-	[SerializeField] GameObject tapIcon;
 	[SerializeField] GameObject[] tutorialPanels;
 
 	[SerializeField] Button[] menuButtons;
@@ -28,10 +27,10 @@ public class TutorialController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//Debug.Log ("Starting Tut");
-		// StartTutorial ();
-		TagPhoto(TutorialState.TAKE_PHOTO);
-		inTutorial = true;
+		// Debug.Log ("Starting Tut");
+		StartTutorial ();
+		// TagPhoto(TutorialState.TAKE_PHOTO);
+		// inTutorial = true;
 		pictureBoxParent.GetComponent<PictureBoxParent> ().DeactivateChildren();
 	}
 
@@ -66,7 +65,7 @@ public class TutorialController : MonoBehaviour {
 	}
 
 	public void AdvanceTutorial(){
-		Debug.Log ("Advancing");
+		// Debug.Log ("Advancing");
 		if (inTutorial) {
 			switch (currentState) {
 			case TutorialState.INTRO:
@@ -142,6 +141,11 @@ public class TutorialController : MonoBehaviour {
 		currentState = TutorialState.INTRO;
 		TogglePanel ((int)currentState);
 
+		// Reset the Milestone and make sure it is the proper Milestone fot the tutorial
+		milestoneUI.GetComponent<MilestoneController>().SetCurrentMilestone(5);
+		milestoneUI.GetComponent<MilestoneController>().ResetTutorialFill();
+		milestoneUI.SetActive (true);
+
 		// Turn off all buttons
 		ToggleAllButtonsOff(menuButtons);
 	}
@@ -155,7 +159,6 @@ public class TutorialController : MonoBehaviour {
 
 		// Toggle off the picture panel and tap icon in case the player is digressing in the tutorial
 		if(picturePanel.activeSelf) { picturePanel.SetActive(false); }
-		if (tapIcon.activeSelf) { tapIcon.SetActive (false); }
 
 		// Remove any Input boxes left behind
 		picturePanel.GetComponent<SavePicture>().GoBack();
@@ -164,7 +167,6 @@ public class TutorialController : MonoBehaviour {
 	void TagPhoto(TutorialState lastState){
 		currentState = TutorialState.TAG_PHOTO;
 		TogglePanel ((int)currentState);
-		tapIcon.SetActive (true);
 		milestoneUI.SetActive (false);
 
 		// Turn off both buttons in picture panel
@@ -185,14 +187,13 @@ public class TutorialController : MonoBehaviour {
 	void SavePhoto(){
 		currentState = TutorialState.SAVE_PHOTO;
 		TogglePanel ((int)currentState);
-		tapIcon.SetActive (false);
 
 		//Turn on the save pic button
 		ToggleButtonOn(picturePanelButtons[1]);
 	}
 
 	public void ShowResults(){
-		Debug.Log ("Showing Results");
+		// Debug.Log ("Showing Results");
 		currentState = TutorialState.SHOW_RESULTS;
 		TogglePanel ((int)currentState);
 		milestoneUI.SetActive (true);
@@ -204,11 +205,14 @@ public class TutorialController : MonoBehaviour {
 	}
 
 	public void JasonsPhoto(){
-		Debug.Log ("Jasons Pic");
+		// Debug.Log ("Jasons Pic");
 		currentState = TutorialState.JASONS_PIC;
 		TogglePanel ((int)currentState);
 		milestoneUI.GetComponent<MilestoneController> ().QuickFill ();
 		milestoneUI.SetActive (false);
+
+		// Turn on the picture boxes
+		pictureBoxParent.GetComponent<PictureBoxParent>().ActivateChildren();
 
 		// Dont allow the player to use them though
 		ToggleButtonOff (menuButtons[(int)Buttons.MILESTONES]);

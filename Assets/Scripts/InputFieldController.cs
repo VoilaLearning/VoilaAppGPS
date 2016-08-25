@@ -14,7 +14,7 @@ public class InputFieldController : MonoBehaviour {
 	bool closed;
 	bool pointsShown = false;
 	bool pinned = false;
-	int index = 0;
+	// int index = 0;
 	int points = 500;
 
 	void Start(){
@@ -69,9 +69,9 @@ public class InputFieldController : MonoBehaviour {
 		return closed;
 	}
 
-	public void SetIndex(int newIndex){
+	/*public void SetIndex(int newIndex){
 		index = newIndex;
-	}
+	}*/
 
 	public bool IsPinned(){
 		return pinned;
@@ -94,7 +94,7 @@ public class InputFieldController : MonoBehaviour {
 		// Debug.Log ("Showing Points");
 		pointsShown = true;
 
-		pointValueUI.GetComponentInChildren<Text> ().text = "500 points!";
+		pointValueUI.GetComponentInChildren<Text> ().text = points.ToString() + " points!";
 		pointValueUI.SetActive (true);
 
 		yield return new WaitForSeconds(1);

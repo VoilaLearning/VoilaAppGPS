@@ -9,21 +9,18 @@ public class PictureBoxController : MonoBehaviour {
 
 	TutorialController tutorialController;
 
-	public List<PictureContainer> photos = new List<PictureContainer>();
+	[SerializeField] List<PictureContainer> photos = new List<PictureContainer>();
 
 	[SerializeField] GameObject photoAlbum;
+	[SerializeField] string locationName;
+
 	AlbumController albumContainer;
 	TextMesh number;
-	string locationName;
 
 	void Start(){
 		GameObject tempContainer = GameObject.FindGameObjectWithTag ("Tutorial Controller").transform.GetChild (0).gameObject;
+		tutorialController = tempContainer.GetComponent<TutorialController> ();
 		tempContainer.SetActive(true);
-		// Debug.Log (tempContainer);
-		tutorialController = tempContainer.GetComponentInChildren<TutorialController> ();
-		if(!tutorialController.InTutorial()) tempContainer.SetActive (false);
-	
-		GetComponentInChildren<TutorialController> ();
 		number = GetComponentInChildren<TextMesh> ();
 		SetNumberText ();
 	}
@@ -38,7 +35,7 @@ public class PictureBoxController : MonoBehaviour {
 
 	public void OnMouseDown(){
 		if ((tutorialController.InTutorial () && tutorialController.GetCurrentState() == TutorialState.JASONS_PIC) || !tutorialController.InTutorial ()) {
-			if(tutorialController.InTutorial()) tutorialController.AdvanceTutorial();
+			if(tutorialController.InTutorial()) { tutorialController.AdvanceTutorial(); }
 			photoAlbum.SetActive (true);
 			this.GetComponentInParent<PictureBoxParent> ().DeactivateChildren ();
 
@@ -67,7 +64,7 @@ public class PictureBoxController : MonoBehaviour {
 	}
 
 	public void RemoveLastPicture(){
-		Debug.Log ("Removing Last Pic");
+		// Debug.Log ("Removing Last Pic");
 		if (this.transform.childCount > 1) { 
 			Destroy (this.transform.GetChild (this.transform.childCount - 1).gameObject); 
 			photos.RemoveAt (photos.Count - 1);

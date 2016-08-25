@@ -111,4 +111,9 @@ public class MilestoneController : MonoBehaviour {
 	public MilestoneClass GetCurrentMilestone(){
 		return currentMilestone;
 	}
+
+	public void SetCurrentMilestone(int index){
+		currentMilestone = milestones [index].GetComponent<MilestoneClass> ();
+		FillMilestone (currentMilestone);
+	}
 }

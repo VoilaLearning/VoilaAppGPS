@@ -24,6 +24,7 @@ public class SavePicture : MonoBehaviour {
 	InputField[] inputs;
 	PictureContainer pictureContainer; 
 	GameObject tutorialPictureBox;
+	string milestoneTitle = "";
 
 	void Start(){
 		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController>();
@@ -58,24 +59,33 @@ public class SavePicture : MonoBehaviour {
 	void CreateSave(InputField[] inputs, List<string> words, List<Vector3> wordPos){
 		
 		// Increase the Milestone that the player was working on at the time
-		string milestoneTitle = "";
 		if (milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone () != null) {
-			milestoneTitle = milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone ().GetTitle ();
             IncreaseMilestoneGoal (words);
 		}
-		
+
 		// Create an instance of the saved picture/tags
 		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
 		// Fill the data in the container
-		newPicture.GetComponent<PictureContainer> ().FillContainer (picture.sprite, words, wordPos, milestoneTitle);
+		newPicture.GetComponent<PictureContainer> ().FillContainer (picture.sprite, words, wordPos, milestoneTitle, PlayerData.GetPlayerName());
 
+		SendToAlbum (newPicture);
+
+		// If we are in the tutorial - advance a step
+		if (tutorialController.GetCurrentState() == TutorialState.SAVE_PHOTO) {
+			tutorialController.AdvanceTutorial ();
+			// tutorialPictureBox = pictureBoxArray [minValueIndex].gameObject;
+		}
+
+		ResetPicturePanel ();
+	}
+
+	void SendToAlbum(GameObject newPicture){
 		// Send that picture to the closest photo box
-        pictureBoxParent.GetComponent<PictureBoxParent> ().ActivateChildren();
+		pictureBoxParent.GetComponent<PictureBoxParent> ().ActivateChildren();
 		GameObject[] pictureBoxArray = GameObject.FindGameObjectsWithTag("Picture Box");
 		float[] distancesArray = new float[pictureBoxArray.Length];
 		for (int i = 0; i < pictureBoxArray.Length; i++) {
 			distancesArray [i] = Vector3.Distance (new Vector3 (0, 1, 0), pictureBoxArray [i].transform.localPosition);
-			//Debug.Log ("distances: " + distancesArray [i]);
 		}
 
 		float minValue = Mathf.Min (distancesArray);
@@ -83,16 +93,11 @@ public class SavePicture : MonoBehaviour {
 		Debug.Log (minValueIndex);
 		pictureBoxArray [minValueIndex].GetComponent<PictureBoxController> ().AddPicture (newPicture.GetComponent<PictureContainer> ());
 		newPicture.transform.parent = pictureBoxArray [minValueIndex].transform;
-			
-		if (tutorialController.GetCurrentState() == TutorialState.SAVE_PHOTO) {
-			tutorialController.AdvanceTutorial ();
-			tutorialPictureBox = pictureBoxArray [minValueIndex].gameObject;
-		}
 
-		ResetPicturePanel ();
 	}
 
 	void IncreaseMilestoneGoal(List<string> words){
+		milestoneTitle = milestoneGoalUI.GetComponent<MilestoneController> ().GetCurrentMilestone ().GetTitle ();
 		float percentageIncrease = 0.01f * words.Count;
 		milestoneGoalUI.GetComponent<MilestoneController> ().IncreaseMilestonePercentage (percentageIncrease);
 	}
@@ -138,11 +143,17 @@ public class SavePicture : MonoBehaviour {
 		}
 	}
 
+	public void TogglePictureBoxParent(){
+		if (!tutorialController.InTutorial ()) {
+			pictureBoxParent.ActivateChildren ();
+		}
+	}
+
 	// Leave the photo edit without saving - delete data
 	public void GoBack(){
-		Debug.Log ("Going Back");
+		// Debug.Log ("Going Back");
 		InputField[] tempArray = GameObject.FindObjectsOfType<InputField> ();
-		Debug.Log ("Array Length: " + tempArray.Length);
+		// Debug.Log ("Array Length: " + tempArray.Length);
 		foreach (InputField input in tempArray) {
 			Destroy (input.gameObject);
 		}

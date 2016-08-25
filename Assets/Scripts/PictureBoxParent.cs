@@ -6,7 +6,7 @@ public class PictureBoxParent : MonoBehaviour {
 	TutorialController tutorialController;
 
 	void Start(){
-		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
+		// tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
 	}
 
 	public void ActivateChildren () {

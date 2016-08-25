@@ -118,7 +118,7 @@ public class PictureWordGame : MonoBehaviour {
 		wordsFound [index] = 1;
 		playerPoints += points;
 		word.GetComponent<InputFieldController> ().PinWord ();
-		word.GetComponent<InputFieldController> ().SetIndex (index);
+		// word.GetComponent<InputFieldController> ().SetIndex (index);
 		playerPointsUI.text = playerPoints.ToString ();
 	}
 
