@@ -15,7 +15,10 @@ public class PictureContainer : MonoBehaviour {
 	[SerializeField] List<Vector3> wordCoordinates = new List<Vector3>();
 	[SerializeField] Sprite picture;
 	[SerializeField] string userName;
+	[SerializeField] Text nameText;
+	[SerializeField] Text likeText;
 	string tagID;
+	int likes = 0;
 
     public void FillContainer(Sprite newImage, List<string> newWords, List<Vector3>newWordCoords, string newTagID, string newUsername){
 		picture = newImage;
@@ -33,8 +36,7 @@ public class PictureContainer : MonoBehaviour {
 			wordCoordinates.Add (pos);
 		}
 
-		string message = "Photo By " + userName.ToUpper() + "\n" + newWords.Count.ToString() + " tags";
-		this.GetComponentInChildren<Text> ().text = message;
+		UpdateText ();
 	}
 
 	public List<string> GetWords(){
@@ -64,4 +66,20 @@ public class PictureContainer : MonoBehaviour {
 
         return userName;
     }
+
+	public void AddLike(){
+		likes++;
+
+		string likeMessage = "This photo has " + likes.ToString() + " like(s)!";
+		likeText.text = likeMessage;
+	}
+
+	public void UpdateText () {
+
+		string nameMessage = "Photo By " + userName.ToUpper() + "\n" + words.Count.ToString() + " tags";
+		nameText.text = nameMessage;
+
+		string likeMessage = "This photo has " + likes.ToString() + " likes!";
+		likeText.text = likeMessage;
+	}
 }

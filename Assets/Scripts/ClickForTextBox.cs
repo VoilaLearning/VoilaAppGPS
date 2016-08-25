@@ -31,6 +31,7 @@ public class ClickForTextBox : MonoBehaviour, IPointerClickHandler {
 			newInput.GetComponent<RectTransform> ().position = Input.mousePosition;
 			newInput.transform.localScale = Vector3.one;
 			CheckPosition (newInput);
+			newInput.ActivateInputField ();
 		}
 	}
 

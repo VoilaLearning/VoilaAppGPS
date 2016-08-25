@@ -8,11 +8,15 @@ public class LoadPicture : MonoBehaviour {
 	[SerializeField] Text[] words;
 	[SerializeField] Image picture;
 	[SerializeField] Text tagCountAndID;
+	[SerializeField] Button likeButton;
+
+	PictureContainer pictureContainer = null;
 
 	public void LoadSelectedPicture(GameObject newPictureContainer){
 
-		// Debug.Log ("Loading Pic");
-	
+		// enable the like button
+		likeButton.interactable = true;
+
 		// Empty the words array
 		for (int i = 0; i < words.Length; i++){
 			words [i].transform.parent.gameObject.SetActive (false);
@@ -22,7 +26,7 @@ public class LoadPicture : MonoBehaviour {
 
 		this.gameObject.SetActive (true);
 
-		PictureContainer pictureContainer = newPictureContainer.GetComponent<PictureContainer>();
+		pictureContainer = newPictureContainer.GetComponent<PictureContainer>();
 
 		// Set the Image
 		picture.sprite = pictureContainer.GetImage();
@@ -42,5 +46,9 @@ public class LoadPicture : MonoBehaviour {
 		} else {
 			tagCountAndID.text = newWords.Length.ToString () + " Tags " + "- " + pictureContainer.GetTagID();
 		}
+	}
+
+	public void LikePic(){
+		pictureContainer.AddLike();
 	}
 }
