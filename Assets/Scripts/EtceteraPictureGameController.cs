@@ -20,7 +20,7 @@ namespace Prime31
 		string imagePath;
 
 		void Start(){
-			tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
+			// tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
 			EtceteraManager.imagePickerChoseImageEvent += imagePickerChoseImage;
 		}
 

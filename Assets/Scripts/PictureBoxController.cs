@@ -18,9 +18,11 @@ public class PictureBoxController : MonoBehaviour {
 	TextMesh number;
 
 	void Start(){
-		GameObject tempContainer = GameObject.FindGameObjectWithTag ("Tutorial Controller").transform.GetChild (0).gameObject;
+		/* FOR TUTORIAL */
+		/*GameObject tempContainer = GameObject.FindGameObjectWithTag ("Tutorial Controller").transform.GetChild (0).gameObject;
 		tutorialController = tempContainer.GetComponent<TutorialController> ();
-		tempContainer.SetActive(true);
+		tempContainer.SetActive(true);*/
+
 		number = GetComponentInChildren<TextMesh> ();
 		SetNumberText ();
 	}

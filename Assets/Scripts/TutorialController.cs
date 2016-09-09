@@ -28,7 +28,7 @@ public class TutorialController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Debug.Log ("Starting Tut");
-		StartTutorial ();
+		// StartTutorial ();
 		// TagPhoto(TutorialState.TAKE_PHOTO);
 		// inTutorial = true;
 		pictureBoxParent.GetComponent<PictureBoxParent> ().DeactivateChildren();
@@ -161,7 +161,7 @@ public class TutorialController : MonoBehaviour {
 		if(picturePanel.activeSelf) { picturePanel.SetActive(false); }
 
 		// Remove any Input boxes left behind
-		picturePanel.GetComponent<SavePicture>().GoBack();
+		picturePanel.GetComponent<SavePicture>().ResetPicturePanel();
 	}
 
 	void TagPhoto(TutorialState lastState){
