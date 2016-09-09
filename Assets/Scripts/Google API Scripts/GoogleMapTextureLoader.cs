@@ -6,7 +6,7 @@ using System.Collections;
 public class GoogleMapTextureLoader : MonoBehaviour {
 
     [Header("Parameters")]
-	public int zoom = 16;
+	public float zoom = 16;
 	public int size = 512;
     public float refreshRate = 3;
 	public bool doubleResolution = true;
@@ -24,6 +24,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         googlePlaces = this.GetComponent<GooglePlaces>();
         StopCoroutine(InitializeLocationServices());
         StartCoroutine(InitializeLocationServices());
+        ChangeZoom(0);
 	}
 
     IEnumerator InitializeLocationServices () {
@@ -68,10 +69,10 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         }
         else if(SystemInfo.deviceType == DeviceType.Desktop) {
 
-//            currentLatitude = 43.6517f; // Work
-//            currentLongitude = -79.36607f;
-            currentLatitude = 43.6205f; // Centreville Theme Park
-            currentLongitude = -79.3744f;
+            currentLatitude = 43.6517f; // Work
+            currentLongitude = -79.36607f;
+//            currentLatitude = 43.6205f; // Centreville Theme Park
+//            currentLongitude = -79.3744f;
 //            currentLatitude = 43.6289f;   // Toronto Islands
 //            currentLongitude = -79.3944f;
 			if (locationText) { locationText.text = currentLatitude + ", " + currentLongitude; }
@@ -92,7 +93,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         var qs = "";
 
 		qs += "center=" + WWW.UnEscapeURL (string.Format ("{0},{1}", currentLatitude, currentLongitude));
-		qs += "&zoom=" + zoom.ToString ();
+        qs += "&zoom=" + ((int)zoom).ToString ();
 		qs += "&size=" + WWW.UnEscapeURL (string.Format ("{0}x{0}", size));
 		qs += "&scale=" + (doubleResolution ? "2" : "1");
         qs += "&maptype=roadmap";
@@ -111,17 +112,6 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 
         // API Key
         qs += "&key=AIzaSyDO-k0OB4_xCCMlaWpGls9xnZ1cFwerHd8";
-
-        // Place markers
-//        if(locations.Length > 0) {
-//
-//            qs += "&markers=" + string.Format ("color:blue");
-//
-//            foreach (var i in locations) {
-//                
-//                qs += "|" + WWW.UnEscapeURL (string.Format ("{0},{1}", i.lat, i.lng));
-//            }
-//        }
 
         // Send request to Google
         var req = new WWW(url + "?" + qs);
@@ -143,14 +133,29 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 	}
 
     // Called from GooglePlaces.cs
-    public void SetMarkers (Location[] newLocations) {
-
-        locations = newLocations;
-    }
-
-    // Called from GooglePlaces.cs
     public Vector2 GetPosition () {
 
         return new Vector2(currentLatitude, currentLongitude);
+    }        
+
+    public void ChangeZoom (float change) {
+
+        // Move plane
+        const float minDistance = 0;
+        const float maxDistance = 7;
+        float newZ = this.transform.position.z + change;
+        newZ = Mathf.Clamp(newZ, minDistance, maxDistance);
+        this.transform.position = new Vector3(0, 1, newZ);
+        //Debug.Log("newZ: " + newZ);
+
+        // Change zoom level
+        const float minZoom = 10;
+        const float maxZoom = 20;
+        float distanceRatio = 1 - (this.transform.position.z - minDistance) / (maxDistance - minDistance);
+        //zoom = (maxZoom - minZoom) * distanceRatio + minZoom;
+        //Debug.Log("zoom: " + zoom);
+
+
+        _Refresh();
     }
 }
