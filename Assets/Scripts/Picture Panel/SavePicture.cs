@@ -21,13 +21,17 @@ public class SavePicture : MonoBehaviour {
 	[SerializeField] Image picture;
     [SerializeField] PictureBoxParent pictureBoxParent;
 
+	// Lists to hold the Avatar and stickers
+	List<GameObject> avatars = new List<GameObject>();
+	List<GameObject> stickers = new List<GameObject> ();
+
 	InputField[] inputs;
 	PictureContainer pictureContainer; 
 	GameObject tutorialPictureBox;
 	string milestoneTitle = "";
 
 	void Start(){
-		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController>();
+		// tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController>();
 	}
 
 	public void SaveImage(){
@@ -119,6 +123,12 @@ public class SavePicture : MonoBehaviour {
 
 		inputs = new InputField[0]; 
 
+		// Clear the avatar and sticker lists\
+		foreach(GameObject avatar in avatars){ Destroy(avatar.gameObject); }
+		avatars.Clear();
+		foreach(GameObject sticker in stickers){ Destroy(sticker.gameObject); }
+		stickers.Clear ();
+
 		if (!tutorialController.InTutorial ()) picture.sprite = null;
 		this.gameObject.SetActive (false);
 		clickField.SetActive (false);
@@ -150,16 +160,27 @@ public class SavePicture : MonoBehaviour {
 	}
 
 	// Leave the photo edit without saving - delete data
-	public void GoBack(){
+	/* public void GoBack(){
 		// Debug.Log ("Going Back");
 		InputField[] tempArray = GameObject.FindObjectsOfType<InputField> ();
 		// Debug.Log ("Array Length: " + tempArray.Length);
+
 		foreach (InputField input in tempArray) {
 			Destroy (input.gameObject);
 		}
 
+		ResetPicturePanel ();
+
 		picture.sprite = null;
 		clickField.SetActive (false);
 		this.gameObject.SetActive (false);
+	} */ 
+
+	public void AddSticker(GameObject sticker){
+		stickers.Add (sticker);
+	}
+
+	public void AddAvatar(GameObject avatar){
+		avatars.Add(avatar);
 	}
 }
