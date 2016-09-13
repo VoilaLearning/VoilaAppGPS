@@ -36,7 +36,7 @@ public class PictureBoxController : MonoBehaviour {
 	}
 
 	public void OnMouseDown(){
-		if ((tutorialController.InTutorial () && tutorialController.GetCurrentState() == TutorialState.JASONS_PIC) || !tutorialController.InTutorial ()) {
+		/*if ((tutorialController.InTutorial () && tutorialController.GetCurrentState() == TutorialState.JASONS_PIC) || !tutorialController.InTutorial ()) {
 			if(tutorialController.InTutorial()) { tutorialController.AdvanceTutorial(); }
 			photoAlbum.SetActive (true);
 			this.GetComponentInParent<PictureBoxParent> ().DeactivateChildren ();
@@ -44,7 +44,14 @@ public class PictureBoxController : MonoBehaviour {
 			// Load in all the pictures from a certain location - OR - pass the location to the photo album
 			albumContainer = photoAlbum.transform.GetComponentInChildren<AlbumController> ();
 			albumContainer.LoadAlbum (photos, this.gameObject);
-		} 
+		} */
+
+		photoAlbum.SetActive (true);
+		this.GetComponentInParent<PictureBoxParent> ().DeactivateChildren ();
+
+		// Load in all the pictures from a certain location - OR - pass the location to the photo album
+		albumContainer = photoAlbum.transform.GetComponentInChildren<AlbumController> ();
+		albumContainer.LoadAlbum (photos, this.gameObject);
 
 		photoAlbum.transform.GetComponentInChildren<Text> ().text = locationName;
 	}

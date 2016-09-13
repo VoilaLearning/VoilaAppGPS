@@ -22,8 +22,8 @@ public class SavePicture : MonoBehaviour {
     [SerializeField] PictureBoxParent pictureBoxParent;
 
 	// Lists to hold the Avatar and stickers
-	List<GameObject> avatars = new List<GameObject>();
-	List<GameObject> stickers = new List<GameObject> ();
+	GameObject avatar;
+	public List<GameObject> stickers = new List<GameObject> ();
 
 	InputField[] inputs;
 	PictureContainer pictureContainer; 
@@ -70,9 +70,14 @@ public class SavePicture : MonoBehaviour {
 		// Create an instance of the saved picture/tags
 		GameObject newPicture = Instantiate (pictureContainerPrefab, this.transform.position, Quaternion.identity) as GameObject;
 		// Fill the data in the container
-		newPicture.GetComponent<PictureContainer> ().FillContainer (picture.sprite, words, wordPos, milestoneTitle, PlayerData.GetPlayerName());
+		newPicture.GetComponent<PictureContainer> ().FillContainer (picture.sprite, words, wordPos, milestoneTitle, PlayerData.GetPlayerName(), stickers, avatar);
 
 		SendToAlbum (newPicture);
+
+		// Save all the positions of the stickers to be used later
+		foreach(GameObject sticker in stickers){
+			sticker.GetComponent<StickerController> ().SavePosition ();
+		}
 
 		// If we are in the tutorial - advance a step
 		if (tutorialController.GetCurrentState() == TutorialState.SAVE_PHOTO) {
@@ -84,7 +89,7 @@ public class SavePicture : MonoBehaviour {
 	}
 
 	void SendToAlbum(GameObject newPicture){
-		// Send that picture to the closest photo box
+		// Send that picture to the closest photo boxAddSticker
 		pictureBoxParent.GetComponent<PictureBoxParent> ().ActivateChildren();
 		GameObject[] pictureBoxArray = GameObject.FindGameObjectsWithTag("Picture Box");
 		float[] distancesArray = new float[pictureBoxArray.Length];
@@ -108,15 +113,18 @@ public class SavePicture : MonoBehaviour {
 
 	public void ResetPicturePanel (){
 		Debug.Log ("Resetting Picture Panel");
-		foreach (InputField input in inputs) {
-			if (input != null) {
-				// if you are out of the tutorial destroy the inputs
-				if (!tutorialController.InTutorial ()) {
-					Destroy (input.gameObject);
-				}
-				// Just toggle them off if you are in the tutorial
-				else {
-					input.gameObject.SetActive (false);
+
+		if (inputs != null) {
+			foreach (InputField input in inputs) {
+				if (input != null) {
+					// if you are out of the tutorial destroy the inputs
+					if (!tutorialController.InTutorial ()) {
+						Destroy (input.gameObject);
+					}
+					// Just toggle them off if you are in the tutorial
+					else {
+						input.gameObject.SetActive (false);
+					}
 				}
 			}
 		}
@@ -124,8 +132,8 @@ public class SavePicture : MonoBehaviour {
 		inputs = new InputField[0]; 
 
 		// Clear the avatar and sticker lists\
-		foreach(GameObject avatar in avatars){ Destroy(avatar.gameObject); }
-		avatars.Clear();
+		Destroy(avatar.gameObject);
+		avatar = null;
 		foreach(GameObject sticker in stickers){ Destroy(sticker.gameObject); }
 		stickers.Clear ();
 
@@ -154,9 +162,11 @@ public class SavePicture : MonoBehaviour {
 	}
 
 	public void TogglePictureBoxParent(){
-		if (!tutorialController.InTutorial ()) {
+		/*if (!tutorialController.InTutorial ()) {
 			pictureBoxParent.ActivateChildren ();
-		}
+		}*/
+
+		pictureBoxParent.ActivateChildren ();
 	}
 
 	// Leave the photo edit without saving - delete data
@@ -180,7 +190,11 @@ public class SavePicture : MonoBehaviour {
 		stickers.Add (sticker);
 	}
 
-	public void AddAvatar(GameObject avatar){
-		avatars.Add(avatar);
+	public void RemoveSticker(GameObject sticker){
+		stickers.Remove (sticker);
+	}
+
+	public void AddAvatar(GameObject newAvatar){
+		avatar = newAvatar;
 	}
 }

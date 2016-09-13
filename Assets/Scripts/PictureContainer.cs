@@ -20,13 +20,21 @@ public class PictureContainer : MonoBehaviour {
 	string tagID;
 	int likes = 0;
 
-    public void FillContainer(Sprite newImage, List<string> newWords, List<Vector3>newWordCoords, string newTagID, string newUsername){
+	List<GameObject> stickers = new List<GameObject> ();
+	GameObject avatar;
+
+	public void FillContainer(Sprite newImage, List<string> newWords, List<Vector3>newWordCoords, string newTagID, string newUsername, List<GameObject> newStickers, GameObject newAvatar){
 		picture = newImage;
 		iconImage.sprite = picture;
 		tagID = newTagID;
 		// userName = "Student";
 		userName = newUsername;
+		avatar = newAvatar;
 
+		// Fill the sticker array
+		foreach(GameObject sticker in newStickers){
+			stickers.Add (sticker);
+		}
 		// Fill the words array
 		foreach (string word in newWords) {
 			words.Add (word);
@@ -82,4 +90,8 @@ public class PictureContainer : MonoBehaviour {
 		string likeMessage = "This photo has " + likes.ToString() + " likes!";
 		likeText.text = likeMessage;
 	}
+
+	public List<GameObject> GetStickers(){
+		return stickers;
+	} 
 }
