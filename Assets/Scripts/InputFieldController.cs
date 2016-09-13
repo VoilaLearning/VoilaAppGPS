@@ -18,7 +18,7 @@ public class InputFieldController : MonoBehaviour {
 	int points = 500;
 
 	void Start(){
-		tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
+		// tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController> ();
 		// pictureWordGame = GameObject.FindGameObjectWithTag ("GameController").GetComponent<PictureWordGame>();
 	}
 
@@ -40,9 +40,9 @@ public class InputFieldController : MonoBehaviour {
 		// wordPointValue = pictureWordGame.CheckWord (this.GetComponent<InputField> ());
 		if (!pointsShown && (this.GetComponent<InputField>().text != null || this.GetComponent<InputField>().text != "")) StartCoroutine (ShowPoints ());
 
-		if (tutorialController.GetCurrentState() == TutorialState.TAG_PHOTO) {
+		/*if (tutorialController.GetCurrentState() == TutorialState.TAG_PHOTO) {
 			tutorialController.AdvanceTutorial ();
-		}
+		}*/
 	}
 
 	public void OpenInputField(){
