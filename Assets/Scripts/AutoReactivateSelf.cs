@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class AutoReactivateSelf : MonoBehaviour {
-
     [SerializeField] float reactivationTime = 0.5f;
 
     void OnEnable () {
@@ -15,6 +14,6 @@ public class AutoReactivateSelf : MonoBehaviour {
 
         yield return new WaitForSeconds(reactivationTime);
 
-        this.gameObject.SetActive(true);
+        this.gameObject.SetActive(false);
     }
 }
