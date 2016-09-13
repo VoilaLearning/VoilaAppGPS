@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+[DisallowMultipleComponent]
 public class MapPinchToZoom : MonoBehaviour {
     
-    public float perspectiveZoomSpeed = 0.5f;        // The rate of change of the field of view in perspective mode.
-    public float orthoZoomSpeed = 0.5f;        // The rate of change of the orthographic size in orthographic mode.
+	[Header("Parameters")]
+	[SerializeField] float zoomSpeed = 0.1f;
 
+	[Header("References")]
     [SerializeField] Text outputText;
     [SerializeField] GoogleMapTextureLoader googleMap;
 
-    void Update()
-    {
+
+    void Update() {
+		
         // If there are two touches on the device...
         if (Input.touchCount == 2) {
             
@@ -33,21 +36,21 @@ public class MapPinchToZoom : MonoBehaviour {
 
             if(Mathf.Abs(deltaMagnitudeDiff) > 15) {
 
-                int changeInZoom = -(int)(deltaMagnitudeDiff / deltaMagnitudeDiff);
+				int changeInZoom = -(int)(deltaMagnitudeDiff / deltaMagnitudeDiff);
 
-                googleMap.ChangeZoom(changeInZoom);
+				googleMap.ChangeZoom(changeInZoom);
             }
         }
         else if((Input.GetKey(KeyCode.Q) && Input.GetKey(KeyCode.W)) ||
             (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.Q))) {
 
-            googleMap.ChangeZoom(-0.1f);
+			googleMap.ChangeZoom(-zoomSpeed);
             //Debug.Log("Zooming in");
         }
         else if((Input.GetKey(KeyCode.Q) && Input.GetKey(KeyCode.E)) ||
             (Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.Q))) {
 
-            googleMap.ChangeZoom(0.1f);
+			googleMap.ChangeZoom(zoomSpeed);
             //Debug.Log("Zooming out");
         }
     }
