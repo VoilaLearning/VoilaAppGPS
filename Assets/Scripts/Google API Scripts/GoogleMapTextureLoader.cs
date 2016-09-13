@@ -6,10 +6,16 @@ using System.Collections;
 public class GoogleMapTextureLoader : MonoBehaviour {
 
     [Header("Parameters")]
+	public bool useGPS = true;
 	public float zoom = 16;
 	public int size = 512;
     public float refreshRate = 3;
 	public bool doubleResolution = true;
+	public float minZoomDistance = -5.3f;
+	public float maxZoomDistance = 0;
+
+
+	[Header("Optional")]
     public GameObject loadingScreen;
     public Text locationText;
 
@@ -46,28 +52,28 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 
     IEnumerator AutoRefresh () {
 
-        if (SystemInfo.deviceType == DeviceType.Handheld) {
+        if (useGPS && SystemInfo.deviceType == DeviceType.Handheld) {
 
-//            float newLatitude = Input.location.lastData.latitude;
-//            float newLongitude = Input.location.lastData.longitude;
-//            if(locationText) { locationText.text = newLatitude + ", " + newLongitude; }
-//
-//            if (newLatitude != currentLatitude && newLongitude != currentLongitude) {
-//            
-//                currentLatitude = newLatitude;
-//                currentLongitude = newLongitude;
-//
-//                //googlePlaces.RequestInfo();
-//                StopCoroutine(_Refresh());
-//                StartCoroutine(_Refresh());
-//            }
+            float newLatitude = Input.location.lastData.latitude;
+            float newLongitude = Input.location.lastData.longitude;
+            if(locationText) { locationText.text = newLatitude + ", " + newLongitude; }
 
-            currentLatitude = 43.6205f; // Centreville Theme Park
-            currentLongitude = -79.3744f;
+            if (newLatitude != currentLatitude && newLongitude != currentLongitude) {
+            
+                currentLatitude = newLatitude;
+                currentLongitude = newLongitude;
+
+                //googlePlaces.RequestInfo();
+                StopCoroutine(_Refresh());
+                StartCoroutine(_Refresh());
+            }
+
+//            currentLatitude = 43.6205f; // Centreville Theme Park
+//            currentLongitude = -79.3744f;
             StopCoroutine(_Refresh());
             StartCoroutine(_Refresh());
         }
-        else if(SystemInfo.deviceType == DeviceType.Desktop) {
+        else if(!useGPS || SystemInfo.deviceType == DeviceType.Desktop) {
 
             currentLatitude = 43.6517f; // Work
             currentLongitude = -79.36607f;
@@ -141,21 +147,9 @@ public class GoogleMapTextureLoader : MonoBehaviour {
     public void ChangeZoom (float change) {
 
         // Move plane
-        const float minDistance = 0;
-        const float maxDistance = 7;
         float newZ = this.transform.position.z + change;
-        newZ = Mathf.Clamp(newZ, minDistance, maxDistance);
+        newZ = Mathf.Clamp(newZ, minZoomDistance, maxZoomDistance);
         this.transform.position = new Vector3(0, 1, newZ);
         //Debug.Log("newZ: " + newZ);
-
-        // Change zoom level
-        const float minZoom = 10;
-        const float maxZoom = 20;
-        float distanceRatio = 1 - (this.transform.position.z - minDistance) / (maxDistance - minDistance);
-        //zoom = (maxZoom - minZoom) * distanceRatio + minZoom;
-        //Debug.Log("zoom: " + zoom);
-
-
-        _Refresh();
     }
 }
