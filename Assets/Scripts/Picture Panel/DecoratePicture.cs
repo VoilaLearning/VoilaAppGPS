@@ -15,6 +15,7 @@ public class DecoratePicture : MonoBehaviour {
 
 	GameObject currentSticker;
 	bool createdAvatar = false;
+	bool placingSticker = false;
 
 	// Use this for initialization
 	void Start () {
@@ -37,15 +38,24 @@ public class DecoratePicture : MonoBehaviour {
 	public void CreateAvatarPrefab(Image thisSprite){
 
 		if (!createdAvatar) {
-			GameObject newAvatar = Instantiate (avatarPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-			newAvatar.transform.parent = picturePanel.transform;
-			newAvatar.transform.GetChild (0).GetComponent<Image> ().sprite = thisSprite.sprite;
-			newAvatar.transform.localScale = Vector3.one;
-			newAvatar.transform.localPosition = Vector3.zero;
-			savePicture.AddSticker (newAvatar);
+			MakeAvatar (thisSprite);
+		} else {
+		
+			GameObject currentAvatar = GameObject.FindGameObjectWithTag ("Avatar");
+			Destroy (currentAvatar);
+			MakeAvatar (thisSprite);
 		}
 
 		createdAvatar = true;
+	}
+
+	void MakeAvatar(Image thisSprite){
+		GameObject newAvatar = Instantiate (avatarPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+		newAvatar.transform.parent = picturePanel.transform;
+		newAvatar.transform.GetChild (0).GetComponent<Image> ().sprite = thisSprite.sprite;
+		newAvatar.transform.localScale = Vector3.one;
+		newAvatar.transform.localPosition = Vector3.zero;
+		savePicture.AddSticker (newAvatar);
 	}
 
 	public void DeleteSticker(){
@@ -55,9 +65,16 @@ public class DecoratePicture : MonoBehaviour {
 	}
 
 	public void SaveSticker(){
-		currentSticker.transform.GetChild (1).gameObject.SetActive (false);
-		currentSticker.GetComponent<Button> ().enabled = true;
-		LeaveStickerView ();
+		if (placingSticker) {
+			currentSticker.transform.GetChild (1).gameObject.SetActive (false);
+			currentSticker.GetComponent<Button> ().enabled = true;
+			LeaveStickerView ();
+		} else {
+			Debug.Log ("Saving Avatar");
+			GameObject currentAvatar = GameObject.FindGameObjectWithTag ("Avatar");
+			currentAvatar.transform.GetChild (1).gameObject.SetActive (false);
+			LeaveStickerView ();
+		}
 	}
 
 	public void EditSticker(GameObject chosenSticker){
@@ -69,8 +86,13 @@ public class DecoratePicture : MonoBehaviour {
 	}
 
 	void LeaveStickerView(){
+		Debug.Log ("Leaving Sticker View");
 		stickerView.SetActive (false);
 		pictureView.SetActive (true);
 		clickField.SetActive (true);
+	}
+
+	public void TogglePlacingSticker(bool state){
+		placingSticker = state;
 	}
 }

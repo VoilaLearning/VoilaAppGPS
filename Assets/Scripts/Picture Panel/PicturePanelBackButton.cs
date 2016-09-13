@@ -11,6 +11,7 @@ public class PicturePanelBackButton : MonoBehaviour {
 	[SerializeField] GameObject clickField;
 	[SerializeField] GameObject stickerView;
 	[SerializeField] GameObject pictureView;
+	[SerializeField] GameObject saveButton;
 
 	// Use this for initialization
 	void Start () {
@@ -22,9 +23,11 @@ public class PicturePanelBackButton : MonoBehaviour {
 		if (stickerPanel.activeSelf == true) {
 			stickerPanel.SetActive (false);
 			clickField.SetActive (true);
+			saveButton.SetActive (true);
 		} else if (avatarPanel.activeSelf == true) {
 			avatarPanel.SetActive (false);
 			clickField.SetActive (true);
+			saveButton.SetActive (true);
 		} else {
 			picturePanel.SetActive (false);
 			savePicture.ResetPicturePanel ();

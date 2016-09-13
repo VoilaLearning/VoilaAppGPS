@@ -42,12 +42,15 @@ public class LoadPicture : MonoBehaviour {
 		for (int i = 0; i < pictureContainer.GetComponent<PictureContainer>().GetStickers().Count; i++){
 			// Instantiate new sticker
 			GameObject newSticker = Instantiate(stickerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+			// Set the parent and the scale - just set the scale to 1 for now
+			newSticker.transform.SetParent(this.transform.GetChild(0));
+			newSticker.transform.localScale = Vector3.one;
 			// Set the image
 			newSticker.transform.GetChild(0).GetComponent<Image>().sprite = pictureContainer.GetComponent<PictureContainer>().GetStickers()[i].transform.GetChild(0).GetComponent<Image>().sprite;
 			// turn off the outline
 			newSticker.transform.GetChild(1).gameObject.SetActive(false);
 			// place the sticker
-			newSticker.transform.position = pictureContainer.GetComponent<PictureContainer>().GetStickers()[i].GetComponent<StickerController>().GetSavedPosition();
+			newSticker.transform.localPosition = pictureContainer.GetComponent<PictureContainer>().GetStickers()[i].GetComponent<StickerController>().GetSavedPosition();
 		}
 
 		// Create the avatar

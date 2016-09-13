@@ -33,6 +33,7 @@ public class PictureContainer : MonoBehaviour {
 
 		// Fill the sticker array
 		foreach(GameObject sticker in newStickers){
+			Debug.Log ("Adding Sticker");
 			stickers.Add (sticker);
 		}
 		// Fill the words array

@@ -34,6 +34,11 @@ public class SavePicture : MonoBehaviour {
 		// tutorialController = GameObject.FindGameObjectWithTag ("Tutorial Controller").GetComponentInChildren<TutorialController>();
 	}
 
+	void OnEnable(){
+
+		ClearStickersAndAvatar ();
+	}
+
 	public void SaveImage(){
 		// Get All of the input fields - and insert their text components and positions into a list 
 		inputs = GameObject.FindObjectsOfType<InputField> ();
@@ -75,15 +80,18 @@ public class SavePicture : MonoBehaviour {
 		SendToAlbum (newPicture);
 
 		// Save all the positions of the stickers to be used later
-		foreach(GameObject sticker in stickers){
-			sticker.GetComponent<StickerController> ().SavePosition ();
+
+		if (stickers != null) {
+			foreach (GameObject sticker in stickers) {
+				sticker.GetComponent<StickerController> ().SavePosition ();
+			}
 		}
 
 		// If we are in the tutorial - advance a step
-		if (tutorialController.GetCurrentState() == TutorialState.SAVE_PHOTO) {
+		/*if (tutorialController.GetCurrentState() == TutorialState.SAVE_PHOTO) {
 			tutorialController.AdvanceTutorial ();
 			// tutorialPictureBox = pictureBoxArray [minValueIndex].gameObject;
-		}
+		}*/
 
 		ResetPicturePanel ();
 	}
@@ -117,29 +125,42 @@ public class SavePicture : MonoBehaviour {
 		if (inputs != null) {
 			foreach (InputField input in inputs) {
 				if (input != null) {
+					input.gameObject.SetActive (false);
+
 					// if you are out of the tutorial destroy the inputs
-					if (!tutorialController.InTutorial ()) {
+					/*if (!tutorialController.InTutorial ()) {
 						Destroy (input.gameObject);
 					}
 					// Just toggle them off if you are in the tutorial
 					else {
 						input.gameObject.SetActive (false);
-					}
+					}*/
 				}
 			}
 		}
 
 		inputs = new InputField[0]; 
 
-		// Clear the avatar and sticker lists\
-		Destroy(avatar.gameObject);
-		avatar = null;
-		foreach(GameObject sticker in stickers){ Destroy(sticker.gameObject); }
-		stickers.Clear ();
+		// if (!tutorialController.InTutorial ()) picture.sprite = null;
 
-		if (!tutorialController.InTutorial ()) picture.sprite = null;
 		this.gameObject.SetActive (false);
 		clickField.SetActive (false);
+	}
+
+	public void ClearStickersAndAvatar(){
+		// Clear the avatar and sticker lists\
+		if (avatar != null) { 
+			Destroy (avatar.gameObject);
+			avatar = null;
+		}
+
+		if (stickers != null) {
+			foreach (GameObject sticker in stickers) {
+				Destroy (sticker.gameObject);
+			}
+			stickers.Clear ();
+		}
+
 	}
 
 	public void ToggleOnInputs (){
