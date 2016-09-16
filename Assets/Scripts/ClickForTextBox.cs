@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ClickForTextBox : MonoBehaviour, IPointerClickHandler {
+public class ClickForTextBox : MonoBehaviour, IPointerClickHandler, IPointerDownHandler {
 
 	[SerializeField] InputField textInput;
 
@@ -11,6 +11,12 @@ public class ClickForTextBox : MonoBehaviour, IPointerClickHandler {
 	bool foundSticker = false;
 
 	public void OnPointerClick(PointerEventData eventData){
+		Debug.Log ("Clicking");
+	}
+
+	public void OnPointerDown(PointerEventData eventData){
+
+		Debug.Log ("Creating Text Field");
 
 		// Reset the check for stickers boolean
 		foundSticker = false;

@@ -23,46 +23,54 @@ public class InputFieldController : MonoBehaviour {
 	}
 
 	public void DestroyField(){
+		// Debug.Log ("Destroy the field");
 		Destroy (this.gameObject);
 	}
 
 	public void FinishInput(){
-		// Make it no longer interractable
-		this.GetComponent<InputField> ().interactable = false;
-		// Shrink Box Down 0.5, 0.5, 0.5
-		this.transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
-		// Deactivate Destroy Button
-		destroyButton.SetActive (false);
-		// Activate the re-open Button
-		editButton.SetActive (true);
-		closed = true;
+		// Debug.Log ("Text Component: " + this.GetComponent<InputField> ().text);
+		// Debug.Log ("Text Component: " + this.GetComponent<InputField> ().text.Length);
+		// this.GetComponent<InputField> ().text != null || this.GetComponent<InputField> ().text != ""
+		if (this.GetComponent<InputField> ().text.Length > 0) {
+			Debug.Log ("Completing Input");
+			// Make it no longer interractable
+			this.GetComponent<InputField> ().interactable = false;
+			// Shrink Box Down 0.5, 0.5, 0.5
+			this.transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
+			// Deactivate Destroy Button
+			destroyButton.SetActive (false);
+			// Activate the re-open Button
+			editButton.SetActive (true);
+			closed = true;
 
-		// wordPointValue = pictureWordGame.CheckWord (this.GetComponent<InputField> ());
-		if (!pointsShown && (this.GetComponent<InputField>().text != null || this.GetComponent<InputField>().text != "")) StartCoroutine (ShowPoints ());
+			// wordPointValue = pictureWordGame.CheckWord (this.GetComponent<InputField> ());
+			if (!pointsShown && (this.GetComponent<InputField> ().text != null || this.GetComponent<InputField> ().text != ""))
+				StartCoroutine (ShowPoints ());
 
-		/*if (tutorialController.GetCurrentState() == TutorialState.TAG_PHOTO) {
+			/*if (tutorialController.GetCurrentState() == TutorialState.TAG_PHOTO) {
 			tutorialController.AdvanceTutorial ();
 		}*/
+		}
 	}
 
 	public void OpenInputField(){
-			InputField[] tempArray = GameObject.FindObjectsOfType<InputField> ();
-			for (int i = 0; i < tempArray.Length; i++) {
-			if (tempArray [i].GetComponent<InputFieldController> ().IsClosed () == false && tempArray [i].GetComponent<InputFieldController> ().IsPinned () == false) {
-					tempArray [i].GetComponent<InputFieldController> ().FinishInput ();
-					pinned = true;
-				}
+		InputField[] tempArray = GameObject.FindObjectsOfType<InputField> ();
+		for (int i = 0; i < tempArray.Length; i++) {
+		if (tempArray [i].GetComponent<InputFieldController> ().IsClosed () == false && tempArray [i].GetComponent<InputFieldController> ().IsPinned () == false) {
+				tempArray [i].GetComponent<InputFieldController> ().FinishInput ();
+				pinned = true;
 			}
+		}
 
-			// Make it interractable
-			this.GetComponent<InputField> ().interactable = true;
-			// Increase size to original
-			this.transform.localScale = new Vector3 (1, 1, 1);
-			// activate Destroy Button
-			destroyButton.SetActive (true);
-			// deactivate the re-open Button
-			editButton.SetActive (false);
-			closed = false;
+		// Make it interractable
+		this.GetComponent<InputField> ().interactable = true;
+		// Increase size to original
+		this.transform.localScale = new Vector3 (1, 1, 1);
+		// activate Destroy Button
+		destroyButton.SetActive (true);
+		// deactivate the re-open Button
+		editButton.SetActive (false);
+		closed = false;
 	}
 
 	public bool IsClosed(){
