@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class MapPinchToZoom : MonoBehaviour {
     
 	[Header("Parameters")]
-	[SerializeField] float zoomSpeed = 0.1f;
+	[SerializeField, Range(0.01f, 0.1f)] float zoomSpeed = 0.1f;
 
 	[Header("References")]
     [SerializeField] Text outputText;
@@ -32,11 +32,11 @@ public class MapPinchToZoom : MonoBehaviour {
             // Find the difference in the distances between each frame.
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
-            outputText.text = "Diff: " + deltaMagnitudeDiff;
+			if(outputText) outputText.text = "Diff: " + deltaMagnitudeDiff;
 
             if(Mathf.Abs(deltaMagnitudeDiff) > 15) {
 
-				int changeInZoom = -(int)(deltaMagnitudeDiff / deltaMagnitudeDiff);
+				int changeInZoom = (int)(deltaMagnitudeDiff * zoomSpeed);
 
 				googleMap.ChangeZoom(changeInZoom);
             }

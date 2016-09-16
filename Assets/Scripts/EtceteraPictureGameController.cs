@@ -29,13 +29,14 @@ namespace Prime31
 		}
 
 		public void OpenCamera(){
+			Debug.Log ("Opening Camera.");
 			imagePath = null;
 			EtceteraBinding.promptForPhoto (0.25f, PhotoPromptType.Camera);
 			StartCoroutine (LoadPic ());
 		}
 
 		IEnumerator LoadPic(){
-			// Debug.Log ("Loading Texture");
+			Debug.Log ("Loading Texture");
 
 			while (imagePath == null) {
 				yield return null; 
@@ -67,16 +68,16 @@ namespace Prime31
 
 		// Texture loading delegates
 		public void textureLoaded( Texture2D texture ) {
-			// Debug.Log ("Texture Loaded");
+			Debug.Log ("Texture Loaded");
 			Rect rect = new Rect (0,0,texture.width,texture.height);
 			Vector2 pivot = new Vector2(0.5f,0.5f);
 			Sprite newPic = Sprite.Create (texture, rect, pivot);
-			if(tutorialController.GetCurrentState() == TutorialState.TAKE_PHOTO) tutorialController.AdvanceTutorial ();
+			//if(tutorialController && tutorialController.GetCurrentState() == TutorialState.TAKE_PHOTO) tutorialController.AdvanceTutorial ();
 
 			imagePlane.gameObject.SetActive (true);
 			picture.sprite = newPic;
 			clickField.SetActive (true);
-            pictureBoxParent.DeactivateChildren();
+			pictureBoxParent.DeactivateChildren();
 
 			// Turn off the main menu buttons
 			foreach(GameObject button in mainMenuButtons){ button.SetActive(false); }
@@ -89,6 +90,10 @@ namespace Prime31
 			Debug.Log( "textureLoadFailed: " + error );
 		}
 
+		public void ShowMainMenuButtons () {
+
+			foreach(GameObject button in mainMenuButtons){ button.SetActive(true); }
+		}
 
 		#endif
 	}

@@ -63,7 +63,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
                 currentLatitude = newLatitude;
                 currentLongitude = newLongitude;
 
-                //googlePlaces.RequestInfo();
+                googlePlaces.RequestInfo();
                 StopCoroutine(_Refresh());
                 StartCoroutine(_Refresh());
             }
@@ -83,7 +83,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
 //            currentLongitude = -79.3944f;
 			if (locationText) { locationText.text = currentLatitude + ", " + currentLongitude; }
 
-            //googlePlaces.RequestInfo();
+            googlePlaces.RequestInfo();
             StopCoroutine(_Refresh());
             StartCoroutine(_Refresh());
         }
