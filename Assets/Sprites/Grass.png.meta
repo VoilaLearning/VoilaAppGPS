@@ -1,0 +1,173 @@
+fileFormatVersion: 2
+guid: a4bd722c8c5cf4e01910caae31632ce4
+timeCreated: 1474674007
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Grass_0
+    21300002: Grass_1
+    21300004: Grass_2
+    21300006: Grass_3
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Grass_0
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 987
+        width: 277
+        height: 315
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 67.5, y: 37.5}
+        - {x: 90.5, y: 79.5}
+        - {x: 66.5, y: 157.5}
+        - {x: 1.5, y: 157.5}
+        - {x: -20.5, y: 147.5}
+        - {x: -33.5, y: 113.5}
+        - {x: -87.5, y: 157.5}
+        - {x: -107.5, y: 157.5}
+        - {x: -112.5, y: 144.5}
+        - {x: -98.5, y: 54.5}
+        - {x: -138.5, y: 39.5}
+        - {x: -138.5, y: -46.5}
+        - {x: -109.5, y: -76.5}
+        - {x: -95.5, y: -80.5}
+        - {x: -74.5, y: -124.5}
+        - {x: -69.5, y: -157.5}
+        - {x: 61.5, y: -157.5}
+        - {x: 67.5, y: -127.5}
+        - {x: 138.5, y: 17.5}
+        - {x: 138.5, y: 46.5}
+    - name: Grass_1
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 987
+        width: 287
+        height: 317
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 143.5, y: 40.5}
+        - {x: 91.5, y: 40.5}
+        - {x: 93.5, y: 92.5}
+        - {x: 62.5, y: 158.5}
+        - {x: -0.5, y: 158.5}
+        - {x: -6.5, y: 156.5}
+        - {x: -30.5, y: 115.5}
+        - {x: -102.5, y: 158.5}
+        - {x: -119.5, y: 158.5}
+        - {x: -113.5, y: 139.5}
+        - {x: -79.5, y: 48.5}
+        - {x: -143.5, y: 39.5}
+        - {x: -143.5, y: -35.5}
+        - {x: -105.5, y: -87.5}
+        - {x: -68.5, y: -137.5}
+        - {x: -39.5, y: -158.5}
+        - {x: 50.5, y: -158.5}
+        - {x: 86.5, y: -146.5}
+        - {x: 88.5, y: -31.5}
+        - {x: 138.5, y: 16.5}
+        - {x: 143.5, y: 25.5}
+    - name: Grass_2
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 489
+        width: 162
+        height: 309
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 70, y: 55.5}
+        - {x: 68, y: 50.5}
+        - {x: 67, y: 147.5}
+        - {x: 8, y: 154.5}
+        - {x: -22, y: 154.5}
+        - {x: -78, y: 111.5}
+        - {x: -81, y: 106.5}
+        - {x: -81, y: -82.5}
+        - {x: -72, y: -154.5}
+        - {x: 18, y: -154.5}
+        - {x: 81, y: -17.5}
+        - {x: 81, y: 67.5}
+        - {x: 74, y: 60.5}
+    - name: Grass_3
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 491
+        width: 170
+        height: 311
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 84, y: 71.5}
+        - {x: 76, y: 64.5}
+        - {x: 69, y: 52.5}
+        - {x: 68, y: 84.5}
+        - {x: 66, y: 139.5}
+        - {x: 53, y: 144.5}
+        - {x: -21, y: 155.5}
+        - {x: -53, y: 155.5}
+        - {x: -85, y: 134.5}
+        - {x: -85, y: -155.5}
+        - {x: 14, y: -155.5}
+        - {x: 30, y: -132.5}
+        - {x: 85, y: -3.5}
+        - {x: 85, y: 65.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
