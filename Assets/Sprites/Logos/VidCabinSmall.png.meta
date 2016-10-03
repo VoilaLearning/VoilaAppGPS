@@ -1,0 +1,255 @@
+fileFormatVersion: 2
+guid: f65bf7c501994458cb659dd011b884e4
+timeCreated: 1475530891
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: VidCabinSmall_0
+    21300002: VidCabinSmall_1
+    21300004: VidCabinSmall_2
+    21300006: VidCabinSmall_3
+    21300008: VidCabinSmall_4
+    21300010: VidCabinSmall_5
+    21300012: VidCabinSmall_6
+    21300014: VidCabinSmall_7
+    21300016: VidCabinSmall_8
+    21300018: VidCabinSmall_9
+    21300020: VidCabinSmall_10
+    21300022: VidCabinSmall_11
+    21300024: VidCabinSmall_12
+    21300026: VidCabinSmall_13
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: VidCabinSmall_0
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 3442
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_1
+      rect:
+        serializedVersion: 2
+        x: 2120
+        y: 3462
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_2
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 2928
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_3
+      rect:
+        serializedVersion: 2
+        x: 2103
+        y: 2931
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_4
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 2395
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_5
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 2386
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_6
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 1875
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_7
+      rect:
+        serializedVersion: 2
+        x: 2111
+        y: 1881
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_8
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 1336
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_9
+      rect:
+        serializedVersion: 2
+        x: 2094
+        y: 1336
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_10
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 816
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_11
+      rect:
+        serializedVersion: 2
+        x: 2097
+        y: 805
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_12
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 252
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: VidCabinSmall_13
+      rect:
+        serializedVersion: 2
+        x: 2103
+        y: 249
+        width: 1900
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

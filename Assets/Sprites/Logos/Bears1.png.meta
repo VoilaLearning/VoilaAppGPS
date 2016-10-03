@@ -1,0 +1,479 @@
+fileFormatVersion: 2
+guid: 82dbfb42c0067401c82c06d3a0d8fd52
+timeCreated: 1475530746
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Bears1_0
+    21300002: Bears1_1
+    21300004: Bears1_2
+    21300006: Bears1_3
+    21300008: Bears1_4
+    21300010: Bears1_5
+    21300012: Bears1_6
+    21300014: Bears1_7
+    21300016: Bears1_8
+    21300018: Bears1_9
+    21300020: Bears1_10
+    21300022: Bears1_11
+    21300024: Bears1_12
+    21300026: Bears1_13
+    21300028: Bears1_14
+    21300030: Bears1_15
+    21300032: Bears1_16
+    21300034: Bears1_17
+    21300036: Bears1_18
+    21300038: Bears1_19
+    21300040: Bears1_20
+    21300042: Bears1_21
+    21300044: Bears1_22
+    21300046: Bears1_23
+    21300048: Bears1_24
+    21300050: Bears1_25
+    21300052: Bears1_26
+    21300054: Bears1_27
+    21300056: Bears1_28
+    21300058: Bears1_29
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Bears1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3359
+        width: 527
+        height: 583
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_1
+      rect:
+        serializedVersion: 2
+        x: 695
+        y: 3349
+        width: 504
+        height: 593
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_2
+      rect:
+        serializedVersion: 2
+        x: 1395
+        y: 3347
+        width: 464
+        height: 586
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_3
+      rect:
+        serializedVersion: 2
+        x: 2145
+        y: 3339
+        width: 414
+        height: 572
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_4
+      rect:
+        serializedVersion: 2
+        x: 2859
+        y: 3339
+        width: 408
+        height: 576
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_5
+      rect:
+        serializedVersion: 2
+        x: 3639
+        y: 3339
+        width: 422
+        height: 566
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_6
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 2591
+        width: 432
+        height: 564
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_7
+      rect:
+        serializedVersion: 2
+        x: 773
+        y: 2557
+        width: 422
+        height: 552
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_8
+      rect:
+        serializedVersion: 2
+        x: 1431
+        y: 2541
+        width: 444
+        height: 556
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_9
+      rect:
+        serializedVersion: 2
+        x: 2165
+        y: 2535
+        width: 422
+        height: 558
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_10
+      rect:
+        serializedVersion: 2
+        x: 2883
+        y: 2615
+        width: 422
+        height: 514
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_11
+      rect:
+        serializedVersion: 2
+        x: 3629
+        y: 2553
+        width: 432
+        height: 526
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_12
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 1805
+        width: 422
+        height: 514
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_13
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 1807
+        width: 388
+        height: 504
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_14
+      rect:
+        serializedVersion: 2
+        x: 1505
+        y: 1815
+        width: 370
+        height: 504
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_15
+      rect:
+        serializedVersion: 2
+        x: 2223
+        y: 1869
+        width: 362
+        height: 496
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_16
+      rect:
+        serializedVersion: 2
+        x: 2883
+        y: 1871
+        width: 358
+        height: 488
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_17
+      rect:
+        serializedVersion: 2
+        x: 3663
+        y: 1865
+        width: 374
+        height: 498
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_18
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 1105
+        width: 392
+        height: 540
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_19
+      rect:
+        serializedVersion: 2
+        x: 775
+        y: 1061
+        width: 422
+        height: 584
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_20
+      rect:
+        serializedVersion: 2
+        x: 1505
+        y: 1057
+        width: 442
+        height: 636
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_21
+      rect:
+        serializedVersion: 2
+        x: 2179
+        y: 1031
+        width: 452
+        height: 686
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_22
+      rect:
+        serializedVersion: 2
+        x: 2871
+        y: 991
+        width: 446
+        height: 726
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_23
+      rect:
+        serializedVersion: 2
+        x: 3665
+        y: 973
+        width: 431
+        height: 758
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_24
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 89
+        width: 426
+        height: 793
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_25
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 63
+        width: 422
+        height: 818
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_26
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 87
+        width: 410
+        height: 842
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_27
+      rect:
+        serializedVersion: 2
+        x: 2241
+        y: 67
+        width: 386
+        height: 864
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_28
+      rect:
+        serializedVersion: 2
+        x: 2945
+        y: 33
+        width: 360
+        height: 880
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bears1_29
+      rect:
+        serializedVersion: 2
+        x: 3735
+        y: 0
+        width: 360
+        height: 875
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
