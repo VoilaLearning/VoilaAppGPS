@@ -94,7 +94,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
     }
 	
 	IEnumerator _Refresh () {
-        
+		Debug.Log ("Map Refreshing");
         var url = "http://maps.googleapis.com/maps/api/staticmap";
         var qs = "";
 
@@ -105,16 +105,16 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         qs += "&maptype=roadmap";
         		
         //Stylize map: https://developers.google.com/maps/documentation/static-maps/styling#examples
-		qs += "&style=feature:landscape|color:0xaeffa1|saturation:0";         // Landscape color
-		qs += "&style=feature:road|element:geometry.fill|color:0xf9ffc9";       // Road's fill color
-		qs += "&style=feature:road|element:geometry.stroke|color:100x657d84";     // Road's outline color
-        qs += "&style=feature:road|element:labels.text.fill|color:0xffffff";    // Road's text fill color
-        qs += "&style=feature:road|element:labels.text.stroke|color:0x000000";  // Road's text outline color
-		qs += "&style=feature:poi|color:0x33bea3";                              // Point of interest color
-        qs += "&style=feature:poi|element:labels.text.fill|color:0xffffff";     // Point of interest text fill color
-        qs += "&style=feature:poi|element:labels.text.stroke|color:0x000000";   // Point of interest text outline color
-        qs += "&style=feature:water|color:0x0000ff";                            // Water color
-        qs += "&style=feature:transit|visibility:off";                          // Hiding all transit related stuff
+		//qs += "&style=feature:landscape|color:0xaeffa1|saturation:0";         // Landscape color
+		qs += "&style=feature:road|element:geometry.fill|color:0xff0000";       // Road's fill color
+		//qs += "&style=feature:road|element:geometry.stroke|color:100x657d84";     // Road's outline color
+        //qs += "&style=feature:road|element:labels.text.fill|color:0xffffff";    // Road's text fill color
+        //qs += "&style=feature:road|element:labels.text.stroke|color:0x000000";  // Road's text outline color
+		//qs += "&style=feature:poi|color:0x33bea3";                              // Point of interest color
+        //qs += "&style=feature:poi|element:labels.text.fill|color:0xffffff";     // Point of interest text fill color
+        //qs += "&style=feature:poi|element:labels.text.stroke|color:0x000000";   // Point of interest text outline color
+        //qs += "&style=feature:water|color:0x0000ff";                            // Water color
+        //qs += "&style=feature:transit|visibility:off";                          // Hiding all transit related stuff
 
         // API Key
         qs += "&key=AIzaSyDO-k0OB4_xCCMlaWpGls9xnZ1cFwerHd8";
@@ -131,6 +131,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         }
         else {
 
+			Debug.Log ("receiving response from Google");
             Destroy(this.GetComponent<Renderer>().material.mainTexture);
             this.GetComponent<Renderer>().material.mainTexture = req.texture;
         }

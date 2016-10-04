@@ -31,7 +31,7 @@ public class GameStartLogo2 : MonoBehaviour {
 		text.SetActive (true);
 
 		animVidCabin.Play("FadeIn");
-		yield return new WaitForSeconds(3.5f);
+		yield return new WaitForSeconds(3.7f);
 		animVidCabin.Play("FadeOut");
 		yield return new WaitForSeconds(0.2f);
 
