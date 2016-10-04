@@ -30,7 +30,7 @@ public class GameStartLogo1 : MonoBehaviour {
 	public IEnumerator LogoSequencer()
 	{
 		print("Start");
-		yield return new WaitForSeconds(2.5f);
+		yield return new WaitForSeconds(6f);
 		animVoila.Play("FadeOut");
 		yield return new WaitForSeconds(0.2f);
 
