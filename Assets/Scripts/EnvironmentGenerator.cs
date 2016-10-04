@@ -32,17 +32,17 @@ public class EnvironmentGenerator : MonoBehaviour {
 	{
 		{
 			Vector3 pos1 = new Vector3 (Random.Range (xMin, xMax), Random.Range (yMin, yMax), Random.Range (zMin, zMax));
-			Instantiate (cloud1, pos1, transform.rotation);
+			Instantiate (cloud1, pos1, transform.rotation, transform);
 		}
 
 		{
 			Vector3 pos2 = new Vector3 (Random.Range (xMin, xMax), Random.Range (yMin, yMax), Random.Range (zMin, zMax));
-			Instantiate (cloud2, pos2, transform.rotation);
+			Instantiate (cloud2, pos2, transform.rotation, transform);
 		}	
 
 		{
 			Vector3 pos3 = new Vector3 (Random.Range (xMin, xMax), Random.Range (yMin, yMax), Random.Range (zMin, zMax));
-			Instantiate (cloud3, pos3, transform.rotation);
+			Instantiate (cloud3, pos3, transform.rotation, transform);
 		}
 	}
 
@@ -50,17 +50,17 @@ public class EnvironmentGenerator : MonoBehaviour {
 	{
 		{
 			Vector3 pos1 = new Vector3 (Random.Range (xMin, xMax), 1.1f, Random.Range (zMin, zMax));
-			Instantiate (grass1, pos1, transform.rotation);
+			Instantiate (grass1, pos1, transform.rotation, transform);
 		}
 
 		{
 			Vector3 pos2 = new Vector3 (Random.Range (xMin, xMax), 1.1f, Random.Range (zMin, zMax));
-			Instantiate (grass2, pos2, transform.rotation);
+			Instantiate (grass2, pos2, transform.rotation, transform);
 		}	
 
 		{
 			Vector3 pos3 = new Vector3 (Random.Range (xMin, xMax), 1.1f, Random.Range (zMin, zMax));
-			Instantiate (grass3, pos3, transform.rotation);
+			Instantiate (grass3, pos3, transform.rotation, transform);
 		}
 	}
 }
