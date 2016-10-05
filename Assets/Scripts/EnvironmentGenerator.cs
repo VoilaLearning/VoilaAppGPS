@@ -12,9 +12,9 @@ public class EnvironmentGenerator : MonoBehaviour {
 	public float zMin;
 	public float zMax;
 
-	public GameObject cloud1;
-	public GameObject cloud2;
-	public GameObject cloud3;
+	//public GameObject cloud1;
+	//public GameObject cloud2;
+	//public GameObject cloud3;
 
 	public GameObject grass1;
 	public GameObject grass2;
@@ -27,7 +27,7 @@ public class EnvironmentGenerator : MonoBehaviour {
 	//	SpawnClouds ();
 		SpawnGrass ();
 	}
-	
+	/*
 	void SpawnClouds ()
 	{
 		{
@@ -45,7 +45,7 @@ public class EnvironmentGenerator : MonoBehaviour {
 			Instantiate (cloud3, pos3, transform.rotation, transform);
 		}
 	}
-
+	*/
 	void SpawnGrass ()
 	{
 		{
