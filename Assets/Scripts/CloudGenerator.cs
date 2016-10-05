@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnvironmentGenerator : MonoBehaviour {
+public class CloudGenerator : MonoBehaviour {
 
 	public float xMin;
 	public float xMax;
@@ -24,8 +24,8 @@ public class EnvironmentGenerator : MonoBehaviour {
 
 	void Start () 
 	{
-	//	SpawnClouds ();
-		SpawnGrass ();
+		SpawnClouds ();
+	//	SpawnGrass ();
 	}
 	
 	void SpawnClouds ()

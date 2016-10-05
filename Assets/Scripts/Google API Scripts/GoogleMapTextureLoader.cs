@@ -106,7 +106,7 @@ public class GoogleMapTextureLoader : MonoBehaviour {
         		
         //Stylize map: https://developers.google.com/maps/documentation/static-maps/styling#examples
 		//qs += "&style=feature:landscape|color:0xaeffa1|saturation:0";         // Landscape color
-		qs += "&style=feature:road|element:geometry.fill|color:0xff0000";       // Road's fill color
+		//qs += "&style=feature:road|element:geometry.fill|color:0xff0000";       // Road's fill color
 		//qs += "&style=feature:road|element:geometry.stroke|color:100x657d84";     // Road's outline color
         //qs += "&style=feature:road|element:labels.text.fill|color:0xffffff";    // Road's text fill color
         //qs += "&style=feature:road|element:labels.text.stroke|color:0x000000";  // Road's text outline color
